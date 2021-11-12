@@ -1,0 +1,633 @@
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex/" /><link rel="search" title="Search" href="../../../../search/" />
+
+    <meta name="generator" content="sphinx-4.3.0, furo 2021.10.09"/>
+        <title>gwf.backends.local - gwf 2.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f0f0f0;
+  --color-code-foreground: black;
+  
+  }
+  body[data-theme="dark"] {
+    --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    body:not([data-theme="light"]) {
+      --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+    }
+  }
+</style></head>
+  <body>
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" />
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../../../"><div class="brand">gwf 2.0.0 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../">
+  
+  
+  <span class="sidebar-brand-text">gwf 2.0.0 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../../../search/" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../guide/">User’s Guide</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../guide/installation/">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../guide/tutorial/">Tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../guide/mapping/">Mapping over Inputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../guide/configuration/">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../guide/patterns/">Tips and Tricks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../guide/plugins/">Plugins</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../development/">How to Contribute</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../development/writingbackends/">Writing Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../development/forcontributors/">For Contributors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../development/formaintainers/">For Maintainers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../changelog/">Change Log</a></li>
+</ul>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../reference/">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../reference/backends/">Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../reference/api/">API</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <h1>Source code for gwf.backends.local</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">multiprocessing</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">os.path</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">uuid</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Manager</span>
+<span class="kn">from</span> <span class="nn">multiprocessing.connection</span> <span class="kn">import</span> <span class="n">Client</span> <span class="k">as</span> <span class="n">Client_</span>
+<span class="kn">from</span> <span class="nn">multiprocessing.connection</span> <span class="kn">import</span> <span class="n">Listener</span>
+<span class="kn">from</span> <span class="nn">multiprocessing.pool</span> <span class="kn">import</span> <span class="n">Pool</span>
+
+<span class="kn">from</span> <span class="nn">..conf</span> <span class="kn">import</span> <span class="n">config</span>
+<span class="kn">from</span> <span class="nn">..utils</span> <span class="kn">import</span> <span class="n">PersistableDict</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">Backend</span><span class="p">,</span> <span class="n">Status</span>
+<span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="n">BackendError</span><span class="p">,</span> <span class="n">DependencyError</span><span class="p">,</span> <span class="n">UnsupportedOperationError</span>
+<span class="kn">from</span> <span class="nn">.logmanager</span> <span class="kn">import</span> <span class="n">FileLogManager</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"Client"</span><span class="p">,</span> <span class="s2">"Server"</span><span class="p">,</span> <span class="s2">"LocalBackend"</span><span class="p">)</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_gen_task_id</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span>
+
+
+<span class="k">def</span> <span class="nf">catch_keyboard_interrupt</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                <span class="s2">"Shutting down worker </span><span class="si">%s</span><span class="s2">..."</span><span class="p">,</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">current_process</span><span class="p">()</span><span class="o">.</span><span class="n">pid</span>
+            <span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">wrapper</span>
+
+
+<span class="k">class</span> <span class="nc">ServerError</span><span class="p">(</span><span class="n">BackendError</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">LocalStatus</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">UNKNOWN</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">SUBMITTED</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">RUNNING</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">FAILED</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">COMPLETED</span> <span class="o">=</span> <span class="mi">4</span>
+
+
+<span class="k">class</span> <span class="nc">Request</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_queue</span><span class="p">,</span> <span class="n">status_queue</span><span class="p">):</span>
+        <span class="sd">"""Handle this request."""</span>
+
+
+<span class="k">class</span> <span class="nc">SubmitRequest</span><span class="p">(</span><span class="n">Request</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">deps</span><span class="p">,</span> <span class="n">stdout_path</span><span class="p">,</span> <span class="n">stderr_path</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target</span> <span class="o">=</span> <span class="n">target</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deps</span> <span class="o">=</span> <span class="n">deps</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stdout_path</span> <span class="o">=</span> <span class="n">stdout_path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stderr_path</span> <span class="o">=</span> <span class="n">stderr_path</span>
+
+    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_queue</span><span class="p">,</span> <span class="n">status_dict</span><span class="p">):</span>
+        <span class="n">task_id</span> <span class="o">=</span> <span class="n">_gen_task_id</span><span class="p">()</span>
+        <span class="n">status_dict</span><span class="p">[</span><span class="n">task_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">LocalStatus</span><span class="o">.</span><span class="n">SUBMITTED</span>
+        <span class="n">task_queue</span><span class="o">.</span><span class="n">put</span><span class="p">((</span><span class="n">task_id</span><span class="p">,</span> <span class="bp">self</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Task </span><span class="si">%s</span><span class="s2"> was queued with id </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">task_id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">task_id</span>
+
+
+<span class="k">class</span> <span class="nc">StatusRequest</span><span class="p">(</span><span class="n">Request</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_queue</span><span class="p">,</span> <span class="n">status_dict</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">status_dict</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">Client</span><span class="p">:</span>
+    <span class="sd">"""A client for communicating with the workers."""</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">Client_</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">stdout_path</span><span class="p">,</span> <span class="n">stderr_path</span><span class="p">,</span> <span class="n">deps</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">deps</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">deps</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="n">SubmitRequest</span><span class="p">(</span>
+            <span class="n">target</span><span class="o">=</span><span class="n">target</span><span class="p">,</span> <span class="n">deps</span><span class="o">=</span><span class="n">deps</span><span class="p">,</span> <span class="n">stdout_path</span><span class="o">=</span><span class="n">stdout_path</span><span class="p">,</span> <span class="n">stderr_path</span><span class="o">=</span><span class="n">stderr_path</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">status</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="n">StatusRequest</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="LocalBackend"><a class="viewcode-back" href="../../../../reference/backends/#gwf.backends.local.LocalBackend">[docs]</a><span class="k">class</span> <span class="nc">LocalBackend</span><span class="p">(</span><span class="n">Backend</span><span class="p">):</span>
+    <span class="sd">"""Backend that runs targets on a local cluster.</span>
+
+<span class="sd">    To use this backend you must activate the `local` backend and start a</span>
+<span class="sd">    local cluster (with one or more workers) that the backend can submit targets</span>
+<span class="sd">    to. To start a cluster with two workers run the command::</span>
+
+<span class="sd">        gwf -b local workers -n 2</span>
+
+<span class="sd">    in the working directory of your project. The workflow file must be accessible</span>
+<span class="sd">    to *gwf*. Thus, if your workflow file is not called `workflow.py` or the</span>
+<span class="sd">    workflow object is not called `gwf`, you must specify this so that *gwf* can</span>
+<span class="sd">    locate the workflow::</span>
+
+<span class="sd">        gwf -f myworkflow.py:wf1 -b local workers -n 2</span>
+
+<span class="sd">    If the local backend is your default backend you can of course omit the</span>
+<span class="sd">    ``-b local`` option.</span>
+
+<span class="sd">    If the ``-n`` option is omitted, *gwf* will detect the number of cores</span>
+<span class="sd">    available and use all of them.</span>
+
+<span class="sd">    To run your workflow, open another terminal and then type::</span>
+
+<span class="sd">        gwf -b local run</span>
+
+<span class="sd">    To stop the pool of workers press :kbd:`Control-c`.</span>
+
+<span class="sd">    **Backend options:**</span>
+
+<span class="sd">    * **local.host (str):** Set the host that the workers are running on</span>
+<span class="sd">      (default: localhost).</span>
+<span class="sd">    * **local.port (int):** Set the port used to connect to the workers</span>
+<span class="sd">      (default: 12345).</span>
+
+<span class="sd">    **Target options:**</span>
+
+<span class="sd">    None available.</span>
+<span class="sd">    """</span>
+
+    <span class="n">log_manager</span> <span class="o">=</span> <span class="n">FileLogManager</span><span class="p">()</span>
+
+    <span class="n">option_defaults</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tracked</span> <span class="o">=</span> <span class="n">PersistableDict</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">".gwf/local-backend-tracked.json"</span><span class="p">))</span>
+
+        <span class="n">host</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"local.host"</span><span class="p">,</span> <span class="s2">"localhost"</span><span class="p">)</span>
+        <span class="n">port</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"local.port"</span><span class="p">,</span> <span class="mi">12345</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">((</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">ConnectionRefusedError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">BackendError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"Local backend could not connect to workers on port </span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2">. "</span>
+                <span class="s2">"Workers can be started by running 'gwf workers'. "</span>
+                <span class="s2">"You can read more in the documentation: "</span>
+                <span class="s2">"https://gwf.app/reference/backends/#gwf.backends.local.LocalBackend"</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">status</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">target_job_id</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_tracked</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">target_job_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status</span>
+                <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status</span><span class="p">[</span><span class="n">target_job_id</span><span class="p">]</span> <span class="o">==</span> <span class="n">LocalStatus</span><span class="o">.</span><span class="n">COMPLETED</span>
+            <span class="p">):</span>
+                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tracked</span><span class="p">[</span><span class="n">target_name</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">dependency_ids</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_tracked</span><span class="p">[</span><span class="n">dep</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="n">dependencies</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="p">(</span><span class="n">key</span><span class="p">,)</span> <span class="o">=</span> <span class="n">exc</span><span class="o">.</span><span class="n">args</span>
+            <span class="k">raise</span> <span class="n">DependencyError</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+        <span class="n">task_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
+            <span class="n">target</span><span class="p">,</span>
+            <span class="n">deps</span><span class="o">=</span><span class="n">dependency_ids</span><span class="p">,</span>
+            <span class="n">stdout_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">log_manager</span><span class="o">.</span><span class="n">stdout_path</span><span class="p">(</span><span class="n">target</span><span class="p">),</span>
+            <span class="n">stderr_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">log_manager</span><span class="o">.</span><span class="n">stderr_path</span><span class="p">(</span><span class="n">target</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tracked</span><span class="p">[</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">task_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_status</span><span class="p">[</span><span class="n">task_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">LocalStatus</span><span class="o">.</span><span class="n">SUBMITTED</span>
+
+    <span class="k">def</span> <span class="nf">cancel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">UnsupportedOperationError</span><span class="p">(</span><span class="s2">"cancel"</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">target_job_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tracked</span><span class="p">[</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+            <span class="n">target_status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status</span><span class="p">[</span><span class="n">target_job_id</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">target_status</span> <span class="o">==</span> <span class="n">LocalStatus</span><span class="o">.</span><span class="n">RUNNING</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">Status</span><span class="o">.</span><span class="n">RUNNING</span>
+            <span class="k">elif</span> <span class="n">target_status</span> <span class="o">==</span> <span class="n">LocalStatus</span><span class="o">.</span><span class="n">SUBMITTED</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">Status</span><span class="o">.</span><span class="n">SUBMITTED</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">Status</span><span class="o">.</span><span class="n">UNKNOWN</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Status</span><span class="o">.</span><span class="n">UNKNOWN</span>
+
+    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tracked</span><span class="o">.</span><span class="n">persist</span><span class="p">()</span></div>
+
+
+<span class="k">class</span> <span class="nc">Worker</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="n">waiting</span><span class="p">,</span> <span class="n">lock</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">status</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">queue</span> <span class="o">=</span> <span class="n">queue</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">waiting</span> <span class="o">=</span> <span class="n">waiting</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lock</span> <span class="o">=</span> <span class="n">lock</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+    <span class="nd">@catch_keyboard_interrupt</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">task_id</span><span class="p">,</span> <span class="n">request</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+
+            <span class="c1"># If the task isn't pending, it may have been resubmitted by multiple</span>
+            <span class="c1"># tasks in different workers. We shouldn't run it twice, so we'll skip</span>
+            <span class="c1"># it.</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="p">[</span><span class="n">task_id</span><span class="p">]</span> <span class="o">!=</span> <span class="n">LocalStatus</span><span class="o">.</span><span class="n">SUBMITTED</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_dependencies</span><span class="p">(</span><span class="n">task_id</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+                <span class="k">continue</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">handle_task</span><span class="p">(</span><span class="n">task_id</span><span class="p">,</span> <span class="n">request</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">handle_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_id</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Task </span><span class="si">%s</span><span class="s2"> started target </span><span class="si">%r</span><span class="s2">"</span><span class="p">,</span> <span class="n">task_id</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="p">[</span><span class="n">task_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">LocalStatus</span><span class="o">.</span><span class="n">RUNNING</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">execute_target</span><span class="p">(</span>
+                <span class="n">request</span><span class="o">.</span><span class="n">target</span><span class="p">,</span>
+                <span class="n">stdout_path</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">stdout_path</span><span class="p">,</span>
+                <span class="n">stderr_path</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">stderr_path</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="p">[</span><span class="n">task_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">LocalStatus</span><span class="o">.</span><span class="n">FAILED</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">"Task </span><span class="si">%s</span><span class="s2"> failed"</span><span class="p">,</span> <span class="n">task_id</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="p">[</span><span class="n">task_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">LocalStatus</span><span class="o">.</span><span class="n">COMPLETED</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Task </span><span class="si">%s</span><span class="s2"> completed target </span><span class="si">%r</span><span class="s2">"</span><span class="p">,</span> <span class="n">task_id</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">requeue_dependents</span><span class="p">(</span><span class="n">task_id</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">check_dependencies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_id</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="sd">"""Check dependencies before running a task.</span>
+
+<span class="sd">        :return: `True` if the task can run, `False` if not."""</span>
+        <span class="n">any_dep_failed</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="p">[</span><span class="n">dep_id</span><span class="p">]</span> <span class="o">==</span> <span class="n">LocalStatus</span><span class="o">.</span><span class="n">FAILED</span> <span class="k">for</span> <span class="n">dep_id</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">deps</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">any_dep_failed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="p">[</span><span class="n">task_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">LocalStatus</span><span class="o">.</span><span class="n">FAILED</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                <span class="s2">"Task </span><span class="si">%s</span><span class="s2"> failed since a dependency failed."</span><span class="p">,</span> <span class="n">task_id</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="n">has_non_satisfied_dep</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">dep_id</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">deps</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="p">[</span><span class="n">dep_id</span><span class="p">]</span> <span class="o">!=</span> <span class="n">LocalStatus</span><span class="o">.</span><span class="n">COMPLETED</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Task </span><span class="si">%s</span><span class="s2"> set to wait for </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">task_id</span><span class="p">,</span> <span class="n">dep_id</span><span class="p">)</span>
+
+                <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">lock</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">dep_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">waiting</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">waiting</span><span class="p">[</span><span class="n">dep_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+                    <span class="c1"># Do this weird thing to sync the dictionary. Using</span>
+                    <span class="c1"># deps_dict[dep_id].append(...) doesn't work.</span>
+                    <span class="n">tmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">waiting</span><span class="p">[</span><span class="n">dep_id</span><span class="p">]</span>
+                    <span class="n">tmp</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">task_id</span><span class="p">,</span> <span class="n">request</span><span class="p">))</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">waiting</span><span class="p">[</span><span class="n">dep_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span>
+
+                <span class="n">has_non_satisfied_dep</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="n">has_non_satisfied_dep</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">requeue_dependents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_id</span><span class="p">):</span>
+        <span class="sd">"""Requeue targets that waiting on a specific task."""</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">lock</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">task_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">waiting</span><span class="p">:</span>
+                <span class="k">return</span>
+
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Task </span><span class="si">%s</span><span class="s2"> has waiting dependents. Requeueing"</span><span class="p">,</span> <span class="n">task_id</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">dep_task_id</span><span class="p">,</span> <span class="n">dep_request</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">waiting</span><span class="p">[</span><span class="n">task_id</span><span class="p">]:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">put</span><span class="p">((</span><span class="n">dep_task_id</span><span class="p">,</span> <span class="n">dep_request</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">waiting</span><span class="p">[</span><span class="n">task_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">execute_target</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">stdout_path</span><span class="p">,</span> <span class="n">stderr_path</span><span class="p">):</span>
+        <span class="n">env</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">env</span><span class="p">[</span><span class="s2">"GWF_TARGET_NAME"</span><span class="p">]</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">stdout_path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">stdout_fp</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span>
+            <span class="n">stderr_path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"w"</span>
+        <span class="p">)</span> <span class="k">as</span> <span class="n">stderr_fp</span><span class="p">:</span>
+            <span class="n">process</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
+                <span class="p">[</span><span class="s2">"bash"</span><span class="p">],</span>
+                <span class="n">stdin</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
+                <span class="n">stdout</span><span class="o">=</span><span class="n">stdout_fp</span><span class="p">,</span>
+                <span class="n">stderr</span><span class="o">=</span><span class="n">stderr_fp</span><span class="p">,</span>
+                <span class="n">universal_newlines</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">cwd</span><span class="o">=</span><span class="n">target</span><span class="o">.</span><span class="n">working_dir</span><span class="p">,</span>
+                <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="n">process</span><span class="o">.</span><span class="n">communicate</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">spec</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">process</span><span class="o">.</span><span class="n">returncode</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                    <span class="s2">"Target </span><span class="si">{}</span><span class="s2"> exited with a non-zero return code."</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                <span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">Server</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hostname</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span> <span class="o">=</span> <span class="n">hostname</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">port</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span> <span class="o">=</span> <span class="n">num_workers</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">manager</span> <span class="o">=</span> <span class="n">Manager</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">queue</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">waiting</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lock</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">handle_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Received request </span><span class="si">%r</span><span class="s2">"</span><span class="p">,</span> <span class="n">request</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">request</span><span class="o">.</span><span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">"Invalid request </span><span class="si">%r</span><span class="s2">"</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">handle_client</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Accepted client connection."</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">request</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handle_request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">response</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">conn</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">EOFError</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Client connection closed."</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">wait_for_clients</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">serv</span><span class="p">):</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">client</span> <span class="o">=</span> <span class="n">serv</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">handle_client</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">"""Starts a server that controls local workers.</span>
+
+<span class="sd">        Calling this function starts a pool of `num_workers` workers used to run</span>
+<span class="sd">        targets sent to the server. The server will run indefinitely unless shut</span>
+<span class="sd">        down by the user.</span>
+<span class="sd">        """</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">serv</span> <span class="o">=</span> <span class="n">Listener</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">))</span>
+            <span class="n">workers</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span>
+                <span class="n">processes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="p">,</span>
+                <span class="n">initializer</span><span class="o">=</span><span class="n">Worker</span><span class="p">,</span>
+                <span class="n">initargs</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">waiting</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lock</span><span class="p">),</span>
+            <span class="p">)</span>
+
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">"Started </span><span class="si">%s</span><span class="s2"> workers, listening on port </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="p">,</span>
+                <span class="n">serv</span><span class="o">.</span><span class="n">address</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wait_for_clients</span><span class="p">(</span><span class="n">serv</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">errno</span> <span class="o">==</span> <span class="mi">48</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ServerError</span><span class="p">(</span>
+                    <span class="p">(</span>
+                        <span class="s2">"Could not start workers listening on port </span><span class="si">{}</span><span class="s2">. "</span>
+                        <span class="s2">"The port may already be in use."</span>
+                    <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">)</span>
+                <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Shutting down..."</span><span class="p">)</span>
+            <span class="n">workers</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="n">workers</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+</pre></div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; 2019, Dan Søndergaard |
+            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+              and
+              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/jquery.js"></script>
+    <script src="../../../../_static/underscore.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/scripts/main.js"></script>
+    </body>
+</html>

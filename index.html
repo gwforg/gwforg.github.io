@@ -1,0 +1,428 @@
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="genindex/" /><link rel="search" title="Search" href="search/" /><link rel="next" title="User’s Guide" href="guide/" />
+
+    <meta name="generator" content="sphinx-4.3.0, furo 2021.10.09"/>
+        <title>gwf 2.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f0f0f0;
+  --color-code-foreground: black;
+  
+  }
+  body[data-theme="dark"] {
+    --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    body:not([data-theme="light"]) {
+      --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+    }
+  }
+</style></head>
+  <body>
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" />
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="#"><div class="brand">gwf 2.0.0 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="#">
+  
+  
+  <span class="sidebar-brand-text">gwf 2.0.0 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search/" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="guide/">User’s Guide</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="guide/installation/">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/tutorial/">Tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/mapping/">Mapping over Inputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/configuration/">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/patterns/">Tips and Tricks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/plugins/">Plugins</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="development/">How to Contribute</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="development/writingbackends/">Writing Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/forcontributors/">For Contributors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/formaintainers/">For Maintainers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changelog/">Change Log</a></li>
+</ul>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="reference/">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/backends/">Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/api/">API</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="welcome-to-gwf">
+<h1>Welcome to gwf<a class="headerlink" href="#welcome-to-gwf" title="Permalink to this headline">¶</a></h1>
+<p><em>gwf</em> is a flexible, pragmatic workflow tool for building and running large,
+scientific workflows. It runs on Python 3.5+ and is developed at the Bioinformatics
+Research Centre (BiRC), Aarhus University.</p>
+<dl class="simple">
+<dt>Examples</dt><dd><p>To get a feeling for what a <em>gwf</em> workflow looks like, have a look at a few
+<a class="reference external" href="https://github.com/gwforg/gwf/tree/master/examples">examples</a>.</p>
+</dd>
+<dt>Getting started</dt><dd><p>To quickly get started writing workflows in <em>gwf</em> you can read the
+<a class="reference internal" href="guide/tutorial/#tutorial"><span class="std std-ref">Tutorial</span></a>.</p>
+</dd>
+<dt>Extending</dt><dd><p>We don’t have the backend you need to run your workflow on your cluster?
+See the <a class="reference internal" href="development/writingbackends/#writing-backends"><span class="std std-ref">Writing Backends</span></a> section to roll your own.</p>
+</dd>
+<dt>Contributing</dt><dd><p>We aim to make <em>gwf</em> a community developed project. Learn how to
+<a class="reference internal" href="development/forcontributors/"><span class="doc">contribute</span></a>.</p>
+</dd>
+</dl>
+<section id="features">
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Easy to adopt, there’s no special syntax to learn if you already know Python</p></li>
+<li><p>Automatically resolves dependencies between targets based on filenames</p></li>
+<li><p>Only submits targets when their output files are not up to date</p></li>
+<li><p>Supports multiple backends like Slurm, SGE and a local backend for testing</p></li>
+<li><p>Fire-and-forget, does not require you to use <em>screen</em> or <em>tmux</em> to keep your
+workflow running</p></li>
+<li><p>Commands for cleaning temporary data from your workflow</p></li>
+<li><p>Friendly to your system administrator!</p></li>
+</ul>
+</section>
+<section id="user-s-guide">
+<h2>User’s Guide<a class="headerlink" href="#user-s-guide" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guide/">User’s Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guide/installation/">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide/tutorial/">Tutorial</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="guide/tutorial/#a-minimal-workflow">A Minimal Workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guide/tutorial/#running-your-first-workflow">Running Your First Workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guide/tutorial/#setting-the-default-verbosity">Setting the Default Verbosity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guide/tutorial/#debugging-a-workflow">Debugging a Workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guide/tutorial/#defining-targets-with-dependencies">Defining Targets with Dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guide/tutorial/#named-inputs-and-outputs">Named Inputs and Outputs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guide/tutorial/#specifying-target-resources">Specifying Target Resources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guide/tutorial/#observing-target-execution">Observing Target Execution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guide/tutorial/#what-happens-when-a-target-fails">What Happens When a Target Fails?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guide/tutorial/#reusable-targets-with-templates">Reusable Targets with Templates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guide/tutorial/#viewing-logs">Viewing Logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guide/tutorial/#cleaning-up">Cleaning Up</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guide/tutorial/#a-note-about-reproducibility">A Note About Reproducibility</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="guide/mapping/">Mapping over Inputs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="guide/mapping/#naming-targets-differently">Naming Targets Differently</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guide/mapping/#passing-multiple-arguments-to-a-template-function">Passing Multiple Arguments to a Template Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guide/mapping/#chaining-maps">Chaining Maps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guide/mapping/#collecting-files">Collecting Files</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="guide/configuration/">Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="guide/configuration/#commands-for-configuration">Commands for Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guide/configuration/#available-settings">Available Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="guide/patterns/">Tips and Tricks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="guide/patterns/#iterating-over-a-parameter-space">Iterating Over a Parameter Space</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guide/patterns/#dynamically-generating-a-workflow">Dynamically Generating a Workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guide/patterns/#external-configuration-of-workflows">External Configuration of Workflows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guide/patterns/#large-workflows">Large Workflows</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="guide/plugins/">Plugins</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="guide/plugins/#gwf-utilization">gwf-utilization</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="development">
+<h2>Development<a class="headerlink" href="#development" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="development/">How to Contribute</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="development/writingbackends/">Writing Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/forcontributors/">For Contributors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/formaintainers/">For Maintainers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changelog/">Change Log</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog/#version-1-7-2">Version 1.7.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog/#version-1-7-1">Version 1.7.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog/#version-1-7-0">Version 1.7.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog/#version-1-6-0">Version 1.6.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog/#version-1-5-1">Version 1.5.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog/#version-1-5-0">Version 1.5.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog/#version-1-4-0">Version 1.4.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog/#version-1-3-2">Version 1.3.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog/#version-1-3-1">Version 1.3.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog/#version-1-3-0">Version 1.3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog/#version-1-2-1">Version 1.2.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog/#version-1-2">Version 1.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog/#version-1-1">Version 1.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog/#version-1-0">Version 1.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog/#version-1-0b10">Version 1.0b10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog/#version-1-0b9">Version 1.0b9</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog/#version-1-0b8">Version 1.0b8</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog/#version-1-0b7">Version 1.0b7</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog/#version-1-0b6">Version 1.0b6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog/#version-1-0b5">Version 1.0b5</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="reference/">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/backends/">Backends</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/backends/#local">Local</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/backends/#slurm">Slurm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/backends/#sun-grid-engine-sge">Sun Grid Engine (SGE)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/api/">API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/api/#module-gwf">Workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/api/#module-gwf.core">Core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/api/#module-gwf.backends">Backends</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/api/#module-gwf.filtering">Filtering</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="contributors">
+<h2>Contributors<a class="headerlink" href="#contributors" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Thomas Mailund</p></li>
+<li><p>Dan Søndergaard</p></li>
+<li><p>Anders Halager</p></li>
+<li><p>Michael Knudsen</p></li>
+<li><p>Tobias Madsen</p></li>
+</ul>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="guide/">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">User’s Guide</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; 2019, Dan Søndergaard |
+            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+              and
+              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
+            <a class="muted-link" href="_sources/index.rst.txt"
+               rel="nofollow">
+              Show Source
+            </a>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            Contents
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Welcome to gwf</a><ul>
+<li><a class="reference internal" href="#features">Features</a></li>
+<li><a class="reference internal" href="#user-s-guide">User’s Guide</a></li>
+<li><a class="reference internal" href="#development">Development</a></li>
+<li><a class="reference internal" href="#api-reference">API Reference</a></li>
+<li><a class="reference internal" href="#contributors">Contributors</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="#" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/scripts/main.js"></script>
+    </body>
+</html>

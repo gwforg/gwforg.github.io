@@ -1,0 +1,562 @@
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="#" /><link rel="search" title="Search" href="../search/" />
+
+    <meta name="generator" content="sphinx-4.3.0, furo 2021.10.09"/><title>Index - gwf 2.0.0 documentation</title>
+<link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f0f0f0;
+  --color-code-foreground: black;
+  
+  }
+  body[data-theme="dark"] {
+    --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    body:not([data-theme="light"]) {
+      --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+    }
+  }
+</style></head>
+  <body>
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" />
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../"><div class="brand">gwf 2.0.0 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../">
+  
+  
+  <span class="sidebar-brand-text">gwf 2.0.0 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search/" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../guide/">User’s Guide</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guide/installation/">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/tutorial/">Tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/mapping/">Mapping over Inputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/configuration/">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/patterns/">Tips and Tricks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/plugins/">Plugins</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../development/">How to Contribute</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../development/writingbackends/">Writing Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/forcontributors/">For Contributors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/formaintainers/">For Maintainers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog/">Change Log</a></li>
+</ul>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../reference/">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../reference/backends/">Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/api/">API</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          
+<section class="genindex-section">
+  <h1 id="index">Index</h1>
+  <div class="genindex-jumpbox"><a href="#A"><strong>A</strong></a> | <a href="#B"><strong>B</strong></a> | <a href="#C"><strong>C</strong></a> | <a href="#D"><strong>D</strong></a> | <a href="#E"><strong>E</strong></a> | <a href="#F"><strong>F</strong></a> | <a href="#G"><strong>G</strong></a> | <a href="#I"><strong>I</strong></a> | <a href="#L"><strong>L</strong></a> | <a href="#M"><strong>M</strong></a> | <a href="#O"><strong>O</strong></a> | <a href="#P"><strong>P</strong></a> | <a href="#R"><strong>R</strong></a> | <a href="#S"><strong>S</strong></a> | <a href="#T"><strong>T</strong></a> | <a href="#U"><strong>U</strong></a> | <a href="#W"><strong>W</strong></a></div>
+</section>
+<section id="A" class="genindex-section">
+  <h2>A</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="../reference/api/#gwf.AnonymousTarget">AnonymousTarget (class in gwf)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="../reference/api/#gwf.filtering.ApplyMixin.apply">apply() (gwf.filtering.ApplyMixin method)</a>
+</li>
+        <li><a href="../reference/api/#gwf.filtering.ApplyMixin">ApplyMixin (class in gwf.filtering)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="B" class="genindex-section">
+  <h2>B</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="../reference/api/#gwf.backends.Backend">Backend (class in gwf.backends)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="C" class="genindex-section">
+  <h2>C</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="../reference/api/#gwf.backends.Backend.cancel">cancel() (gwf.backends.Backend method)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="../reference/api/#gwf.backends.Backend.close">close() (gwf.backends.Backend method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="D" class="genindex-section">
+  <h2>D</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="../reference/api/#gwf.core.Graph.dfs">dfs() (gwf.core.Graph method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="E" class="genindex-section">
+  <h2>E</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="../reference/api/#gwf.Target.empty">empty() (gwf.Target class method)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="../reference/api/#gwf.core.Graph.endpoints">endpoints() (gwf.core.Graph method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="F" class="genindex-section">
+  <h2>F</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="../reference/api/#gwf.backends.logmanager.FileLogManager">FileLogManager (class in gwf.backends.logmanager)</a>
+</li>
+        <li><a href="../reference/api/#gwf.filtering.filter_generic">filter_generic() (in module gwf.filtering)</a>
+</li>
+        <li><a href="../reference/api/#gwf.filtering.filter_names">filter_names() (in module gwf.filtering)</a>
+</li>
+        <li><a href="../reference/api/#gwf.backends.Backend.from_config">from_config() (gwf.backends.Backend class method)</a>
+
+        <ul>
+          <li><a href="../reference/api/#gwf.Workflow.from_config">(gwf.Workflow class method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="../reference/api/#gwf.backends.Backend.from_name">from_name() (gwf.backends.Backend class method)</a>
+</li>
+        <li><a href="../reference/api/#gwf.Workflow.from_path">from_path() (gwf.Workflow class method)</a>
+</li>
+        <li><a href="../reference/api/#gwf.core.Graph.from_targets">from_targets() (gwf.core.Graph class method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="G" class="genindex-section">
+  <h2>G</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="../reference/api/#gwf.Workflow.glob">glob() (gwf.Workflow method)</a>
+</li>
+        <li><a href="../reference/api/#gwf.core.Graph">Graph (class in gwf.core)</a>
+</li>
+        <li>
+    gwf
+
+        <ul>
+          <li><a href="../reference/api/#module-gwf">module</a>
+</li>
+        </ul></li>
+        <li>
+    gwf.backends
+
+        <ul>
+          <li><a href="../reference/api/#module-gwf.backends">module</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li>
+    gwf.backends.logmanager
+
+        <ul>
+          <li><a href="../reference/api/#module-gwf.backends.logmanager">module</a>
+</li>
+        </ul></li>
+        <li>
+    gwf.core
+
+        <ul>
+          <li><a href="../reference/api/#module-gwf.core">module</a>
+</li>
+        </ul></li>
+        <li>
+    gwf.filtering
+
+        <ul>
+          <li><a href="../reference/api/#module-0">module</a>, <a href="../reference/api/#module-gwf.filtering">[1]</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="I" class="genindex-section">
+  <h2>I</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="../reference/api/#gwf.Workflow.iglob">iglob() (gwf.Workflow method)</a>
+</li>
+        <li><a href="../reference/api/#gwf.Workflow.include">include() (gwf.Workflow method)</a>
+</li>
+        <li><a href="../reference/api/#gwf.Workflow.include_path">include_path() (gwf.Workflow method)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="../reference/api/#gwf.Workflow.include_workflow">include_workflow() (gwf.Workflow method)</a>
+</li>
+        <li><a href="../reference/api/#gwf.TargetList.inputs">inputs (gwf.TargetList property)</a>
+</li>
+        <li><a href="../reference/api/#gwf.AnonymousTarget.is_sink">is_sink (gwf.AnonymousTarget property)</a>
+</li>
+        <li><a href="../reference/api/#gwf.AnonymousTarget.is_source">is_source (gwf.AnonymousTarget property)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="L" class="genindex-section">
+  <h2>L</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="../reference/api/#gwf.backends.Backend.list">list() (gwf.backends.Backend class method)</a>
+</li>
+        <li><a href="../reference/backends/#gwf.backends.local.LocalBackend">LocalBackend (class in gwf.backends.local)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="../reference/api/#gwf.backends.Backend.log_manager">log_manager (gwf.backends.Backend attribute)</a>
+</li>
+        <li><a href="../reference/api/#gwf.backends.Backend.logs">logs() (gwf.backends.Backend class method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="M" class="genindex-section">
+  <h2>M</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="../reference/api/#gwf.Workflow.map">map() (gwf.Workflow method)</a>
+</li>
+        <li><a href="../reference/api/#gwf.backends.logmanager.MemoryLogManager">MemoryLogManager (class in gwf.backends.logmanager)</a>
+</li>
+        <li>
+    module
+
+        <ul>
+          <li><a href="../reference/api/#module-gwf">gwf</a>
+</li>
+          <li><a href="../reference/api/#module-gwf.backends">gwf.backends</a>
+</li>
+          <li><a href="../reference/api/#module-gwf.backends.logmanager">gwf.backends.logmanager</a>
+</li>
+          <li><a href="../reference/api/#module-gwf.core">gwf.core</a>
+</li>
+          <li><a href="../reference/api/#module-0">gwf.filtering</a>, <a href="../reference/api/#module-gwf.filtering">[1]</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="O" class="genindex-section">
+  <h2>O</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="../reference/api/#gwf.backends.logmanager.FileLogManager.open_stderr">open_stderr() (gwf.backends.logmanager.FileLogManager method)</a>
+</li>
+        <li><a href="../reference/api/#gwf.backends.logmanager.FileLogManager.open_stdout">open_stdout() (gwf.backends.logmanager.FileLogManager method)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="../reference/api/#gwf.backends.Backend.option_defaults">option_defaults (gwf.backends.Backend attribute)</a>
+</li>
+        <li><a href="../reference/api/#gwf.TargetList.outputs">outputs (gwf.TargetList property)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="P" class="genindex-section">
+  <h2>P</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="../reference/api/#gwf.filtering.ApplyMixin.predicate">predicate() (gwf.filtering.ApplyMixin method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="R" class="genindex-section">
+  <h2>R</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="../reference/api/#gwf.backends.Status.RUNNING">RUNNING (gwf.backends.Status attribute)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="S" class="genindex-section">
+  <h2>S</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="../reference/backends/#gwf.backends.sge.SGEBackend">SGEBackend (class in gwf.backends.sge)</a>
+</li>
+        <li><a href="../reference/api/#gwf.Workflow.shell">shell() (gwf.Workflow method)</a>
+</li>
+        <li><a href="../reference/backends/#gwf.backends.slurm.SlurmBackend">SlurmBackend (class in gwf.backends.slurm)</a>
+</li>
+        <li><a href="../reference/api/#gwf.backends.Status">Status (class in gwf.backends)</a>
+</li>
+        <li><a href="../reference/api/#gwf.backends.Backend.status">status() (gwf.backends.Backend method)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="../reference/api/#gwf.backends.logmanager.FileLogManager.stderr_path">stderr_path() (gwf.backends.logmanager.FileLogManager method)</a>
+</li>
+        <li><a href="../reference/api/#gwf.backends.logmanager.FileLogManager.stdout_path">stdout_path() (gwf.backends.logmanager.FileLogManager method)</a>
+</li>
+        <li><a href="../reference/api/#gwf.backends.Backend.submit">submit() (gwf.backends.Backend method)</a>
+</li>
+        <li><a href="../reference/api/#gwf.backends.Backend.submit_full">submit_full() (gwf.backends.Backend method)</a>
+</li>
+        <li><a href="../reference/api/#gwf.backends.Status.SUBMITTED">SUBMITTED (gwf.backends.Status attribute)</a>
+</li>
+        <li><a href="../reference/api/#gwf.core.Graph.subset">subset() (gwf.core.Graph method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="T" class="genindex-section">
+  <h2>T</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="../reference/api/#gwf.Target">Target (class in gwf)</a>
+</li>
+        <li><a href="../reference/api/#gwf.Workflow.target">target() (gwf.Workflow method)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="../reference/api/#gwf.Workflow.target_from_template">target_from_template() (gwf.Workflow method)</a>
+</li>
+        <li><a href="../reference/api/#gwf.TargetList">TargetList (class in gwf)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="U" class="genindex-section">
+  <h2>U</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="../reference/api/#gwf.backends.Status.UNKNOWN">UNKNOWN (gwf.backends.Status attribute)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="W" class="genindex-section">
+  <h2>W</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="../reference/api/#gwf.Workflow">Workflow (class in gwf)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; 2019, Dan Søndergaard |
+            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+              and
+              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/scripts/main.js"></script>
+    </body>
+</html>

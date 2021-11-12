@@ -1,0 +1,935 @@
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../../genindex/" /><link rel="search" title="Search" href="../../search/" /><link rel="next" title="Mapping over Inputs" href="../mapping/" /><link rel="prev" title="Installation" href="../installation/" />
+
+    <meta name="generator" content="sphinx-4.3.0, furo 2021.10.09"/>
+        <title>Tutorial - gwf 2.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f0f0f0;
+  --color-code-foreground: black;
+  
+  }
+  body[data-theme="dark"] {
+    --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    body:not([data-theme="light"]) {
+      --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+    }
+  }
+</style></head>
+  <body>
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" />
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../"><div class="brand">gwf 2.0.0 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../">
+  
+  
+  <span class="sidebar-brand-text">gwf 2.0.0 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../search/" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../">User’s Guide</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../installation/">Installation</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mapping/">Mapping over Inputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../configuration/">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/">Tips and Tricks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plugins/">Plugins</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../development/">How to Contribute</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../development/writingbackends/">Writing Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../development/forcontributors/">For Contributors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../development/formaintainers/">For Maintainers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/">Change Log</a></li>
+</ul>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../reference/">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../reference/backends/">Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../reference/api/">API</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="tutorial">
+<span id="id1"></span><h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
+<p>In this tutorial we will explore various concepts in <em>gwf</em>. We will define
+workflows and see how <em>gwf</em> can help us keep track of the progress of workflow
+execution, the output of targets and dependencies between targets. Have fun!</p>
+<p>We’ll assume that you have the <a class="reference external" href="https://www.continuum.io/downloads">Anaconda</a> distribution installed and that you are
+familiar with how to install and manage packages and environments through the
+<em>conda</em> package manager.</p>
+<p>First, let’s install <em>gwf</em> in its own conda environment. Create a new environment
+for your project, we’ll call it <em>myproject</em>.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>conda config --add channels gwforg
+<span class="gp">$ </span>conda create -n myproject <span class="nv">python</span><span class="o">=</span><span class="m">3</span>.5 gwf
+<span class="gp">$ </span><span class="nb">source</span> activate myproject
+</pre></div>
+</div>
+<p>You should now be able to run the following command.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf --help
+</pre></div>
+</div>
+<p>This should show you the commands and options available through <em>gwf</em>.</p>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>You may see an error similar to this when you try running <em>gwf</em>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">UnicodeEncodeError</span><span class="p">:</span> <span class="s1">'charmap'</span> <span class="n">codec</span> <span class="n">can</span><span class="s1">'t encode character '</span>\<span class="n">u2020</span><span class="s1">' in</span>
+<span class="n">position</span> <span class="mi">477</span><span class="p">:</span> <span class="n">character</span> <span class="n">maps</span> <span class="n">to</span> <span class="o">&lt;</span><span class="n">undefined</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>This error occurs because your isn’t configured to use UTF-8 as the default
+encoding. To fix the error insert the following lines in your <code class="docutils literal notranslate"><span class="pre">.bashrc</span></code>
+file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">LANG</span><span class="o">=</span><span class="n">en_US</span><span class="o">.</span><span class="n">utf8</span>
+<span class="n">export</span> <span class="n">LC_ALL</span><span class="o">=</span><span class="n">en_US</span><span class="o">.</span><span class="n">utf8</span>
+</pre></div>
+</div>
+<p>If you’re not in the US you may want to set it to something else. For example,
+if you’re in Denmark you may want to use the following configuration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">LANG</span><span class="o">=</span><span class="n">da_DK</span><span class="o">.</span><span class="n">utf8</span>
+<span class="n">export</span> <span class="n">LC_ALL</span><span class="o">=</span><span class="n">da_DK</span><span class="o">.</span><span class="n">utf8</span>
+</pre></div>
+</div>
+</div>
+<section id="a-minimal-workflow">
+<h2>A Minimal Workflow<a class="headerlink" href="#a-minimal-workflow" title="Permalink to this headline">¶</a></h2>
+<p>To get started we must define a <em>workflow file</em> containing a workflow to which
+we can add targets. Unless <em>gwf</em> is told otherwise it assumes that the workflow
+file is called <code class="docutils literal notranslate"><span class="pre">workflow.py</span></code> and that the workflow is called <cite>gwf</cite>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">gwf</span> <span class="kn">import</span> <span class="n">Workflow</span>
+
+<span class="n">gwf</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">()</span>
+
+<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">'MyTarget'</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[])</span> <span class="o">&lt;&lt;</span> <span class="s2">"""</span>
+<span class="s2">echo hello world</span>
+<span class="s2">"""</span>
+</pre></div>
+</div>
+<p>In the example above we define a workflow and then add a target called
+<code class="docutils literal notranslate"><span class="pre">MyTarget</span></code>. A target is a single unit of computation that uses zero or more
+files (inputs) and produces zero or more files (outputs).</p>
+<p>The target defined above does not use any files and doesn’t produce any files
+either. However, it does run a single command (<code class="docutils literal notranslate"><span class="pre">echo</span> <span class="pre">hello</span> <span class="pre">world</span></code>), but the
+output of the command is thrown away. Let’s fix that! Change the target
+definition to this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">'MyTarget'</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">'greeting.txt'</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">"""</span>
+<span class="s2">echo hello world</span>
+<span class="s2">"""</span>
+</pre></div>
+</div>
+<p>This tells <em>gwf</em> that the target will create a file called <code class="docutils literal notranslate"><span class="pre">greeting.txt</span></code> when
+it is run. However, the target does not actually create the file yet. Let’s
+fix that too:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">'MyTarget'</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">'greeting.txt'</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">"""</span>
+<span class="s2">echo hello world &gt; greeting.txt</span>
+<span class="s2">"""</span>
+</pre></div>
+</div>
+<p>There you go! We have now declared a workflow with one target and that target
+creates the file <code class="docutils literal notranslate"><span class="pre">greeting.txt</span></code> with the line <code class="docutils literal notranslate"><span class="pre">hello</span> <span class="pre">world</span></code> in it. Now let’s
+try to run our workflow…</p>
+</section>
+<section id="running-your-first-workflow">
+<h2>Running Your First Workflow<a class="headerlink" href="#running-your-first-workflow" title="Permalink to this headline">¶</a></h2>
+<p>First, let’s make a directory for our project. We’ll call the directory
+<code class="docutils literal notranslate"><span class="pre">myproject</span></code>. Now create an empty file called <code class="docutils literal notranslate"><span class="pre">workflow.py</span></code> in the project
+directory and paste the workflow specification into it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">gwf</span> <span class="kn">import</span> <span class="n">Workflow</span>
+
+<span class="n">gwf</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">()</span>
+
+<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">'MyTarget'</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">'greeting.txt'</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">"""</span>
+<span class="s2">echo hello world &gt; greeting.txt</span>
+<span class="s2">"""</span>
+</pre></div>
+</div>
+<p>We’re now ready to run our workflow. However, <em>gwf</em> does not actually execute
+the targets in a workflow, it only schedules the target using a backend. This
+may sound cumbersome, but it enables <em>gwf</em> to run workflows in very different
+environments: anything from your laptop to a cluster with thousands of cores
+available.</p>
+<p>For this tutorial we just want to run our workflows locally. To do this we can
+use the built-in <code class="docutils literal notranslate"><span class="pre">local</span></code> backend. Essentially this backend allows you to run
+workflows utilizing all cores of your computer and thus it can be very useful
+for small workflows that don’t require a lot of resources.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you’re running <em>gwf</em> on a cluster you may want to use a backend that can
+submit targets to your clusters’ queueing system/workload manager like
+Slurm. For example, to use the Slurm backend, run the command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf config <span class="nb">set</span> backend slurm
+</pre></div>
+</div>
+<p>Now that you’re using the Slurm backend you don’t have to start any
+workers. That is, just skip the step below.</p>
+</div>
+<p>First, open another terminal window and navigate to the <code class="docutils literal notranslate"><span class="pre">myproject</span></code> directory.
+Then run the command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf workers
+<span class="go">Started 4 workers, listening on port 12345</span>
+</pre></div>
+</div>
+<p>This will start a pool of workers that <em>gwf</em> can now submit targets to.
+Switch back to the other terminal and then run:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf run
+<span class="go">Scheduling target MyTarget</span>
+<span class="go">Submitting target MyTarget</span>
+</pre></div>
+</div>
+<p><em>gwf</em> schedules and then submits <code class="docutils literal notranslate"><span class="pre">MyTarget</span></code> to the pool of workers you started in
+the other terminal window.</p>
+<p>This says that <em>gwf</em> considered the target for execution and then decided to submit
+it to the backend (because the output file, <code class="docutils literal notranslate"><span class="pre">greeting.txt</span></code>, does not
+already exist).</p>
+<p>Within a few seconds you should see <code class="docutils literal notranslate"><span class="pre">greeting.txt</span></code> in the project directory. Try
+to open it in your favorite text editor!</p>
+<p>Now try the same command again:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf run
+<span class="go">Scheduling target MyTarget</span>
+</pre></div>
+</div>
+<p>This time, <em>gwf</em> considers the target for submission, but decides not to submit it
+since all of the output files (only one in this case) exist.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When you’ve completed this tutorial, you probably want to close the local
+workers. To do this simply change to the terminal where you started the
+workers and press <kbd class="kbd docutils literal notranslate">Control-c</kbd>.</p>
+</div>
+</section>
+<section id="setting-the-default-verbosity">
+<h2>Setting the Default Verbosity<a class="headerlink" href="#setting-the-default-verbosity" title="Permalink to this headline">¶</a></h2>
+<p>Maybe you got tired of seeing this much output from <em>gwf</em> all the time, despite
+the pretty colors. We can change the verbosity (how chatty <em>gwf</em> is) using the
+<code class="docutils literal notranslate"><span class="pre">-v/--verbose</span></code> flag:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf -v warning run
+</pre></div>
+</div>
+<p>Now <em>gwf</em> only prints warnings. However, it quickly gets annoying to type this
+again and again, so let’s configure <em>gwf</em> to make <code class="docutils literal notranslate"><span class="pre">warning</span></code> the default
+verbosity level.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf config <span class="nb">set</span> verbose warning
+<span class="gp">$ </span>gwf run
+</pre></div>
+</div>
+<p>As we’d expect, <em>gwf</em> outputs the same as before, but this time we didn’t have
+to set the <code class="docutils literal notranslate"><span class="pre">-v</span> <span class="pre">warning</span></code> flag!</p>
+<p>We can configure other aspects of <em>gwf</em> through the <cite>config</cite> command. For more
+details, refer to the <a class="reference internal" href="../configuration/#configuration"><span class="std std-ref">Configuration</span></a> page.</p>
+</section>
+<section id="debugging-a-workflow">
+<h2>Debugging a Workflow<a class="headerlink" href="#debugging-a-workflow" title="Permalink to this headline">¶</a></h2>
+<p>If your workflow doesn’t look right or you find that e.g. <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">status</span></code>
+doesn’t show the right thing, you may need to debug your workflow. The first
+thing to try is to increase the verbosity level:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf -v debug status
+</pre></div>
+</div>
+<p>This will show you exactly what <em>gwf</em> is thinking about each target in your
+workflow. Why should it run? Why should it not run?</p>
+<p>To investigate further you can always use <code class="docutils literal notranslate"><span class="pre">print()</span></code> in your code and run
+your <code class="file docutils literal notranslate"><span class="pre">workflow.py</span></code> as a normal Python script:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python workflow.py
+</pre></div>
+</div>
+<p>In the end, there’s not a big difference between debugging a <em>gwf</em> workflow
+and normal Python code.</p>
+</section>
+<section id="defining-targets-with-dependencies">
+<h2>Defining Targets with Dependencies<a class="headerlink" href="#defining-targets-with-dependencies" title="Permalink to this headline">¶</a></h2>
+<p>Targets in <em>gwf</em> represent isolated units of work. However, we can declare
+dependencies between targets to construct complex workflows. A target B that
+depends on a target A will only run when A has been run successfully (that
+is, if all of the output files of A exist).</p>
+<p>In <em>gwf</em>, dependencies are declared through file dependencies. This is best
+understood through an example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">gwf</span> <span class="kn">import</span> <span class="n">Workflow</span>
+
+<span class="n">gwf</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">()</span>
+
+<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">'TargetA'</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">'x.txt'</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">"""</span>
+<span class="s2">echo "this is x" &gt; x.txt</span>
+<span class="s2">"""</span>
+
+<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">'TargetB'</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">'y.txt'</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">"""</span>
+<span class="s2">echo "this is y" &gt; y.txt</span>
+<span class="s2">"""</span>
+
+<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">'TargetC'</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">'x.txt'</span><span class="p">,</span> <span class="s1">'y.txt'</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">'z.txt'</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">"""</span>
+<span class="s2">cat x.txt y.txt &gt; z.txt</span>
+<span class="s2">"""</span>
+</pre></div>
+</div>
+<p>In this workflow, <code class="docutils literal notranslate"><span class="pre">TargetA</span></code> and <code class="docutils literal notranslate"><span class="pre">TargetB</span></code> each produce a file. <code class="docutils literal notranslate"><span class="pre">TargetC</span></code>
+declares that it needs two files as inputs. Since the file names match the
+file names produced by <code class="docutils literal notranslate"><span class="pre">TargetA</span></code> and <code class="docutils literal notranslate"><span class="pre">TargetB</span></code>, <code class="docutils literal notranslate"><span class="pre">TargetC</span></code> depends on these
+two targets.</p>
+<p>Let’s try to run this workflow:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf run
+<span class="go">Scheduling target TargetC</span>
+<span class="go">Scheduling dependency TargetA of TargetC</span>
+<span class="go">Submitting target TargetA</span>
+<span class="go">Scheduling dependency TargetB of TargetC</span>
+<span class="go">Submitting target TargetB</span>
+<span class="go">Submitting target TargetC</span>
+</pre></div>
+</div>
+<p>(You can leave out the <cite>-v info</cite> option if you set it as the default in the
+previous section).</p>
+<p>Notice that <em>gwf</em> first attempts to submit <code class="docutils literal notranslate"><span class="pre">TargetC</span></code>. However, because of the
+file dependencies it first schedules each dependency and submits those to the
+backend. It then submits <code class="docutils literal notranslate"><span class="pre">TargetC</span></code> and makes sure that it will only be run
+when both <code class="docutils literal notranslate"><span class="pre">TargetA</span></code> and <code class="docutils literal notranslate"><span class="pre">TargetB</span></code> has been run. If we decided that we needed
+to re-run <code class="docutils literal notranslate"><span class="pre">TargetC</span></code>, but not <code class="docutils literal notranslate"><span class="pre">TargetA</span></code> and <code class="docutils literal notranslate"><span class="pre">TargetB</span></code>, we could just delete
+<code class="docutils literal notranslate"><span class="pre">z.txt</span></code> and run <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">run</span></code> again. <em>gwf</em> will automatically figure out that it
+only needs to run <code class="docutils literal notranslate"><span class="pre">TargetC</span></code> again and submit it to the backend.</p>
+<p>What happens if we do something nonsensical like declaring a cyclic dependency?
+Let’s try:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">gwf</span> <span class="kn">import</span> <span class="n">Workflow</span>
+
+<span class="n">gwf</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">()</span>
+
+<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">'TargetA'</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">'x.txt'</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">'x.txt'</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">"""</span>
+<span class="s2">echo "this is x" &gt; x.txt</span>
+<span class="s2">"""</span>
+</pre></div>
+</div>
+<p>Run this workflow. You should see the following:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Error: Target TargetA depends on itself.</span>
+</pre></div>
+</div>
+</section>
+<section id="named-inputs-and-outputs">
+<h2>Named Inputs and Outputs<a class="headerlink" href="#named-inputs-and-outputs" title="Permalink to this headline">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.6.0: </span>Prior versions only allow lists of inputs and outputs.</p>
+</div>
+<p>The <em>inputs</em> and <em>outputs</em> arguments can either be a string, a list or a
+dictionary. If a dictionary is given, the keys act as names for the files. The
+values may be either strings or a list of strings:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">foo</span> <span class="o">=</span> <span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">'foo'</span><span class="p">,</span>
+    <span class="n">inputs</span><span class="o">=</span><span class="p">{</span><span class="s1">'A'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'a1'</span><span class="p">,</span> <span class="s1">'a2'</span><span class="p">],</span> <span class="s1">'B'</span><span class="p">:</span> <span class="s1">'b'</span><span class="p">},</span>
+    <span class="n">outputs</span><span class="o">=</span><span class="p">{</span><span class="s1">'C'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'a1b'</span><span class="p">,</span> <span class="s1">'a2b], '</span><span class="n">D</span><span class="s1">': '</span><span class="n">d</span><span class="p">},</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>This is especially useful for referring the outputs of a target:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">bar</span> <span class="o">=</span> <span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">'bar'</span><span class="p">,</span>
+    <span class="n">inputs</span><span class="o">=</span><span class="n">foo</span><span class="o">.</span><span class="n">outputs</span><span class="p">[</span><span class="s1">'C'</span><span class="p">],</span>
+    <span class="n">outputs</span><span class="o">=</span><span class="s1">'result'</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Using named inputs and outputs also makes the workflow more readable since
+associated files can be grouped and named.</p>
+</section>
+<section id="specifying-target-resources">
+<h2>Specifying Target Resources<a class="headerlink" href="#specifying-target-resources" title="Permalink to this headline">¶</a></h2>
+<p>It’s a good idea to specify the resources required by your target. Backends like
+Slurm will use these resource limits to allocate a suitable node for you,
+prioritize work, and cancel your targets if they exceed the given limits.</p>
+<p>The resources you can specify depend on the backend. For example, the <cite>local</cite>
+backend does not support any target options and will ignore them completely.
+The <cite>slurm</cite> backend supports a number of target options which are listed
+<a class="reference internal" href="../../reference/backends/#slurm-backend"><span class="std std-ref">here</span></a> under the <strong>Target options</strong> header.</p>
+<p>For example, if you are using the <em>slurm</em> backend you can specify that you need
+8 cores and 64 GB of memory like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">foo</span> <span class="o">=</span> <span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">'foo'</span><span class="p">,</span>
+    <span class="n">inputs</span><span class="o">=</span><span class="p">{</span><span class="s1">'A'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'a1'</span><span class="p">,</span> <span class="s1">'a2'</span><span class="p">],</span> <span class="s1">'B'</span><span class="p">:</span> <span class="s1">'b'</span><span class="p">},</span>
+    <span class="n">outputs</span><span class="o">=</span><span class="p">{</span><span class="s1">'C'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'a1b'</span><span class="p">,</span> <span class="s1">'a2b'</span><span class="p">],</span> <span class="s1">'D'</span><span class="p">:</span> <span class="s1">'d'</span><span class="p">},</span>
+    <span class="n">cores</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+    <span class="n">memory</span><span class="o">=</span><span class="s1">'64gb'</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">foo</span><span class="o">.</span><span class="n">options</span><span class="p">)</span>
+<span class="c1"># =&gt; {'cores': 8, 'memory': '64gb'}</span>
+</pre></div>
+</div>
+<p>Some target options are global to the workflow. To request 8 cores for all
+targets in your workflow, you can give the <cite>defaults</cite> argument when initializing
+your workflow:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">gwf</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">(</span><span class="n">defaults</span><span class="o">=</span><span class="p">{</span><span class="s1">'cores'</span><span class="p">:</span> <span class="mi">8</span><span class="p">})</span>
+
+<span class="n">foo</span> <span class="o">=</span> <span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">'foo'</span><span class="p">,</span>
+    <span class="n">inputs</span><span class="o">=</span><span class="p">{</span><span class="s1">'A'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'a1'</span><span class="p">,</span> <span class="s1">'a2'</span><span class="p">],</span> <span class="s1">'B'</span><span class="p">:</span> <span class="s1">'b'</span><span class="p">},</span>
+    <span class="n">outputs</span><span class="o">=</span><span class="p">{</span><span class="s1">'C'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'a1b'</span><span class="p">,</span> <span class="s1">'a2b'</span><span class="p">],</span> <span class="s1">'D'</span><span class="p">:</span> <span class="s1">'d'</span><span class="p">},</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">foo</span><span class="o">.</span><span class="n">options</span><span class="p">)</span>
+<span class="c1"># =&gt; {'cores': 8}</span>
+</pre></div>
+</div>
+</section>
+<section id="observing-target-execution">
+<h2>Observing Target Execution<a class="headerlink" href="#observing-target-execution" title="Permalink to this headline">¶</a></h2>
+<p>As workflows get larger they make take a very long time to run. With <em>gwf</em> it’s
+easy to see how many targets have been completed, how many failed and how many
+are still running using the <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">status</span></code> command. We’ll modify the workflow
+from earlier to fake that each target takes some time to run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">gwf</span> <span class="kn">import</span> <span class="n">Workflow</span>
+
+<span class="n">gwf</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">()</span>
+
+<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">'TargetA'</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">'x.txt'</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">"""</span>
+<span class="s2">sleep 20 &amp;&amp; echo "this is x" &gt; x.txt</span>
+<span class="s2">"""</span>
+
+<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">'TargetB'</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">'y.txt'</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">"""</span>
+<span class="s2">sleep 30 &amp;&amp; echo "this is y" &gt; y.txt</span>
+<span class="s2">"""</span>
+
+<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">'TargetC'</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">'x.txt'</span><span class="p">,</span> <span class="s1">'y.txt'</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">'z.txt'</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">"""</span>
+<span class="s2">sleep 10 &amp;&amp; cat x.txt y.txt &gt; z.txt</span>
+<span class="s2">"""</span>
+</pre></div>
+</div>
+<p>Now run <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">status</span></code> (Remember to remove <code class="docutils literal notranslate"><span class="pre">x.txt</span></code>, <code class="docutils literal notranslate"><span class="pre">y.txt</span></code> and <code class="docutils literal notranslate"><span class="pre">z.txt</span></code>,
+otherwise <em>gwf</em> will not submit the targets again). You should see something like this,
+but with pretty colors.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">TargetA    shouldrun       0.00%</span>
+<span class="go">TargetB    shouldrun       0.00%</span>
+<span class="go">TargetC    shouldrun       0.00%</span>
+</pre></div>
+</div>
+<p>Each target in the workflow is shown on a separate line. We can see the status
+of the target (<cite>shouldrun</cite>) and percentage completion. The percentage tells us
+how many dependencies of the target have been completed. If all dependencies of
+the target, and the target itself, have been completed, the percentage will be
+100%.</p>
+<p>Let’s try to run the workflow and see what happens.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf run
+<span class="gp">$ </span>gwf status
+<span class="go">TargetA    running         0.00%</span>
+<span class="go">TargetB    submitted       0.00%</span>
+<span class="go">TargetC    submitted       0.00%</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">R</span></code> shows that one third of the targets are running (since I’m only
+running with one worker, only one target can run at a time) and the other two
+thirds have been submitted. Running the status command again after some time
+should show something like this.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">TargetA    completed     100.00%</span>
+<span class="go">TargetB    running         0.00%</span>
+<span class="go">TargetC    submitted      33.33%</span>
+</pre></div>
+</div>
+<p>Now the target that was running before has completed, and another target is now
+running, while the final target is still just submitted. After some time, run
+the status command again. The last target should now be running.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">TargetA    completed     100.00%</span>
+<span class="go">TargetB    completed     100.00%</span>
+<span class="go">TargetC    running        66.67%</span>
+</pre></div>
+</div>
+<p>After a while, all targets should have completed.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">TargetA    completed     100.00%</span>
+<span class="go">TargetB    completed     100.00%</span>
+<span class="go">TargetC    completed     100.00%</span>
+</pre></div>
+</div>
+<p>Here’s a few neat things you should know about the status command:</p>
+<ul class="simple">
+<li><p>If you only want to see endpoints (targets that no other targets depend on),
+you can use the <code class="docutils literal notranslate"><span class="pre">--endpoints</span></code> flag.</p></li>
+<li><p>You can use wildcards in target names. For example, <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">status</span> <span class="pre">'Foo*'</span></code> will
+list all targets beginning with <cite>Foo</cite>. You can specify multiple
+targets/patterns by separating them with a space. This also works in the
+cancel and clean commands (but remember the quotes around the pattern)!</p></li>
+<li><p>Only want to see which targets are running? You can filter targets by their
+status using e.g. <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">status</span> <span class="pre">-s</span> <span class="pre">running</span></code>. You can also combine filters,
+i.e. <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">status</span> <span class="pre">--endpoints</span> <span class="pre">--status</span> <span class="pre">running</span> <span class="pre">'Align*'</span></code> to show all
+endpoints that are running and where the name starts with <cite>Align</cite>.</p></li>
+</ul>
+<p>For more details you can always refer to builtin help with <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">status</span> <span class="pre">--help</span></code>.</p>
+</section>
+<section id="what-happens-when-a-target-fails">
+<h2>What Happens When a Target Fails?<a class="headerlink" href="#what-happens-when-a-target-fails" title="Permalink to this headline">¶</a></h2>
+<p>We all make mistakes. Sometimes there’s a mistake on your target specification
+which causes the target execution to fail. The target could also fail because
+the target exceeded the allocated resource limits or took too long to run and
+thus exceeded the defined walltime.</p>
+<p>When a target fails there’s two different outcomes:</p>
+<ul class="simple">
+<li><p>the target did not create all of its output files, or</p></li>
+<li><p>the target created all of its output files, but the output is incomplete.</p></li>
+</ul>
+<p>In the first case <em>gwf</em> will notice that the output files do still not exist
+and show the target status <em>shouldrun</em>. The second case is harder since <em>gwf</em>
+will actually think that the target completed successfully (because all of the
+output files exist and are newer than the input files). In this case you will
+need to remove the incomplete output files and re-run the workflow.</p>
+<p>You may also prevent the second outcome from ever happening by only creating
+your output files at the end of your targets. For example:</p>
+<p>We write the output to a temporary file. If the script <code class="docutils literal notranslate"><span class="pre">filter_data.py</span></code> fails
+to run our the target is killed, <em>b.txt</em> will not exist and <em>gwf</em> will
+correctly show that <cite>Example</cite> should run again. If the script succeeds and the
+target is not killed, the temporary file will be renamed to <em>b.txt</em> and <em>gwf</em>
+will show the target as completed.</p>
+</section>
+<section id="reusable-targets-with-templates">
+<span id="function-templates"></span><span id="templates"></span><h2>Reusable Targets with Templates<a class="headerlink" href="#reusable-targets-with-templates" title="Permalink to this headline">¶</a></h2>
+<p>Often you will want to reuse a target definition for a lot of different files.
+For example, you may have two files with reads that you need to map to a
+reference genome. The mapping is the same for the two files, so it would be
+annoying to repeat it in the workflow specification.</p>
+<p>Instead, <em>gwf</em> allows us to define a template which can be used to generate one
+or more targets easily. In general, a template is just a function which returns
+four things:</p>
+<ol class="arabic simple">
+<li><p>The <em>inputs</em> files,</p></li>
+<li><p>The <em>outputs</em> files,</p></li>
+<li><p>a dictionary with options for the target that is to be generated, for example
+how many cores the template needs and which files it depends on,</p></li>
+<li><p>a string which contains the specification of the target that is to be
+generated.</p></li>
+</ol>
+<p>Templates are great because they allow you to reuse functionality and
+encapsulate target creation logic. Let’s walk through the example above.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Code and data files for this example is available
+<a class="reference external" href="https://github.com/gwforg/gwf/blob/master/examples/readmapping/">here</a>.
+To get started, follow these steps:</p>
+<ol class="arabic simple">
+<li><p>Change your working directory to the <code class="docutils literal notranslate"><span class="pre">readmapping</span></code> directory.</p></li>
+<li><p>Run <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">env</span> <span class="pre">create</span></code> to create a new environment called <cite>readmapping</cite>. This will
+install all required packages, including <cite>gwf</cite> itself, <cite>samtools</cite> and <cite>bwa</cite>.</p></li>
+<li><p>Activate the environment with <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">activate</span> <span class="pre">readmapping</span></code>.</p></li>
+<li><p>Open another terminal and navigate to the same directory.</p></li>
+<li><p>Activate the environment in this terminal too, using the same command as above.</p></li>
+<li><p>Start a pool with two workers with <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">workers</span> <span class="pre">-n</span> <span class="pre">2</span></code>.</p></li>
+<li><p>Jump back to the first terminal. Configure <em>gwf</em> to use the local backend for this
+project using <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">config</span> <span class="pre">backend</span> <span class="pre">local</span></code>.</p></li>
+<li><p>You should now be able to run <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">status</span></code> and all of the other <em>gwf</em> commands
+used in this tutorial.</p></li>
+</ol>
+</div>
+<p>Our reference genome is stored in <code class="docutils literal notranslate"><span class="pre">ponAbe2.fa.gz</span></code>, so we’ll need to unzip it first.
+Let’s write a template that unpacks files.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">unzip</span><span class="p">(</span><span class="n">inputfile</span><span class="p">,</span> <span class="n">outputfile</span><span class="p">):</span>
+    <span class="sd">"""A template for unzipping files."""</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">inputfile</span><span class="p">]</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">outputfile</span><span class="p">]</span>
+    <span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">'cores'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s1">'memory'</span><span class="p">:</span> <span class="s1">'2g'</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">spec</span> <span class="o">=</span> <span class="s1">'''</span>
+<span class="s1">    gzcat </span><span class="si">{}</span><span class="s1"> &gt; </span><span class="si">{}</span><span class="s1"></span>
+<span class="s1">    '''</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">inputfile</span><span class="p">,</span> <span class="n">outputfile</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">AnonymousTarget</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span> <span class="n">spec</span><span class="o">=</span><span class="n">spec</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This is just a normal Python function that returns an <code class="xref py py-class docutils literal notranslate"><span class="pre">AnonymousTarget</span></code>.
+The function takes two arguments, the name of the input file and the name of the
+output file. In the function we define the inputs and outputs files, a
+dictionary that defines the options of the targets created with this template,
+and a string describing the action of the template.</p>
+<p>We can now create a concrete target using this template:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gwf</span><span class="o">.</span><span class="n">target_from_template</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">'UnzipGenome'</span><span class="p">,</span>
+    <span class="n">template</span><span class="o">=</span><span class="n">unzip</span><span class="p">(</span>
+        <span class="n">inputfile</span><span class="o">=</span><span class="s1">'ponAbe2.fa.gz'</span><span class="p">,</span>
+        <span class="n">outputfile</span><span class="o">=</span><span class="s1">'ponAbe2.fa'</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>You could run the workflow now. The <code class="docutils literal notranslate"><span class="pre">UnzipGenome</span></code> target would be scheduled
+and submitted, and after a few seconds you should have a <code class="docutils literal notranslate"><span class="pre">ponAbe2.fa</span></code> file in
+the project directory.</p>
+<p>Let’s now define another template for indexing a genome.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">bwa_index</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">):</span>
+    <span class="sd">"""Template for indexing a genome with `bwa index`."""</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'</span><span class="si">{}</span><span class="s1">.fa'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">)]</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'</span><span class="si">{}</span><span class="s1">.amb'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">),</span>
+               <span class="s1">'</span><span class="si">{}</span><span class="s1">.ann'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">),</span>
+               <span class="s1">'</span><span class="si">{}</span><span class="s1">.pac'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">),</span>
+               <span class="s1">'</span><span class="si">{}</span><span class="s1">.bwt'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">),</span>
+               <span class="s1">'</span><span class="si">{}</span><span class="s1">.sa'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">),</span>
+               <span class="p">]</span>
+    <span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">'cores'</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
+        <span class="s1">'memory'</span><span class="p">:</span> <span class="s1">'1g'</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">spec</span> <span class="o">=</span> <span class="s2">"""</span>
+<span class="s2">    bwa index -p </span><span class="si">{ref_genome}</span><span class="s2"> -a bwtsw </span><span class="si">{ref_genome}</span><span class="s2">.fa</span>
+<span class="s2">    """</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="o">=</span><span class="n">ref_genome</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">AnonymousTarget</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span> <span class="n">spec</span><span class="o">=</span><span class="n">spec</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This template looks more complicated, but really it’s the same thing as before.
+We define the inputs and outputs, a dictionary with options and a string with
+the command that will be executed.</p>
+<p>Let’s use this template to create a target for indexing the reference genome:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gwf</span><span class="o">.</span><span class="n">target_from_template</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">'IndexGenome'</span><span class="p">,</span>
+    <span class="n">template</span><span class="o">=</span><span class="n">bwa_index</span><span class="p">(</span>
+        <span class="n">ref_genome</span><span class="o">=</span><span class="s1">'ponAbe2'</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Finally, we’ll create a template for actually mapping the reads to the
+reference.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">bwa_map</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">,</span> <span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">,</span> <span class="n">bamfile</span><span class="p">):</span>
+    <span class="sd">"""Template for mapping reads to a reference genome with `bwa` and `samtools`."""</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">,</span>
+              <span class="s1">'</span><span class="si">{}</span><span class="s1">.amb'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">),</span>
+              <span class="s1">'</span><span class="si">{}</span><span class="s1">.ann'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">),</span>
+              <span class="s1">'</span><span class="si">{}</span><span class="s1">.pac'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">),</span>
+             <span class="p">]</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">bamfile</span><span class="p">]</span>
+    <span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">'cores'</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
+        <span class="s1">'memory'</span><span class="p">:</span> <span class="s1">'1g'</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">spec</span> <span class="o">=</span> <span class="s1">'''</span>
+<span class="s1">    bwa mem -t 16 </span><span class="si">{ref_genome}</span><span class="s1"> </span><span class="si">{r1}</span><span class="s1"> </span><span class="si">{r2}</span><span class="s1"> | </span><span class="se">\</span>
+<span class="s1">    samtools sort | </span><span class="se">\</span>
+<span class="s1">    samtools rmdup -s - </span><span class="si">{bamfile}</span><span class="s1"></span>
+<span class="s1">    '''</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="o">=</span><span class="n">ref_genome</span><span class="p">,</span> <span class="n">r1</span><span class="o">=</span><span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="o">=</span><span class="n">r2</span><span class="p">,</span> <span class="n">bamfile</span><span class="o">=</span><span class="n">bamfile</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">AnonymousTarget</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span> <span class="n">spec</span><span class="o">=</span><span class="n">spec</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This is much the same as the previous template. Here’s how we’re going to use
+it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gwf</span><span class="o">.</span><span class="n">target_from_template</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">'MapReads'</span><span class="p">,</span>
+    <span class="n">template</span><span class="o">=</span><span class="n">bwa_map</span><span class="p">(</span>
+        <span class="n">ref_genome</span><span class="o">=</span><span class="s1">'ponAbe2'</span><span class="p">,</span>
+        <span class="n">r1</span><span class="o">=</span><span class="s1">'Masala_R1.fastq.gz'</span><span class="p">,</span>
+        <span class="n">r2</span><span class="o">=</span><span class="s1">'Masala_R2.fastq.gz'</span><span class="p">,</span>
+        <span class="n">bamfile</span><span class="o">=</span><span class="s1">'Masala.bam'</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>As you can see, templates are just normal Python functions and thus they can be
+inspected and manipulated in much the same way. Also, templates can be put into
+modules and imported into your workflow files to facilitate reuse. It’s all up
+to you!</p>
+</section>
+<section id="viewing-logs">
+<h2>Viewing Logs<a class="headerlink" href="#viewing-logs" title="Permalink to this headline">¶</a></h2>
+<p>We may be curious about what the <code class="docutils literal notranslate"><span class="pre">MapReads</span></code> target wrote to the console when the target
+ran, to see if there were any warnings. If a target failed, it’s also valuable to see
+it’s output to diagnose the problem. Luckily, <em>gwf</em> makes this very easy.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf logs MapReads
+</pre></div>
+</div>
+<p>When you run this command you’ll see nothing. This is because the <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">logs</span></code> command by
+default only shows things written to stdout by the target, and not stderr, and apparently
+nothing was written to stdout in this target. Let’s try to take a look at stderr instead
+by applying the <code class="docutils literal notranslate"><span class="pre">--stderr</span></code> flag (or the short version <code class="docutils literal notranslate"><span class="pre">-e</span></code>).</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf logs --stderr MapReads
+<span class="go">[M::bwa_idx_load_from_disk] read 0 ALT contigs</span>
+<span class="go">[M::process] read 15000 sequences (1500000 bp)...</span>
+<span class="gp">[M::mem_pestat] # </span>candidate unique pairs <span class="k">for</span> <span class="o">(</span>FF, FR, RF, RR<span class="o">)</span>: <span class="o">(</span><span class="m">1</span>, <span class="m">65</span>, <span class="m">1</span>, <span class="m">0</span><span class="o">)</span>
+<span class="go">[M::mem_pestat] skip orientation FF as there are not enough pairs</span>
+<span class="go">[M::mem_pestat] analyzing insert size distribution for orientation FR...</span>
+<span class="go">[M::mem_pestat] (25, 50, 75) percentile: (313, 369, 429)</span>
+<span class="go">[M::mem_pestat] low and high boundaries for computing mean and std.dev: (81, 661)</span>
+<span class="go">[M::mem_pestat] mean and std.dev: (372.88, 86.21)</span>
+<span class="go">[M::mem_pestat] low and high boundaries for proper pairs: (1, 777)</span>
+<span class="go">[M::mem_pestat] skip orientation RF as there are not enough pairs</span>
+<span class="go">[M::mem_pestat] skip orientation RR as there are not enough pairs</span>
+<span class="go">[M::mem_process_seqs] Processed 15000 reads in 1.945 CPU sec, 0.678 real sec</span>
+<span class="go">[main] Version: 0.7.15-r1140</span>
+<span class="go">[main] CMD: bwa mem -t 16 ponAbe2 Masala_R1.fastq.gz Masala_R2.fastq.gz</span>
+<span class="go">[main] Real time: 0.877 sec; CPU: 2.036 sec</span>
+</pre></div>
+</div>
+<p>We can do this for any target in our workflow. The logs shown are always the most recent
+ones since <em>gwf</em> does not archive logs from old runs of targets.</p>
+</section>
+<section id="cleaning-up">
+<h2>Cleaning Up<a class="headerlink" href="#cleaning-up" title="Permalink to this headline">¶</a></h2>
+<p>Now that we have run our workflow we may wish to remove intermediate files to
+save disk space. In <em>gwf</em> we can use the <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">clean</span></code> command for this:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf clean
+</pre></div>
+</div>
+<p>This command only removes files produced by an endpoint target (a target which
+no other target depends on):</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf clean
+<span class="go">Will delete 1.3MiB of files!</span>
+<span class="go">Deleting output files of IndexGenome</span>
+<span class="go">Deleting file "/Users/das/Code/gwf/examples/readmapping/ponAbe2.amb" from target "IndexGenome"</span>
+<span class="go">Deleting file "/Users/das/Code/gwf/examples/readmapping/ponAbe2.ann" from target "IndexGenome"</span>
+<span class="go">Deleting file "/Users/das/Code/gwf/examples/readmapping/ponAbe2.pac" from target "IndexGenome"</span>
+<span class="go">Deleting file "/Users/das/Code/gwf/examples/readmapping/ponAbe2.bwt" from target "IndexGenome"</span>
+<span class="go">Deleting file "/Users/das/Code/gwf/examples/readmapping/ponAbe2.sa" from target "IndexGenome"</span>
+<span class="go">Deleting output files of UnzipGenome</span>
+<span class="go">Deleting file "/Users/das/Code/gwf/examples/readmapping/ponAbe2.fa" from target "UnzipGenome"</span>
+</pre></div>
+</div>
+<p>We can tell <em>gwf</em> to remove all files by running <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">clean</span> <span class="pre">--all</span></code>.</p>
+</section>
+<section id="a-note-about-reproducibility">
+<h2>A Note About Reproducibility<a class="headerlink" href="#a-note-about-reproducibility" title="Permalink to this headline">¶</a></h2>
+<p>Reproducibility is an important part of research and since <em>gwf</em> workflows describe every
+step of your computation, how the steps are connected, and the files produced in each step,
+it’s a valuable tool in making your workflows reproducible. In combination with the
+<code class="docutils literal notranslate"><span class="pre">conda</span></code> package manager and the concept of environments, you can build completely
+reproducible workflows in a declarative, flexible fashion.</p>
+<p>Consider the read mapping example used above. Since we included a specification of the
+complete environment through a <code class="docutils literal notranslate"><span class="pre">environment.yml</span></code> file, which even included samtools,
+bwa and <em>gwf</em> itself, we were able to easily create a working environment with exactly
+the right software versions used for our workflow. The whole workflow could also easily
+be copied to a cluster and run through e.g. the Slurm backend, since we can exactly
+reproduce the environment used locally.</p>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="../mapping/">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Mapping over Inputs</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="../installation/">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Installation</div>
+                
+              </div>
+            </a>
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; 2019, Dan Søndergaard |
+            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+              and
+              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
+            <a class="muted-link" href="../../_sources/guide/tutorial.rst.txt"
+               rel="nofollow">
+              Show Source
+            </a>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            Contents
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Tutorial</a><ul>
+<li><a class="reference internal" href="#a-minimal-workflow">A Minimal Workflow</a></li>
+<li><a class="reference internal" href="#running-your-first-workflow">Running Your First Workflow</a></li>
+<li><a class="reference internal" href="#setting-the-default-verbosity">Setting the Default Verbosity</a></li>
+<li><a class="reference internal" href="#debugging-a-workflow">Debugging a Workflow</a></li>
+<li><a class="reference internal" href="#defining-targets-with-dependencies">Defining Targets with Dependencies</a></li>
+<li><a class="reference internal" href="#named-inputs-and-outputs">Named Inputs and Outputs</a></li>
+<li><a class="reference internal" href="#specifying-target-resources">Specifying Target Resources</a></li>
+<li><a class="reference internal" href="#observing-target-execution">Observing Target Execution</a></li>
+<li><a class="reference internal" href="#what-happens-when-a-target-fails">What Happens When a Target Fails?</a></li>
+<li><a class="reference internal" href="#reusable-targets-with-templates">Reusable Targets with Templates</a></li>
+<li><a class="reference internal" href="#viewing-logs">Viewing Logs</a></li>
+<li><a class="reference internal" href="#cleaning-up">Cleaning Up</a></li>
+<li><a class="reference internal" href="#a-note-about-reproducibility">A Note About Reproducibility</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/scripts/main.js"></script>
+    </body>
+</html>
