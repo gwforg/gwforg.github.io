@@ -237,13 +237,13 @@ the return value of a template function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>inputs</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a>) – A string, list or dictionary containing inputs to the target.</p></li>
-<li><p><strong>outputs</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a>) – A string, list or dictionary containing outputs to the target.</p></li>
-<li><p><strong>options</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – Options such as number of cores, memory requirements etc. Options are
+<li><p><strong>inputs</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – A string, list or dictionary containing inputs to the target.</p></li>
+<li><p><strong>outputs</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – A string, list or dictionary containing outputs to the target.</p></li>
+<li><p><strong>options</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – Options such as number of cores, memory requirements etc. Options are
 backend-dependent. Backends will ignore unsupported options.</p></li>
-<li><p><strong>working_dir</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Working directory of this target.</p></li>
-<li><p><strong>spec</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The specification of the target.</p></li>
-<li><p><strong>protect</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#set" title="(in Python v3.6)"><em>set</em></a>) – An iterable of protected files which will not be removed during
+<li><p><strong>working_dir</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Working directory of this target.</p></li>
+<li><p><strong>spec</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The specification of the target.</p></li>
+<li><p><strong>protect</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#set" title="(in Python v3.7)"><em>set</em></a>) – An iterable of protected files which will not be removed during
 cleaning, even if this target is not an endpoint.</p></li>
 </ul>
 </dd>
@@ -309,7 +309,7 @@ target uses:</p>
 documentation for the backend.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Name of the target.</p>
+<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of the target.</p>
 </dd>
 </dl>
 <div class="versionchanged">
@@ -361,13 +361,13 @@ initialized with the following arguments:</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – initial value: None
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – initial value: None
 The name is used for namespacing when including workflows. See
 <a class="reference internal" href="#gwf.Workflow.include" title="gwf.Workflow.include"><code class="xref py py-func docutils literal notranslate"><span class="pre">include()</span></code></a> for more details on namespacing.</p></li>
-<li><p><strong>working_dir</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The directory containing the file where the workflow was initialized.
+<li><p><strong>working_dir</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The directory containing the file where the workflow was initialized.
 All file paths used in targets added to this workflow are relative to
 the working directory.</p></li>
-<li><p><strong>defaults</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A dictionary with defaults for target options.</p></li>
+<li><p><strong>defaults</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – A dictionary with defaults for target options.</p></li>
 </ul>
 </dd>
 </dl>
@@ -405,7 +405,7 @@ in <cite>defaults</cite>, but <cite>Bar</cite> overrides the <cite>cores</cite> 
 of the workflow given by <cite>path</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Path to a workflow file, optionally specifying a
+<dd class="field-odd"><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Path to a workflow file, optionally specifying a
 workflow object in that file.</p>
 </dd>
 </dl>
@@ -415,7 +415,7 @@ workflow object in that file.</p>
 <dt class="sig sig-object py" id="gwf.Workflow.glob">
 <span class="sig-name descname"><span class="pre">glob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pathname</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/workflow/#Workflow.glob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.Workflow.glob" title="Permalink to this definition">#</a></dt>
 <dd><p>Return a list of paths matching <cite>pathname</cite>.</p>
-<p>This method is equivalent to <a class="reference external" href="https://docs.python.org/3.6/library/glob.html#glob.glob" title="(in Python v3.6)"><code class="docutils literal notranslate"><span class="pre">glob.glob()</span></code></a>, but searches with
+<p>This method is equivalent to <a class="reference external" href="https://docs.python.org/3.7/library/glob.html#glob.glob" title="(in Python v3.7)"><code class="docutils literal notranslate"><span class="pre">glob.glob()</span></code></a>, but searches with
 relative paths will be performed relative to the working directory
 of the workflow.</p>
 </dd></dl>
@@ -424,7 +424,7 @@ of the workflow.</p>
 <dt class="sig sig-object py" id="gwf.Workflow.iglob">
 <span class="sig-name descname"><span class="pre">iglob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pathname</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/workflow/#Workflow.iglob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.Workflow.iglob" title="Permalink to this definition">#</a></dt>
 <dd><p>Return an iterator which yields paths matching <cite>pathname</cite>.</p>
-<p>This method is equivalent to <a class="reference external" href="https://docs.python.org/3.6/library/glob.html#glob.iglob" title="(in Python v3.6)"><code class="docutils literal notranslate"><span class="pre">glob.iglob()</span></code></a>, but searches with
+<p>This method is equivalent to <a class="reference external" href="https://docs.python.org/3.7/library/glob.html#glob.iglob" title="(in Python v3.7)"><code class="docutils literal notranslate"><span class="pre">glob.iglob()</span></code></a>, but searches with
 relative paths will be performed relative to the working directory
 of the workflow.</p>
 </dd></dl>
@@ -567,13 +567,13 @@ target options.</p>
 <dt class="sig sig-object py" id="gwf.Workflow.shell">
 <span class="sig-name descname"><span class="pre">shell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/workflow/#Workflow.shell"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.Workflow.shell" title="Permalink to this definition">#</a></dt>
 <dd><p>Return the output of a shell command.</p>
-<p>This method is equivalent to <a class="reference external" href="https://docs.python.org/3.6/library/subprocess.html#subprocess.check_output" title="(in Python v3.6)"><code class="docutils literal notranslate"><span class="pre">subprocess.check_output()</span></code></a>, but
+<p>This method is equivalent to <a class="reference external" href="https://docs.python.org/3.7/library/subprocess.html#subprocess.check_output" title="(in Python v3.7)"><code class="docutils literal notranslate"><span class="pre">subprocess.check_output()</span></code></a>, but
 automatically runs the command in a shell with the current working
 directory set to the working directory of the workflow.</p>
 <div class="versionchanged">
 <p><span class="versionmodified changed">Changed in version 1.0: </span>This function no longer return a list of lines in the output, but a
 byte array with the output, exactly like
-<a class="reference external" href="https://docs.python.org/3.6/library/subprocess.html#subprocess.check_output" title="(in Python v3.6)"><code class="docutils literal notranslate"><span class="pre">subprocess.check_output()</span></code></a>.
+<a class="reference external" href="https://docs.python.org/3.7/library/subprocess.html#subprocess.check_output" title="(in Python v3.7)"><code class="docutils literal notranslate"><span class="pre">subprocess.check_output()</span></code></a>.
 You may specifically set <em>universal_newlines</em> to <cite>True</cite> to get a
 string with the output instead.</p>
 </div>
@@ -599,7 +599,7 @@ and assign a spec to the target.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Name of the target.</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of the target.</p></li>
 <li><p><strong>inputs</strong> (<em>iterable</em>) – List of files that this target depends on.</p></li>
 <li><p><strong>outputs</strong> (<em>iterable</em>) – List of files that this target produces.</p></li>
 </ul>
@@ -625,7 +625,7 @@ add it to the workflow.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Name of the target.</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of the target.</p></li>
 <li><p><strong>template</strong> (<a class="reference internal" href="#gwf.AnonymousTarget" title="gwf.AnonymousTarget"><em>AnonymousTarget</em></a>) – The anonymous target which describes the template.</p></li>
 </ul>
 </dd>
@@ -652,13 +652,13 @@ already exist on disk. In case that the file is provided by another target,
 a dependency to that target will be added:</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dependencies</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A dictionary mapping a target to a set of its dependencies.</p>
+<dd class="field-odd"><p><strong>dependencies</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – A dictionary mapping a target to a set of its dependencies.</p>
 </dd>
 </dl>
 <p>If the file is not provided by another target, the file is <em>unresolved</em>:</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>unresolved</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#set" title="(in Python v3.6)"><em>set</em></a>) – A set containing file paths of all unresolved files.</p>
+<dd class="field-odd"><p><strong>unresolved</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#set" title="(in Python v3.7)"><em>set</em></a>) – A set containing file paths of all unresolved files.</p>
 </dd>
 </dl>
 <p>If the graph is constructed successfully, the following instance variables
@@ -666,9 +666,9 @@ will be available:</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>targets</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A dictionary mapping target names to instances of <a class="reference internal" href="#gwf.Target" title="gwf.Target"><code class="xref py py-class docutils literal notranslate"><span class="pre">gwf.Target</span></code></a>.</p></li>
-<li><p><strong>provides</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A dictionary mapping a file path to the target that provides that path.</p></li>
-<li><p><strong>dependents</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A dictionary mapping a target to a set of all targets which depend on
+<li><p><strong>targets</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – A dictionary mapping target names to instances of <a class="reference internal" href="#gwf.Target" title="gwf.Target"><code class="xref py py-class docutils literal notranslate"><span class="pre">gwf.Target</span></code></a>.</p></li>
+<li><p><strong>provides</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – A dictionary mapping a file path to the target that provides that path.</p></li>
+<li><p><strong>dependents</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – A dictionary mapping a target to a set of all targets which depend on
 the target.</p></li>
 </ul>
 </dd>
@@ -771,7 +771,7 @@ initialization of the backend (e.g. accessing the backends’ log
 manager), and initialization of the backend may be expensive.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Path to a workflow file, optionally specifying a
+<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Path to a workflow file, optionally specifying a
 workflow object in that file.</p>
 </dd>
 </dl>
@@ -800,7 +800,7 @@ standard error will be returned instead.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>target</strong> (<a class="reference internal" href="#gwf.Target" title="gwf.Target"><em>gwf.Target</em></a>) – Target to return logs for.</p></li>
-<li><p><strong>stderr</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – default: False. If true, return standard error.</p></li>
+<li><p><strong>stderr</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – default: False. If true, return standard error.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
