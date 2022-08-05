@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="../../genindex/" /><link rel="search" title="Search" href="../../search/" /><link rel="next" title="Configuration" href="../configuration/" /><link rel="prev" title="Tutorial" href="../tutorial/" />
 
     <meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
-        <title>Mapping over Inputs - gwf 2.0.0 documentation</title>
+        <title>Mapping over Inputs - gwf 1.8.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../"><div class="brand">gwf 2.0.0 documentation</div></a>
+      <a href="../../"><div class="brand">gwf 1.8.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,7 +146,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../">
   
   
-  <span class="sidebar-brand-text">gwf 2.0.0 documentation</span>
+  <span class="sidebar-brand-text">gwf 1.8.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search/" role="search">
   <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
@@ -247,9 +247,9 @@ Let’s rewrite our template to make use of this:</p>
     <span class="k">return</span> <span class="n">AnonymousTarget</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span> <span class="n">spec</span><span class="o">=</span><span class="n">spec</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>From <em>gwf</em> 1.6 and up you can use the new <a class="reference external" href="https://docs.python.org/3.5/library/functions.html#map" title="(in Python v3.5)"><code class="xref py py-func docutils literal notranslate"><span class="pre">map()</span></code></a> method on your workflow
+<p>From <em>gwf</em> 1.6 and up you can use the new <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#map" title="(in Python v3.6)"><code class="xref py py-func docutils literal notranslate"><span class="pre">map()</span></code></a> method on your workflow
 to get rid of the explicit iteration in the first example. This is what the
-example would look like with <a class="reference external" href="https://docs.python.org/3.5/library/functions.html#map" title="(in Python v3.5)"><code class="xref py py-func docutils literal notranslate"><span class="pre">map()</span></code></a>:</p>
+example would look like with <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#map" title="(in Python v3.6)"><code class="xref py py-func docutils literal notranslate"><span class="pre">map()</span></code></a>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">gwf</span> <span class="kn">import</span> <span class="n">Workflow</span><span class="p">,</span> <span class="n">AnonymousTarget</span>
 
 <span class="n">gwf</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">()</span>
@@ -265,7 +265,7 @@ example would look like with <a class="reference external" href="https://docs.py
 <span class="n">gwf</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">transform_photo</span><span class="p">,</span> <span class="n">photos</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Our for-loop is now gone and has been replaced with a call to <a class="reference external" href="https://docs.python.org/3.5/library/functions.html#map" title="(in Python v3.5)"><code class="xref py py-func docutils literal notranslate"><span class="pre">map()</span></code></a>.
+<p>Our for-loop is now gone and has been replaced with a call to <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#map" title="(in Python v3.6)"><code class="xref py py-func docutils literal notranslate"><span class="pre">map()</span></code></a>.
 This will iterate through our list of photos, call the template function with
 each path, and add the resulting targets to our workflow.</p>
 <p>If we run <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">status</span></code> we see this:</p>
@@ -292,7 +292,7 @@ TransformPhoto_2    shouldrun       0.00% [1/0/0/0]
 </pre></div>
 </div>
 <p>You can also completely customize how the name is generated by giving
-<a class="reference external" href="https://docs.python.org/3.5/library/functions.html#map" title="(in Python v3.5)"><code class="xref py py-func docutils literal notranslate"><span class="pre">map()</span></code></a> a naming function:</p>
+<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#map" title="(in Python v3.6)"><code class="xref py py-func docutils literal notranslate"><span class="pre">map()</span></code></a> a naming function:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os.path</span>
 
 <span class="k">def</span> <span class="nf">get_photo_name</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
@@ -323,12 +323,12 @@ a bit:</p>
 </pre></div>
 </div>
 <p>To set the <code class="docutils literal notranslate"><span class="pre">width</span></code> argument to <code class="docutils literal notranslate"><span class="pre">800</span></code> for all targets generated by
-<a class="reference external" href="https://docs.python.org/3.5/library/functions.html#map" title="(in Python v3.5)"><code class="xref py py-func docutils literal notranslate"><span class="pre">map()</span></code></a> we do this:</p>
+<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#map" title="(in Python v3.6)"><code class="xref py py-func docutils literal notranslate"><span class="pre">map()</span></code></a> we do this:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">gwf</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">transform_photo</span><span class="p">,</span> <span class="n">photos</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">get_photo_name</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="mi">800</span><span class="p">})</span>
 </pre></div>
 </div>
 <p>But what if the width depends on the image? If <code class="docutils literal notranslate"><span class="pre">photos</span></code> is a list of
-dictionaries, <a class="reference external" href="https://docs.python.org/3.5/library/functions.html#map" title="(in Python v3.5)"><code class="xref py py-func docutils literal notranslate"><span class="pre">map()</span></code></a> will pass the contents of each dictionary as keyword
+dictionaries, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#map" title="(in Python v3.6)"><code class="xref py py-func docutils literal notranslate"><span class="pre">map()</span></code></a> will pass the contents of each dictionary as keyword
 arguments to the function template:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">photos</span> <span class="o">=</span> <span class="p">[</span>
     <span class="p">{</span><span class="s1">&#39;path&#39;</span><span class="p">:</span> <span class="s1">&#39;photos/dog.jpg&#39;</span><span class="p">,</span> <span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="mi">600</span><span class="p">},</span>
@@ -344,7 +344,7 @@ the inputs and set arguments with <code class="docutils literal notranslate"><sp
 </section>
 <section id="chaining-maps">
 <h2>Chaining Maps<a class="headerlink" href="#chaining-maps" title="Permalink to this heading">#</a></h2>
-<p>You may wonder what <a class="reference external" href="https://docs.python.org/3.5/library/functions.html#map" title="(in Python v3.5)"><code class="xref py py-func docutils literal notranslate"><span class="pre">map()</span></code></a> actually returns. Let’s take a look:</p>
+<p>You may wonder what <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#map" title="(in Python v3.6)"><code class="xref py py-func docutils literal notranslate"><span class="pre">map()</span></code></a> actually returns. Let’s take a look:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">transformed_photos</span> <span class="o">=</span> <span class="n">gwf</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">transform_photo</span><span class="p">,</span> <span class="n">photos</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">get_photo_name</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">transformed_photos</span><span class="p">))</span>
 <span class="c1"># =&gt; TargetList(targets=[Target(name=&#39;transform_photo_dog&#39;, ...), ...])</span>
@@ -377,7 +377,7 @@ zip them into a single file. For this you wrote a template that looks like this:
 </pre></div>
 </div>
 <p>Your template accepts two arguments: a list of files to zip and where to put
-the resulting file. We can’t use <a class="reference external" href="https://docs.python.org/3.5/library/functions.html#map" title="(in Python v3.5)"><code class="xref py py-func docutils literal notranslate"><span class="pre">map()</span></code></a> because we don’t want a zip file
+the resulting file. We can’t use <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#map" title="(in Python v3.6)"><code class="xref py py-func docutils literal notranslate"><span class="pre">map()</span></code></a> because we don’t want a zip file
 per photo, but a single target that depends on all of the photo files.</p>
 <p>We start out by writing our call to <code class="xref py py-func docutils literal notranslate"><span class="pre">target_from_template()</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">transformed_photos</span> <span class="o">=</span> <span class="n">gwf</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">transform_photo</span><span class="p">,</span> <span class="n">photos</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">get_photo_name</span><span class="p">)</span>
