@@ -1,14 +1,14 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex/" /><link rel="search" title="Search" href="../../../search/" />
 
-    <meta name="generator" content="sphinx-4.3.0, furo 2021.11.16"/>
+    <meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
         <title>gwf.core - gwf 2.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?digest=916d6ed8f59335acffa15474ff504849343d4c76" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?digest=0af69da206d614734f649b27d4cdc2dd6c31f41d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
 
@@ -19,38 +19,38 @@
   --color-code-foreground: black;
   
   }
-  body[data-theme="dark"] {
-    --color-code-background: #272822;
-  --color-code-foreground: #f8f8f2;
-  
-  }
-  @media (prefers-color-scheme: dark) {
-    body:not([data-theme="light"]) {
+  @media not print {
+    body[data-theme="dark"] {
       --color-code-background: #272822;
   --color-code-foreground: #f8f8f2;
   
     }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+      }
+    }
   }
 </style></head>
   <body>
+    
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
     
+
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <symbol id="svg-toc" viewBox="0 0 24 24">
     <title>Contents</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-      <path stroke="none" d="M0 0h24v24H0z" />
-      <line x1="4" y1="6" x2="20" y2="6" />
-      <line x1="10" y1="12" x2="20" y2="12" />
-      <line x1="6" y1="18" x2="20" y2="18" />
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
     </svg>
   </symbol>
   <symbol id="svg-menu" viewBox="0 0 24 24">
     <title>Menu</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
       <line x1="3" y1="12" x2="21" y2="12"></line>
       <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -59,14 +59,14 @@
   </symbol>
   <symbol id="svg-arrow-right" viewBox="0 0 24 24">
     <title>Expand</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
       <polyline points="9 18 15 12 9 6"></polyline>
     </svg>
   </symbol>
   <symbol id="svg-sun" viewBox="0 0 24 24">
     <title>Light mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
       <circle cx="12" cy="12" r="5"></circle>
       <line x1="12" y1="1" x2="12" y2="3"></line>
@@ -81,7 +81,7 @@
   </symbol>
   <symbol id="svg-moon" viewBox="0 0 24 24">
     <title>Dark mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
       <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
@@ -89,7 +89,7 @@
   </symbol>
   <symbol id="svg-sun-half" viewBox="0 0 24 24">
     <title>Auto light/dark mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
       <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
       <circle cx="12" cy="12" r="9" />
@@ -183,6 +183,7 @@
 
 </div>
 </div>
+
       </div>
       
     </div>
@@ -190,6 +191,12 @@
   <div class="main">
     <div class="content">
       <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
         <div class="content-icon-container">
           <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
@@ -226,7 +233,7 @@
     <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="k">def</span> <span class="nf">flatten_rec</span><span class="p">(</span><span class="n">g</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">"__fspath__"</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">&quot;__fspath__&quot;</span><span class="p">):</span>
             <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">abc</span><span class="o">.</span><span class="n">Mapping</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -240,12 +247,12 @@
 
 
 <span class="k">def</span> <span class="nf">_has_nonprintable_char</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
-    <span class="n">chars</span> <span class="o">=</span> <span class="nb">enumerate</span><span class="p">((</span><span class="n">unicodedata</span><span class="o">.</span><span class="n">category</span><span class="p">(</span><span class="n">char</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"Cc"</span><span class="p">,</span> <span class="n">char</span><span class="p">)</span> <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">s</span><span class="p">)</span>
+    <span class="n">chars</span> <span class="o">=</span> <span class="nb">enumerate</span><span class="p">((</span><span class="n">unicodedata</span><span class="o">.</span><span class="n">category</span><span class="p">(</span><span class="n">char</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;Cc&quot;</span><span class="p">,</span> <span class="n">char</span><span class="p">)</span> <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">s</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">pos</span><span class="p">,</span> <span class="p">(</span><span class="n">unprintable</span><span class="p">,</span> <span class="n">char</span><span class="p">)</span> <span class="ow">in</span> <span class="n">chars</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">unprintable</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">(</span>
-                <span class="n">s</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">"unicode_escape"</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">),</span>
-                <span class="n">char</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">"unicode_escape"</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">),</span>
+                <span class="n">s</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;unicode_escape&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span>
+                <span class="n">char</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;unicode_escape&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span>
                 <span class="n">pos</span><span class="p">,</span>
             <span class="p">)</span>
     <span class="k">return</span> <span class="kc">None</span>
@@ -253,17 +260,17 @@
 
 <span class="k">def</span> <span class="nf">_check_path</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="p">:</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="s1">'Target "</span><span class="si">{}</span><span class="s1">" has an empty </span><span class="si">{}</span><span class="s1"> path.'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">target_name</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;Target &quot;</span><span class="si">{}</span><span class="s1">&quot; has an empty </span><span class="si">{}</span><span class="s1"> path.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">target_name</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
         <span class="k">raise</span> <span class="n">WorkflowError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
     <span class="n">result</span> <span class="o">=</span> <span class="n">_has_nonprintable_char</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">clean_path</span><span class="p">,</span> <span class="n">char</span><span class="p">,</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">result</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="s1">'Path "</span><span class="si">{}</span><span class="s1">" in target "</span><span class="si">{}</span><span class="s1">" </span><span class="si">{}</span><span class="s1">s contains a '</span>
-            <span class="s1">'non-printable character "</span><span class="si">{}</span><span class="s1">" on position </span><span class="si">{}</span><span class="s1">. '</span>
-            <span class="s2">"This is always unintentional and can cause "</span>
-            <span class="s2">"strange behaviour."</span>
+            <span class="s1">&#39;Path &quot;</span><span class="si">{}</span><span class="s1">&quot; in target &quot;</span><span class="si">{}</span><span class="s1">&quot; </span><span class="si">{}</span><span class="s1">s contains a &#39;</span>
+            <span class="s1">&#39;non-printable character &quot;</span><span class="si">{}</span><span class="s1">&quot; on position </span><span class="si">{}</span><span class="s1">. &#39;</span>
+            <span class="s2">&quot;This is always unintentional and can cause &quot;</span>
+            <span class="s2">&quot;strange behaviour.&quot;</span>
         <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">clean_path</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">char</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
         <span class="k">raise</span> <span class="n">WorkflowError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">path</span>
@@ -281,7 +288,7 @@
 
 
 <span class="k">class</span> <span class="nc">TargetStatus</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-    <span class="sd">"""Status of a target as computed by the Scheduler."""</span>
+    <span class="sd">&quot;&quot;&quot;Status of a target as computed by the Scheduler.&quot;&quot;&quot;</span>
 
     <span class="n">SHOULDRUN</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1">#: The target should run.</span>
     <span class="n">SUBMITTED</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1">#: The target has been submitted, but is not currently running.</span>
@@ -290,7 +297,7 @@
 
 
 <div class="viewcode-block" id="AnonymousTarget"><a class="viewcode-back" href="../../../reference/api/#gwf.AnonymousTarget">[docs]</a><span class="k">class</span> <span class="nc">AnonymousTarget</span><span class="p">:</span>
-    <span class="sd">"""Represents an unnamed target.</span>
+    <span class="sd">&quot;&quot;&quot;Represents an unnamed target.</span>
 
 <span class="sd">    An anonymous target is an unnamed, abstract target much like the tuple</span>
 <span class="sd">    returned by function templates. Thus, `AnonymousTarget` can also be used as</span>
@@ -310,12 +317,12 @@
 <span class="sd">    :ivar set protect:</span>
 <span class="sd">        An iterable of protected files which will not be removed during</span>
 <span class="sd">        cleaning, even if this target is not an endpoint.</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">_creation_order</span> <span class="o">=</span> <span class="mi">0</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">working_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">spec</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">protect</span><span class="o">=</span><span class="kc">None</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">working_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">spec</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">protect</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">options</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">working_dir</span> <span class="o">=</span> <span class="n">working_dir</span>
@@ -339,10 +346,10 @@
     <span class="k">def</span> <span class="nf">spec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="s2">"Target spec must be a string, not </span><span class="si">{}</span><span class="s2">. Did you attempt to "</span>
-                <span class="s2">"assign a template to this target? This is no is not allowed "</span>
-                <span class="s2">"since version 1.0. Use the Workflow.target_from_template() "</span>
-                <span class="s2">"method instead. See the tutorial for more details."</span>
+                <span class="s2">&quot;Target spec must be a string, not </span><span class="si">{}</span><span class="s2">. Did you attempt to &quot;</span>
+                <span class="s2">&quot;assign a template to this target? This is no is not allowed &quot;</span>
+                <span class="s2">&quot;since version 1.0. Use the Workflow.target_from_template() &quot;</span>
+                <span class="s2">&quot;method instead. See the tutorial for more details.&quot;</span>
             <span class="p">)</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)))</span>
 
@@ -350,18 +357,18 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">is_source</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">"""Return whether this target is a source.</span>
+        <span class="sd">&quot;&quot;&quot;Return whether this target is a source.</span>
 
 <span class="sd">        A target is a source if it does not depend on any files.</span>
-<span class="sd">        """</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">is_sink</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">"""Return whether this target is a sink.</span>
+        <span class="sd">&quot;&quot;&quot;Return whether this target is a sink.</span>
 
 <span class="sd">        A target is a sink if it does not output any files.</span>
-<span class="sd">        """</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">outputs</span>
 
     <span class="k">def</span> <span class="nf">inherit_options</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">super_options</span><span class="p">):</span>
@@ -375,8 +382,8 @@
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span>
-            <span class="s2">"</span><span class="si">{}</span><span class="s2">(inputs=</span><span class="si">{!r}</span><span class="s2">, outputs=</span><span class="si">{!r}</span><span class="s2">, options=</span><span class="si">{!r}</span><span class="s2">, working_dir=</span><span class="si">{!r}</span><span class="s2">, "</span>
-            <span class="s2">"spec=</span><span class="si">{!r}</span><span class="s2">)"</span>
+            <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">(inputs=</span><span class="si">{!r}</span><span class="s2">, outputs=</span><span class="si">{!r}</span><span class="s2">, options=</span><span class="si">{!r}</span><span class="s2">, working_dir=</span><span class="si">{!r}</span><span class="s2">, &quot;</span>
+            <span class="s2">&quot;spec=</span><span class="si">{!r}</span><span class="s2">)&quot;</span>
         <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span>
@@ -387,11 +394,11 @@
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">"</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="Target"><a class="viewcode-back" href="../../../reference/api/#gwf.Target">[docs]</a><span class="k">class</span> <span class="nc">Target</span><span class="p">(</span><span class="n">AnonymousTarget</span><span class="p">):</span>
-    <span class="sd">"""Represents a target.</span>
+    <span class="sd">&quot;&quot;&quot;Represents a target.</span>
 
 <span class="sd">    This class inherits from :class:`AnonymousTarget`.</span>
 
@@ -404,33 +411,33 @@
 <span class="sd">    explicitly, even if no inputs or outputs are needed. In that case, provide</span>
 <span class="sd">    the empty list::</span>
 
-<span class="sd">        Target('Foo', inputs=[], outputs=[], options={}, working_dir='/tmp')</span>
+<span class="sd">        Target(&#39;Foo&#39;, inputs=[], outputs=[], options={}, working_dir=&#39;/tmp&#39;)</span>
 
 <span class="sd">    The *inputs* and *outputs* arguments can either be a string, a list or</span>
 <span class="sd">    a dictionary. If a dictionary is given, the keys act as names for the</span>
 <span class="sd">    files. The values may be either strings or a list of strings::</span>
 
 <span class="sd">        foo = Target(</span>
-<span class="sd">            name='foo',</span>
-<span class="sd">            inputs={'A': ['a1', 'a2'], 'B': 'b'},</span>
-<span class="sd">            outputs={'C': ['a1b', 'a2b], 'D': 'd},</span>
+<span class="sd">            name=&#39;foo&#39;,</span>
+<span class="sd">            inputs={&#39;A&#39;: [&#39;a1&#39;, &#39;a2&#39;], &#39;B&#39;: &#39;b&#39;},</span>
+<span class="sd">            outputs={&#39;C&#39;: [&#39;a1b&#39;, &#39;a2b], &#39;D&#39;: &#39;d},</span>
 <span class="sd">        )</span>
 
 <span class="sd">    This is useful for referring the outputs of a target::</span>
 
 <span class="sd">        bar = Target(</span>
-<span class="sd">            name='bar',</span>
-<span class="sd">            inputs=foo.outputs['C'],</span>
-<span class="sd">            outputs='result',</span>
+<span class="sd">            name=&#39;bar&#39;,</span>
+<span class="sd">            inputs=foo.outputs[&#39;C&#39;],</span>
+<span class="sd">            outputs=&#39;result&#39;,</span>
 <span class="sd">        )</span>
 
 <span class="sd">    The target can also specify an *options* dictionary specifying the</span>
 <span class="sd">    resources needed to run the target. The options are consumed by the backend</span>
-<span class="sd">    and may be ignored if the backend doesn't support a given option. For</span>
+<span class="sd">    and may be ignored if the backend doesn&#39;t support a given option. For</span>
 <span class="sd">    example, we can set the *cores* option to set the number of cores that the</span>
 <span class="sd">    target uses::</span>
 
-<span class="sd">        Target('Foo', inputs=[], outputs=[], options={'cores': 16}, working_dir='/tmp')</span>
+<span class="sd">        Target(&#39;Foo&#39;, inputs=[], outputs=[], options={&#39;cores&#39;: 16}, working_dir=&#39;/tmp&#39;)</span>
 
 <span class="sd">    To see which options are supported by your backend of choice, see the</span>
 <span class="sd">    documentation for the backend.</span>
@@ -441,20 +448,20 @@
 <span class="sd">    .. versionchanged:: 1.6.0</span>
 <span class="sd">        Named inputs and outputs were added. Prior versions require *inputs*</span>
 <span class="sd">        and *outputs* to be lists.</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">working_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">spec</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">protect</span><span class="o">=</span><span class="kc">None</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">working_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">spec</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">protect</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">is_valid_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s1">'Target defined with invalid name: "</span><span class="si">{}</span><span class="s1">".'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s1">&#39;Target defined with invalid name: &quot;</span><span class="si">{}</span><span class="s1">&quot;.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
 
-        <span class="n">_check_path</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">target_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"working_dir"</span><span class="p">)</span>
+        <span class="n">_check_path</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">target_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;working_dir&quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">:</span>
-            <span class="n">_check_path</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">target_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"input"</span><span class="p">)</span>
+            <span class="n">_check_path</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">target_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;input&quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">outputs</span><span class="p">:</span>
-            <span class="n">_check_path</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">target_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"output"</span><span class="p">)</span>
+            <span class="n">_check_path</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">target_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;output&quot;</span><span class="p">)</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span>
@@ -473,28 +480,28 @@
 
 <div class="viewcode-block" id="Target.empty"><a class="viewcode-back" href="../../../reference/api/#gwf.Target.empty">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">empty</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-        <span class="sd">"""Return a target with no inputs, outputs and options.</span>
+        <span class="sd">&quot;&quot;&quot;Return a target with no inputs, outputs and options.</span>
 
 <span class="sd">        This is mostly useful for testing.</span>
-<span class="sd">        """</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">options</span><span class="o">=</span><span class="p">{},</span> <span class="n">working_dir</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
         <span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">qualname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">namespace</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">namespace</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s2">"</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">namespace</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">namespace</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">"</span><span class="si">{}</span><span class="s2">(name=</span><span class="si">{!r}</span><span class="s2">, ...)"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">(name=</span><span class="si">{!r}</span><span class="s2">, ...)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>
 
 
 <div class="viewcode-block" id="Graph"><a class="viewcode-back" href="../../../reference/api/#gwf.Graph">[docs]</a><span class="k">class</span> <span class="nc">Graph</span><span class="p">:</span>
-    <span class="sd">"""Represents a dependency graph for a set of targets.</span>
+    <span class="sd">&quot;&quot;&quot;Represents a dependency graph for a set of targets.</span>
 
 <span class="sd">    The graph represents the targets present in a workflow, but also their</span>
 <span class="sd">    dependencies and the files they provide.</span>
@@ -531,7 +538,7 @@
 
 <span class="sd">    :raises gwf.exceptions.WorkflowError:</span>
 <span class="sd">        Raised if the workflow contains a circular dependency.</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">provides</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">,</span> <span class="n">dependents</span><span class="p">,</span> <span class="n">unresolved</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">targets</span> <span class="o">=</span> <span class="n">targets</span>
@@ -544,7 +551,7 @@
 
 <div class="viewcode-block" id="Graph.from_targets"><a class="viewcode-back" href="../../../reference/api/#gwf.Graph.from_targets">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_targets</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
-        <span class="sd">"""Construct a dependency graph from a set of targets.</span>
+        <span class="sd">&quot;&quot;&quot;Construct a dependency graph from a set of targets.</span>
 
 <span class="sd">        When a graph is initialized it computes all dependency relations</span>
 <span class="sd">        between targets, ensuring that the graph is semantically sane.</span>
@@ -558,22 +565,22 @@
 
 <span class="sd">        :raises gwf.exceptions.WorkflowError:</span>
 <span class="sd">            Raised if the workflow contains a circular dependency.</span>
-<span class="sd">        """</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">provides</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">unresolved</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="n">dependencies</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">set</span><span class="p">)</span>
         <span class="n">dependents</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">set</span><span class="p">)</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Building dependency graph from </span><span class="si">%d</span><span class="s2"> targets"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">targets</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Building dependency graph from </span><span class="si">%d</span><span class="s2"> targets&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">targets</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="n">targets</span> <span class="o">=</span> <span class="n">targets</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
 
-        <span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s2">"Built dependency graph in </span><span class="si">%.3f</span><span class="s2">ms"</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s2">&quot;Built dependency graph in </span><span class="si">%.3f</span><span class="s2">ms&quot;</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">target</span><span class="o">.</span><span class="n">flattened_outputs</span><span class="p">():</span>
                     <span class="k">if</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">provides</span><span class="p">:</span>
-                        <span class="n">msg</span> <span class="o">=</span> <span class="s1">'File "</span><span class="si">{}</span><span class="s1">" provided by targets "</span><span class="si">{}</span><span class="s1">" and "</span><span class="si">{}</span><span class="s1">".'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;File &quot;</span><span class="si">{}</span><span class="s1">&quot; provided by targets &quot;</span><span class="si">{}</span><span class="s1">&quot; and &quot;</span><span class="si">{}</span><span class="s1">&quot;.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                             <span class="n">path</span><span class="p">,</span> <span class="n">provides</span><span class="p">[</span><span class="n">path</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">target</span>
                         <span class="p">)</span>
                         <span class="k">raise</span> <span class="n">WorkflowError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
@@ -598,13 +605,13 @@
             <span class="n">unresolved</span><span class="o">=</span><span class="n">unresolved</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-    <span class="nd">@timer</span><span class="p">(</span><span class="s2">"Checked for circular dependencies in </span><span class="si">%.3f</span><span class="s2">ms"</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">)</span>
+    <span class="nd">@timer</span><span class="p">(</span><span class="s2">&quot;Checked for circular dependencies in </span><span class="si">%.3f</span><span class="s2">ms&quot;</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">_check_for_circular_dependencies</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">"""Check for circular dependencies in the graph.</span>
+        <span class="sd">&quot;&quot;&quot;Check for circular dependencies in the graph.</span>
 
 <span class="sd">        Raises :class:`WorkflowError` if a circular dependency is found.</span>
-<span class="sd">        """</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Checking for circular dependencies"</span><span class="p">)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Checking for circular dependencies&quot;</span><span class="p">)</span>
 
         <span class="n">fresh</span><span class="p">,</span> <span class="n">started</span><span class="p">,</span> <span class="n">done</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span>
 
@@ -615,7 +622,7 @@
             <span class="n">state</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="n">started</span>
             <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependencies</span><span class="p">[</span><span class="n">node</span><span class="p">]:</span>
                 <span class="k">if</span> <span class="n">state</span><span class="p">[</span><span class="n">dep</span><span class="p">]</span> <span class="o">==</span> <span class="n">started</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="n">WorkflowError</span><span class="p">(</span><span class="s2">"Target </span><span class="si">{}</span><span class="s2"> depends on itself."</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">node</span><span class="p">))</span>
+                    <span class="k">raise</span> <span class="n">WorkflowError</span><span class="p">(</span><span class="s2">&quot;Target </span><span class="si">{}</span><span class="s2"> depends on itself.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">node</span><span class="p">))</span>
                 <span class="k">elif</span> <span class="n">state</span><span class="p">[</span><span class="n">dep</span><span class="p">]</span> <span class="o">==</span> <span class="n">fresh</span><span class="p">:</span>
                     <span class="n">visitor</span><span class="p">(</span><span class="n">dep</span><span class="p">)</span>
             <span class="n">state</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="n">done</span>
@@ -625,12 +632,12 @@
                 <span class="n">visitor</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Graph.endpoints"><a class="viewcode-back" href="../../../reference/api/#gwf.Graph.endpoints">[docs]</a>    <span class="k">def</span> <span class="nf">endpoints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">"""Return a set of all targets that are not depended on by other targets."""</span>
+        <span class="sd">&quot;&quot;&quot;Return a set of all targets that are not depended on by other targets.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">targets</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dependents</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 
 <div class="viewcode-block" id="Graph.dfs"><a class="viewcode-back" href="../../../reference/api/#gwf.Graph.dfs">[docs]</a>    <span class="nd">@cache</span>
     <span class="k">def</span> <span class="nf">dfs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
-        <span class="sd">"""Return the depth-first traversal path through a graph from `root`."""</span>
+        <span class="sd">&quot;&quot;&quot;Return the depth-first traversal path through a graph from `root`.&quot;&quot;&quot;</span>
         <span class="n">visited</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="n">path</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -647,11 +654,11 @@
         <span class="k">return</span> <span class="n">path</span></div>
 
 <div class="viewcode-block" id="Graph.subset"><a class="viewcode-back" href="../../../reference/api/#gwf.Graph.subset">[docs]</a>    <span class="k">def</span> <span class="nf">subset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoints</span><span class="p">):</span>
-        <span class="sd">"""Subset a graph given an iterable of endpoints.</span>
+        <span class="sd">&quot;&quot;&quot;Subset a graph given an iterable of endpoints.</span>
 
 <span class="sd">        This will return a new, potentially disjoint graph with the given</span>
 <span class="sd">        endpoints and all of their dependencies.</span>
-<span class="sd">        """</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">targets</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">endpoints</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
@@ -672,7 +679,7 @@
 
 
 <span class="k">class</span> <span class="nc">CachedFilesystem</span><span class="p">:</span>
-    <span class="sd">"""A cached file system abstraction."""</span>
+    <span class="sd">&quot;&quot;&quot;A cached file system abstraction.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span> <span class="o">=</span> <span class="p">{}</span>
@@ -699,26 +706,26 @@
 
 <span class="k">class</span> <span class="nc">Scheduler</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filesystem</span><span class="o">=</span><span class="n">CachedFilesystem</span><span class="p">()):</span>
-        <span class="sd">"""</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :param gwf.Graph graph:</span>
 <span class="sd">            Graph of the workflow.</span>
 <span class="sd">        :param gwf.backends.Backend backend:</span>
 <span class="sd">            An instance of :class:`gwf.backends.Backend` to which targets will</span>
 <span class="sd">            be submitted.</span>
-<span class="sd">        """</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_filesystem</span> <span class="o">=</span> <span class="n">filesystem</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_scheduled</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_reasons</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="k">def</span> <span class="nf">schedule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span>
-        <span class="sd">"""Schedule multiple targets and their dependencies.</span>
+        <span class="sd">&quot;&quot;&quot;Schedule multiple targets and their dependencies.</span>
 
 <span class="sd">        :param list targets:</span>
 <span class="sd">            A list of targets to be scheduled.</span>
-<span class="sd">        """</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Scheduling </span><span class="si">%d</span><span class="s2"> target(s)"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">targets</span><span class="p">))</span>
-        <span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s2">"Scheduled targets in </span><span class="si">%.3f</span><span class="s2">ms"</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Scheduling </span><span class="si">%d</span><span class="s2"> target(s)&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">targets</span><span class="p">))</span>
+        <span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s2">&quot;Scheduled targets in </span><span class="si">%.3f</span><span class="s2">ms&quot;</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_schedule_dependencies</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">graph</span><span class="p">)</span>
 
@@ -726,7 +733,7 @@
 
     <span class="nd">@cache</span>
     <span class="k">def</span> <span class="nf">_schedule_dependencies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Scheduling target </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Scheduling target </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
         <span class="n">scheduled_deps</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span>
             <span class="n">dependency</span>
             <span class="k">for</span> <span class="n">dependency</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">dependencies</span><span class="p">[</span><span class="n">target</span><span class="p">]</span>
@@ -741,36 +748,36 @@
 
     <span class="nd">@cache</span>
     <span class="k">def</span> <span class="nf">should_schedule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span>
-        <span class="sd">"""Return whether a target should be run or not."""</span>
+        <span class="sd">&quot;&quot;&quot;Return whether a target should be run or not.&quot;&quot;&quot;</span>
 
         <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">dependencies</span><span class="p">[</span><span class="n">target</span><span class="p">]:</span>
             <span class="n">should_run</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">should_schedule</span><span class="p">(</span><span class="n">dep</span><span class="p">,</span> <span class="n">graph</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">should_run</span><span class="p">:</span>
                 <span class="k">return</span> <span class="p">(</span>
                     <span class="kc">True</span><span class="p">,</span>
-                    <span class="s2">"</span><span class="si">{}</span><span class="s2"> was scheduled because its dependency </span><span class="si">{}</span><span class="s2"> was scheduled"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> was scheduled because its dependency </span><span class="si">{}</span><span class="s2"> was scheduled&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                         <span class="n">target</span><span class="p">,</span> <span class="n">dep</span>
                     <span class="p">),</span>
                 <span class="p">)</span>
 
         <span class="c1"># Check whether all input files actually exists are are being provided</span>
-        <span class="c1"># by another target. If not, it's an error.</span>
+        <span class="c1"># by another target. If not, it&#39;s an error.</span>
         <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">target</span><span class="o">.</span><span class="n">flattened_inputs</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">unresolved</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_filesystem</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
                 <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="s1">'File "</span><span class="si">{}</span><span class="s1">" is required by "</span><span class="si">{}</span><span class="s1">", but does not exist and is not '</span>
-                    <span class="s2">"provided by any target in the workflow."</span>
+                    <span class="s1">&#39;File &quot;</span><span class="si">{}</span><span class="s1">&quot; is required by &quot;</span><span class="si">{}</span><span class="s1">&quot;, but does not exist and is not &#39;</span>
+                    <span class="s2">&quot;provided by any target in the workflow.&quot;</span>
                 <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
                 <span class="k">raise</span> <span class="n">WorkflowError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">target</span><span class="o">.</span><span class="n">is_sink</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s2">"</span><span class="si">{}</span><span class="s2"> was scheduled because it is a sink"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">target</span><span class="p">))</span>
+            <span class="k">return</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> was scheduled because it is a sink&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">target</span><span class="p">))</span>
 
         <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">target</span><span class="o">.</span><span class="n">flattened_outputs</span><span class="p">():</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_filesystem</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
                 <span class="k">return</span> <span class="p">(</span>
                     <span class="kc">True</span><span class="p">,</span>
-                    <span class="s2">"</span><span class="si">{}</span><span class="s2"> was scheduled because its output file </span><span class="si">{}</span><span class="s2"> does not exist"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> was scheduled because its output file </span><span class="si">{}</span><span class="s2"> does not exist&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                         <span class="n">target</span><span class="p">,</span>
                         <span class="n">path</span><span class="p">,</span>
                     <span class="p">),</span>
@@ -779,7 +786,7 @@
         <span class="k">if</span> <span class="n">target</span><span class="o">.</span><span class="n">is_source</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">(</span>
                 <span class="kc">False</span><span class="p">,</span>
-                <span class="s2">"</span><span class="si">{}</span><span class="s2"> was not scheduled because it is a source"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">target</span><span class="p">),</span>
+                <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> was not scheduled because it is a source&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">target</span><span class="p">),</span>
             <span class="p">)</span>
 
         <span class="n">youngest_in_ts</span><span class="p">,</span> <span class="n">youngest_in_path</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
@@ -787,7 +794,7 @@
             <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">target</span><span class="o">.</span><span class="n">flattened_inputs</span><span class="p">()</span>
         <span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-            <span class="s2">"</span><span class="si">%s</span><span class="s2"> is the youngest input file of </span><span class="si">%s</span><span class="s2"> with timestamp </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
+            <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> is the youngest input file of </span><span class="si">%s</span><span class="s2"> with timestamp </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="n">youngest_in_path</span><span class="p">,</span>
             <span class="n">target</span><span class="p">,</span>
             <span class="n">youngest_in_ts</span><span class="p">,</span>
@@ -798,7 +805,7 @@
             <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">target</span><span class="o">.</span><span class="n">flattened_outputs</span><span class="p">()</span>
         <span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-            <span class="s2">"</span><span class="si">%s</span><span class="s2"> is the oldest output file of </span><span class="si">%s</span><span class="s2"> with timestamp </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
+            <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> is the oldest output file of </span><span class="si">%s</span><span class="s2"> with timestamp </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="n">oldest_out_path</span><span class="p">,</span>
             <span class="n">target</span><span class="p">,</span>
             <span class="n">youngest_in_ts</span><span class="p">,</span>
@@ -806,7 +813,7 @@
 
         <span class="k">if</span> <span class="n">youngest_in_ts</span> <span class="o">&gt;</span> <span class="n">oldest_out_ts</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="s2">"</span><span class="si">{}</span><span class="s2"> was scheduled because input file </span><span class="si">{}</span><span class="s2"> "</span> <span class="s2">"is newer than output file </span><span class="si">{}</span><span class="s2">"</span>
+                <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> was scheduled because input file </span><span class="si">{}</span><span class="s2"> &quot;</span> <span class="s2">&quot;is newer than output file </span><span class="si">{}</span><span class="s2">&quot;</span>
             <span class="p">)</span>
             <span class="k">return</span> <span class="p">(</span>
                 <span class="kc">True</span><span class="p">,</span>
@@ -816,18 +823,18 @@
                     <span class="n">oldest_out_path</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">)</span>
-        <span class="k">return</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="s2">"</span><span class="si">{}</span><span class="s2"> was not scheduled because it is up to date"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">target</span><span class="p">))</span>
+        <span class="k">return</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> was not scheduled because it is up to date&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">target</span><span class="p">))</span>
 
 
 <span class="k">def</span> <span class="nf">schedule</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">graph</span><span class="p">,</span> <span class="n">filesystem</span><span class="o">=</span><span class="n">CachedFilesystem</span><span class="p">()):</span>
-    <span class="sd">"""Schedule one or more targets.</span>
+    <span class="sd">&quot;&quot;&quot;Schedule one or more targets.</span>
 
 <span class="sd">    Scheduling a target will determine whether the target needs to run.</span>
 
 <span class="sd">    When scheduling a target, the scheduler checks whether any of its inputs</span>
 <span class="sd">    are unresolved, meaning that during construction of the graph, no other</span>
 <span class="sd">    target providing the file was found. This means that the file should then</span>
-<span class="sd">    exist on disk. If it doesn't the following exception is raised:</span>
+<span class="sd">    exist on disk. If it doesn&#39;t the following exception is raised:</span>
 
 <span class="sd">    :raises gwf.exceptions.WorkflowError:</span>
 <span class="sd">        Raised if a target has an input file that does not exist on the file</span>
@@ -836,19 +843,19 @@
 <span class="sd">    Returns a tuple `(scheduled, reasons)` where `scheduled` is a map from</span>
 <span class="sd">    a target to its scheduled direct dependencies, and `reasons` is a map from</span>
 <span class="sd">    a target to a string describing why (or why not) the target was scheduled.</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">Scheduler</span><span class="p">(</span><span class="n">filesystem</span><span class="o">=</span><span class="n">filesystem</span><span class="p">)</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">graph</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">get_status</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">scheduled</span><span class="p">,</span> <span class="n">backend</span><span class="p">):</span>
-    <span class="sd">"""Return the status of a target.</span>
+    <span class="sd">&quot;&quot;&quot;Return the status of a target.</span>
 
 <span class="sd">    Returns the status of a target where it is taken into account whether</span>
 <span class="sd">    the target should run or not.</span>
 
 <span class="sd">    :param Target target:</span>
 <span class="sd">        The target to return status for.</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">status</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">status</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="n">Status</span><span class="o">.</span><span class="n">UNKNOWN</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">scheduled</span><span class="p">:</span>
@@ -864,11 +871,21 @@
           
           
         </div>
-
-        <div class="related-information">
-              Copyright &#169; 2019, Dan Søndergaard |
-          Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
-          <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2019, Dan Søndergaard
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              
+            </div>
+          </div>
         </div>
         
       </footer>
@@ -882,6 +899,7 @@
 </div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
     <script src="../../../_static/scripts/furo.js"></script>
     </body>

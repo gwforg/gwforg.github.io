@@ -1,15 +1,15 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <link rel="index" title="Index" href="../../genindex/" /><link rel="search" title="Search" href="../../search/" /><link rel="next" title="For Contributors" href="../forcontributors/" /><link rel="prev" title="How to Contribute" href="../" />
 
-    <meta name="generator" content="sphinx-4.3.0, furo 2021.11.16"/>
+    <meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
         <title>Writing Backends - gwf 2.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=916d6ed8f59335acffa15474ff504849343d4c76" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=0af69da206d614734f649b27d4cdc2dd6c31f41d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
 
@@ -20,38 +20,38 @@
   --color-code-foreground: black;
   
   }
-  body[data-theme="dark"] {
-    --color-code-background: #272822;
-  --color-code-foreground: #f8f8f2;
-  
-  }
-  @media (prefers-color-scheme: dark) {
-    body:not([data-theme="light"]) {
+  @media not print {
+    body[data-theme="dark"] {
       --color-code-background: #272822;
   --color-code-foreground: #f8f8f2;
   
     }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+      }
+    }
   }
 </style></head>
   <body>
+    
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
     
+
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <symbol id="svg-toc" viewBox="0 0 24 24">
     <title>Contents</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-      <path stroke="none" d="M0 0h24v24H0z" />
-      <line x1="4" y1="6" x2="20" y2="6" />
-      <line x1="10" y1="12" x2="20" y2="12" />
-      <line x1="6" y1="18" x2="20" y2="18" />
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
     </svg>
   </symbol>
   <symbol id="svg-menu" viewBox="0 0 24 24">
     <title>Menu</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
       <line x1="3" y1="12" x2="21" y2="12"></line>
       <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -60,14 +60,14 @@
   </symbol>
   <symbol id="svg-arrow-right" viewBox="0 0 24 24">
     <title>Expand</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
       <polyline points="9 18 15 12 9 6"></polyline>
     </svg>
   </symbol>
   <symbol id="svg-sun" viewBox="0 0 24 24">
     <title>Light mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
       <circle cx="12" cy="12" r="5"></circle>
       <line x1="12" y1="1" x2="12" y2="3"></line>
@@ -82,7 +82,7 @@
   </symbol>
   <symbol id="svg-moon" viewBox="0 0 24 24">
     <title>Dark mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
       <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
@@ -90,7 +90,7 @@
   </symbol>
   <symbol id="svg-sun-half" viewBox="0 0 24 24">
     <title>Auto light/dark mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
       <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
       <circle cx="12" cy="12" r="9" />
@@ -184,6 +184,7 @@
 
 </div>
 </div>
+
       </div>
       
     </div>
@@ -191,6 +192,12 @@
   <div class="main">
     <div class="content">
       <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
         <div class="content-icon-container">
           <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
@@ -207,7 +214,7 @@
         </div>
         <article role="main">
           <section id="writing-backends">
-<span id="id1"></span><h1>Writing Backends<a class="headerlink" href="#writing-backends" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>Writing Backends<a class="headerlink" href="#writing-backends" title="Permalink to this heading">#</a></h1>
 <p>Backends in <em>gwf</em> are the interface between <em>gwf</em> and whatever can be used to
 execute a target. For example, the Slurm backend included with <em>gwf</em> submits
 targets to the <a class="reference external" href="http://slurm.schedmd.com/">Slurm Workload Manager</a>.</p>
@@ -222,22 +229,22 @@ targets to the <a class="reference external" href="http://slurm.schedmd.com/">Sl
 </pre></div>
 </div>
 <section id="registering-a-backend">
-<h2>Registering a Backend<a class="headerlink" href="#registering-a-backend" title="Permalink to this headline">¶</a></h2>
+<h2>Registering a Backend<a class="headerlink" href="#registering-a-backend" title="Permalink to this heading">#</a></h2>
 <p>Backends must be registered under the <code class="docutils literal notranslate"><span class="pre">gwf.backends</span></code> entrypoint as shown
 here:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># mybackend/setup.py</span>
 <span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span>
 
 <span class="n">setup</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">"mybackend"</span><span class="p">,</span>
-    <span class="n">version</span><span class="o">=</span><span class="s2">"0.0.1"</span><span class="p">,</span>
-    <span class="n">py_modules</span><span class="o">=</span><span class="p">[</span><span class="s1">'mybackend'</span><span class="p">],</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;mybackend&quot;</span><span class="p">,</span>
+    <span class="n">version</span><span class="o">=</span><span class="s2">&quot;0.0.1&quot;</span><span class="p">,</span>
+    <span class="n">py_modules</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;mybackend&#39;</span><span class="p">],</span>
     <span class="n">install_requires</span><span class="o">=</span><span class="p">[</span>
-      <span class="s1">'gwf&gt;=1.0'</span><span class="p">,</span>
+      <span class="s1">&#39;gwf&gt;=1.0&#39;</span><span class="p">,</span>
     <span class="p">],</span>
     <span class="n">entry_points</span><span class="o">=</span><span class="p">{</span>
-        <span class="s1">'gwf.backends'</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s1">'mybackend = mybackend:MyBackend'</span><span class="p">,</span>
+        <span class="s1">&#39;gwf.backends&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s1">&#39;mybackend = mybackend:MyBackend&#39;</span><span class="p">,</span>
         <span class="p">]</span>
     <span class="p">},</span>
 <span class="p">)</span>
@@ -247,7 +254,7 @@ here:</p>
 and query the backend for the status of targets.</p>
 </section>
 <section id="option-defaults">
-<h2>Option Defaults<a class="headerlink" href="#option-defaults" title="Permalink to this headline">¶</a></h2>
+<h2>Option Defaults<a class="headerlink" href="#option-defaults" title="Permalink to this heading">#</a></h2>
 <p>The backend should define <code class="xref py py-attr docutils literal notranslate"><span class="pre">option_defaults</span></code> as an attribute. The value must
 be a dictionary mapping option names to defaults, e.g.:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># mybackend/mybackend.py</span>
@@ -255,7 +262,7 @@ be a dictionary mapping option names to defaults, e.g.:</p>
 
 <span class="k">class</span> <span class="nc">MyBackend</span><span class="p">(</span><span class="n">Backend</span><span class="p">):</span>
     <span class="n">option_defaults</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">'cores'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s1">&#39;cores&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
     <span class="p">}</span>
 </pre></div>
 </div>
@@ -270,7 +277,7 @@ the <cite>cores</cite> option it will default to 1.</p>
 (e.g. in the case of a username or e-mail address), use <cite>None</cite> as the default value.</p>
 </section>
 <section id="implementing-the-backend-interface">
-<h2>Implementing the Backend Interface<a class="headerlink" href="#implementing-the-backend-interface" title="Permalink to this headline">¶</a></h2>
+<h2>Implementing the Backend Interface<a class="headerlink" href="#implementing-the-backend-interface" title="Permalink to this heading">#</a></h2>
 <p>Our backend still doesn’t really do anything. We’ve only told <em>gwf</em> that our backend
 exists (by its entrypoint) and which options are supported. To get a backend to
 actually work we must implement three methods: <a class="reference internal" href="../../reference/api/#gwf.backends.Backend.submit" title="gwf.backends.Backend.submit"><code class="xref py py-func docutils literal notranslate"><span class="pre">submit()</span></code></a>,
@@ -283,7 +290,7 @@ itself. For example, the local backend connects to a set of workers running in
 a different process, submits jobs to these workers and returns immedicately.</p>
 </section>
 <section id="storing-log-files">
-<h2>Storing Log Files<a class="headerlink" href="#storing-log-files" title="Permalink to this headline">¶</a></h2>
+<h2>Storing Log Files<a class="headerlink" href="#storing-log-files" title="Permalink to this heading">#</a></h2>
 <p>Backends can store log files in different ways. For example, the Slurm backend stores log
 files as files on disk, while other backends may wish to store log files in an S3 bucket
 or in a database.</p>
@@ -294,10 +301,10 @@ objects. Log managers should inherit from <code class="xref py py-class docutils
 
 <span class="k">class</span> <span class="nc">MyLogManager</span><span class="p">(</span><span class="n">LogManager</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">open_stdout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">'r'</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">open_stdout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">):</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">open_stderr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">'r'</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">open_stderr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">):</span>
         <span class="k">pass</span>
 </pre></div>
 </div>
@@ -315,13 +322,13 @@ log files without initializing the backend, which may be slow.</p>
 </ul>
 </section>
 <section id="handling-configuration">
-<h2>Handling Configuration<a class="headerlink" href="#handling-configuration" title="Permalink to this headline">¶</a></h2>
+<h2>Handling Configuration<a class="headerlink" href="#handling-configuration" title="Permalink to this heading">#</a></h2>
 <p>We can allow the user to configure aspects of the backend by using the central
 configuration object.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">gwf.conf</span> <span class="kn">import</span> <span class="n">config</span>
 
-<span class="n">key1</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'yourbackend.key1'</span><span class="p">,</span> <span class="s1">'default1'</span><span class="p">)</span>
-<span class="n">key2</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'yourbackend.key2'</span><span class="p">,</span> <span class="s1">'default2'</span><span class="p">)</span>
+<span class="n">key1</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;yourbackend.key1&#39;</span><span class="p">,</span> <span class="s1">&#39;default1&#39;</span><span class="p">)</span>
+<span class="n">key2</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;yourbackend.key2&#39;</span><span class="p">,</span> <span class="s1">&#39;default2&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Backends should provide reasonable defaults, as shown above.
@@ -359,15 +366,21 @@ $ gwf config set yourbackend.key2 value2
               </div>
             </a>
         </div>
-
-        <div class="related-information">
-              Copyright &#169; 2019, Dan Søndergaard |
-          Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
-          <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
-            | <a class="muted-link" href="../../_sources/development/writingbackends.rst.txt"
-               rel="nofollow">
-              Show Source
-            </a>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2019, Dan Søndergaard
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              
+            </div>
+          </div>
         </div>
         
       </footer>
@@ -404,6 +417,7 @@ $ gwf config set yourbackend.key2 value2
 </div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
     <script src="../../_static/scripts/furo.js"></script>
     </body>

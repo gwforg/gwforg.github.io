@@ -1,15 +1,15 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <link rel="index" title="Index" href="../../genindex/" /><link rel="search" title="Search" href="../../search/" /><link rel="next" title="Mapping over Inputs" href="../mapping/" /><link rel="prev" title="Installation" href="../installation/" />
 
-    <meta name="generator" content="sphinx-4.3.0, furo 2021.11.16"/>
+    <meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
         <title>Tutorial - gwf 2.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=916d6ed8f59335acffa15474ff504849343d4c76" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=0af69da206d614734f649b27d4cdc2dd6c31f41d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
 
@@ -20,38 +20,38 @@
   --color-code-foreground: black;
   
   }
-  body[data-theme="dark"] {
-    --color-code-background: #272822;
-  --color-code-foreground: #f8f8f2;
-  
-  }
-  @media (prefers-color-scheme: dark) {
-    body:not([data-theme="light"]) {
+  @media not print {
+    body[data-theme="dark"] {
       --color-code-background: #272822;
   --color-code-foreground: #f8f8f2;
   
     }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+      }
+    }
   }
 </style></head>
   <body>
+    
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
     
+
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <symbol id="svg-toc" viewBox="0 0 24 24">
     <title>Contents</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-      <path stroke="none" d="M0 0h24v24H0z" />
-      <line x1="4" y1="6" x2="20" y2="6" />
-      <line x1="10" y1="12" x2="20" y2="12" />
-      <line x1="6" y1="18" x2="20" y2="18" />
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
     </svg>
   </symbol>
   <symbol id="svg-menu" viewBox="0 0 24 24">
     <title>Menu</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
       <line x1="3" y1="12" x2="21" y2="12"></line>
       <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -60,14 +60,14 @@
   </symbol>
   <symbol id="svg-arrow-right" viewBox="0 0 24 24">
     <title>Expand</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
       <polyline points="9 18 15 12 9 6"></polyline>
     </svg>
   </symbol>
   <symbol id="svg-sun" viewBox="0 0 24 24">
     <title>Light mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
       <circle cx="12" cy="12" r="5"></circle>
       <line x1="12" y1="1" x2="12" y2="3"></line>
@@ -82,7 +82,7 @@
   </symbol>
   <symbol id="svg-moon" viewBox="0 0 24 24">
     <title>Dark mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
       <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
@@ -90,7 +90,7 @@
   </symbol>
   <symbol id="svg-sun-half" viewBox="0 0 24 24">
     <title>Auto light/dark mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
       <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
       <circle cx="12" cy="12" r="9" />
@@ -184,6 +184,7 @@
 
 </div>
 </div>
+
       </div>
       
     </div>
@@ -191,6 +192,12 @@
   <div class="main">
     <div class="content">
       <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
         <div class="content-icon-container">
           <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
@@ -207,7 +214,7 @@
         </div>
         <article role="main">
           <section id="tutorial">
-<span id="id1"></span><h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this heading">#</a></h1>
 <p>In this tutorial we will explore various concepts in <em>gwf</em>. We will define
 workflows and see how <em>gwf</em> can help us keep track of the progress of workflow
 execution, the output of targets and dependencies between targets. Have fun!</p>
@@ -229,7 +236,7 @@ for your project, we’ll call it <em>myproject</em>.</p>
 <div class="admonition caution">
 <p class="admonition-title">Caution</p>
 <p>You may see an error similar to this when you try running <em>gwf</em>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">UnicodeEncodeError</span><span class="p">:</span> <span class="s1">'charmap'</span> <span class="n">codec</span> <span class="n">can</span><span class="s1">'t encode character '</span>\<span class="n">u2020</span><span class="s1">' in</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">UnicodeEncodeError</span><span class="p">:</span> <span class="s1">&#39;charmap&#39;</span> <span class="n">codec</span> <span class="n">can</span><span class="s1">&#39;t encode character &#39;</span>\<span class="n">u2020</span><span class="s1">&#39; in</span>
 <span class="n">position</span> <span class="mi">477</span><span class="p">:</span> <span class="n">character</span> <span class="n">maps</span> <span class="n">to</span> <span class="o">&lt;</span><span class="n">undefined</span><span class="o">&gt;</span>
 </pre></div>
 </div>
@@ -248,7 +255,7 @@ if you’re in Denmark you may want to use the following configuration:</p>
 </div>
 </div>
 <section id="a-minimal-workflow">
-<h2>A Minimal Workflow<a class="headerlink" href="#a-minimal-workflow" title="Permalink to this headline">¶</a></h2>
+<h2>A Minimal Workflow<a class="headerlink" href="#a-minimal-workflow" title="Permalink to this heading">#</a></h2>
 <p>To get started we must define a <em>workflow file</em> containing a workflow to which
 we can add targets. Unless <em>gwf</em> is told otherwise it assumes that the workflow
 file is called <code class="docutils literal notranslate"><span class="pre">workflow.py</span></code> and that the workflow is called <cite>gwf</cite>:</p>
@@ -256,9 +263,9 @@ file is called <code class="docutils literal notranslate"><span class="pre">work
 
 <span class="n">gwf</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">()</span>
 
-<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">'MyTarget'</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[])</span> <span class="o">&lt;&lt;</span> <span class="s2">"""</span>
+<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">&#39;MyTarget&#39;</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[])</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">echo hello world</span>
-<span class="s2">"""</span>
+<span class="s2">&quot;&quot;&quot;</span>
 </pre></div>
 </div>
 <p>In the example above we define a workflow and then add a target called
@@ -268,17 +275,17 @@ files (inputs) and produces zero or more files (outputs).</p>
 either. However, it does run a single command (<code class="docutils literal notranslate"><span class="pre">echo</span> <span class="pre">hello</span> <span class="pre">world</span></code>), but the
 output of the command is thrown away. Let’s fix that! Change the target
 definition to this:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">'MyTarget'</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">'greeting.txt'</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">"""</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">&#39;MyTarget&#39;</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;greeting.txt&#39;</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">echo hello world</span>
-<span class="s2">"""</span>
+<span class="s2">&quot;&quot;&quot;</span>
 </pre></div>
 </div>
 <p>This tells <em>gwf</em> that the target will create a file called <code class="docutils literal notranslate"><span class="pre">greeting.txt</span></code> when
 it is run. However, the target does not actually create the file yet. Let’s
 fix that too:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">'MyTarget'</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">'greeting.txt'</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">"""</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">&#39;MyTarget&#39;</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;greeting.txt&#39;</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">echo hello world &gt; greeting.txt</span>
-<span class="s2">"""</span>
+<span class="s2">&quot;&quot;&quot;</span>
 </pre></div>
 </div>
 <p>There you go! We have now declared a workflow with one target and that target
@@ -286,7 +293,7 @@ creates the file <code class="docutils literal notranslate"><span class="pre">gr
 try to run our workflow…</p>
 </section>
 <section id="running-your-first-workflow">
-<h2>Running Your First Workflow<a class="headerlink" href="#running-your-first-workflow" title="Permalink to this headline">¶</a></h2>
+<h2>Running Your First Workflow<a class="headerlink" href="#running-your-first-workflow" title="Permalink to this heading">#</a></h2>
 <p>First, let’s make a directory for our project. We’ll call the directory
 <code class="docutils literal notranslate"><span class="pre">myproject</span></code>. Now create an empty file called <code class="docutils literal notranslate"><span class="pre">workflow.py</span></code> in the project
 directory and paste the workflow specification into it:</p>
@@ -294,9 +301,9 @@ directory and paste the workflow specification into it:</p>
 
 <span class="n">gwf</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">()</span>
 
-<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">'MyTarget'</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">'greeting.txt'</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">"""</span>
+<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">&#39;MyTarget&#39;</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;greeting.txt&#39;</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">echo hello world &gt; greeting.txt</span>
-<span class="s2">"""</span>
+<span class="s2">&quot;&quot;&quot;</span>
 </pre></div>
 </div>
 <p>We’re now ready to run our workflow. However, <em>gwf</em> does not actually execute
@@ -350,11 +357,11 @@ since all of the output files (only one in this case) exist.</p>
 <p class="admonition-title">Note</p>
 <p>When you’ve completed this tutorial, you probably want to close the local
 workers. To do this simply change to the terminal where you started the
-workers and press <kbd class="kbd docutils literal notranslate">Control-c</kbd>.</p>
+workers and press <kbd class="kbd compound docutils literal notranslate"><kbd class="kbd docutils literal notranslate">Control</kbd>-<kbd class="kbd docutils literal notranslate">c</kbd></kbd>.</p>
 </div>
 </section>
 <section id="setting-the-default-verbosity">
-<h2>Setting the Default Verbosity<a class="headerlink" href="#setting-the-default-verbosity" title="Permalink to this headline">¶</a></h2>
+<h2>Setting the Default Verbosity<a class="headerlink" href="#setting-the-default-verbosity" title="Permalink to this heading">#</a></h2>
 <p>Maybe you got tired of seeing this much output from <em>gwf</em> all the time, despite
 the pretty colors. We can change the verbosity (how chatty <em>gwf</em> is) using the
 <code class="docutils literal notranslate"><span class="pre">-v/--verbose</span></code> flag:</p>
@@ -374,7 +381,7 @@ to set the <code class="docutils literal notranslate"><span class="pre">-v</span
 details, refer to the <a class="reference internal" href="../configuration/#configuration"><span class="std std-ref">Configuration</span></a> page.</p>
 </section>
 <section id="debugging-a-workflow">
-<h2>Debugging a Workflow<a class="headerlink" href="#debugging-a-workflow" title="Permalink to this headline">¶</a></h2>
+<h2>Debugging a Workflow<a class="headerlink" href="#debugging-a-workflow" title="Permalink to this heading">#</a></h2>
 <p>If your workflow doesn’t look right or you find that e.g. <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">status</span></code>
 doesn’t show the right thing, you may need to debug your workflow. The first
 thing to try is to increase the verbosity level:</p>
@@ -392,7 +399,7 @@ your <code class="file docutils literal notranslate"><span class="pre">workflow.
 and normal Python code.</p>
 </section>
 <section id="defining-targets-with-dependencies">
-<h2>Defining Targets with Dependencies<a class="headerlink" href="#defining-targets-with-dependencies" title="Permalink to this headline">¶</a></h2>
+<h2>Defining Targets with Dependencies<a class="headerlink" href="#defining-targets-with-dependencies" title="Permalink to this heading">#</a></h2>
 <p>Targets in <em>gwf</em> represent isolated units of work. However, we can declare
 dependencies between targets to construct complex workflows. A target B that
 depends on a target A will only run when A has been run successfully (that
@@ -403,17 +410,17 @@ understood through an example:</p>
 
 <span class="n">gwf</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">()</span>
 
-<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">'TargetA'</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">'x.txt'</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">"""</span>
-<span class="s2">echo "this is x" &gt; x.txt</span>
-<span class="s2">"""</span>
+<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">&#39;TargetA&#39;</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x.txt&#39;</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">echo &quot;this is x&quot; &gt; x.txt</span>
+<span class="s2">&quot;&quot;&quot;</span>
 
-<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">'TargetB'</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">'y.txt'</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">"""</span>
-<span class="s2">echo "this is y" &gt; y.txt</span>
-<span class="s2">"""</span>
+<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">&#39;TargetB&#39;</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;y.txt&#39;</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">echo &quot;this is y&quot; &gt; y.txt</span>
+<span class="s2">&quot;&quot;&quot;</span>
 
-<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">'TargetC'</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">'x.txt'</span><span class="p">,</span> <span class="s1">'y.txt'</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">'z.txt'</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">"""</span>
+<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">&#39;TargetC&#39;</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;y.txt&#39;</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;z.txt&#39;</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">cat x.txt y.txt &gt; z.txt</span>
-<span class="s2">"""</span>
+<span class="s2">&quot;&quot;&quot;</span>
 </pre></div>
 </div>
 <p>In this workflow, <code class="docutils literal notranslate"><span class="pre">TargetA</span></code> and <code class="docutils literal notranslate"><span class="pre">TargetB</span></code> each produce a file. <code class="docutils literal notranslate"><span class="pre">TargetC</span></code>
@@ -445,9 +452,9 @@ Let’s try:</p>
 
 <span class="n">gwf</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">()</span>
 
-<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">'TargetA'</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">'x.txt'</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">'x.txt'</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">"""</span>
-<span class="s2">echo "this is x" &gt; x.txt</span>
-<span class="s2">"""</span>
+<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">&#39;TargetA&#39;</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x.txt&#39;</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x.txt&#39;</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">echo &quot;this is x&quot; &gt; x.txt</span>
+<span class="s2">&quot;&quot;&quot;</span>
 </pre></div>
 </div>
 <p>Run this workflow. You should see the following:</p>
@@ -456,7 +463,7 @@ Let’s try:</p>
 </div>
 </section>
 <section id="named-inputs-and-outputs">
-<h2>Named Inputs and Outputs<a class="headerlink" href="#named-inputs-and-outputs" title="Permalink to this headline">¶</a></h2>
+<h2>Named Inputs and Outputs<a class="headerlink" href="#named-inputs-and-outputs" title="Permalink to this heading">#</a></h2>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 1.6.0: </span>Prior versions only allow lists of inputs and outputs.</p>
 </div>
@@ -464,17 +471,17 @@ Let’s try:</p>
 dictionary. If a dictionary is given, the keys act as names for the files. The
 values may be either strings or a list of strings:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">foo</span> <span class="o">=</span> <span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s1">'foo'</span><span class="p">,</span>
-    <span class="n">inputs</span><span class="o">=</span><span class="p">{</span><span class="s1">'A'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'a1'</span><span class="p">,</span> <span class="s1">'a2'</span><span class="p">],</span> <span class="s1">'B'</span><span class="p">:</span> <span class="s1">'b'</span><span class="p">},</span>
-    <span class="n">outputs</span><span class="o">=</span><span class="p">{</span><span class="s1">'C'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'a1b'</span><span class="p">,</span> <span class="s1">'a2b], '</span><span class="n">D</span><span class="s1">': '</span><span class="n">d</span><span class="p">},</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span>
+    <span class="n">inputs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;a1&#39;</span><span class="p">,</span> <span class="s1">&#39;a2&#39;</span><span class="p">],</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="s1">&#39;b&#39;</span><span class="p">},</span>
+    <span class="n">outputs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;a1b&#39;</span><span class="p">,</span> <span class="s1">&#39;a2b], &#39;</span><span class="n">D</span><span class="s1">&#39;: &#39;</span><span class="n">d</span><span class="p">},</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 <p>This is especially useful for referring the outputs of a target:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">bar</span> <span class="o">=</span> <span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s1">'bar'</span><span class="p">,</span>
-    <span class="n">inputs</span><span class="o">=</span><span class="n">foo</span><span class="o">.</span><span class="n">outputs</span><span class="p">[</span><span class="s1">'C'</span><span class="p">],</span>
-    <span class="n">outputs</span><span class="o">=</span><span class="s1">'result'</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span>
+    <span class="n">inputs</span><span class="o">=</span><span class="n">foo</span><span class="o">.</span><span class="n">outputs</span><span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">],</span>
+    <span class="n">outputs</span><span class="o">=</span><span class="s1">&#39;result&#39;</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -482,7 +489,7 @@ values may be either strings or a list of strings:</p>
 associated files can be grouped and named.</p>
 </section>
 <section id="specifying-target-resources">
-<h2>Specifying Target Resources<a class="headerlink" href="#specifying-target-resources" title="Permalink to this headline">¶</a></h2>
+<h2>Specifying Target Resources<a class="headerlink" href="#specifying-target-resources" title="Permalink to this heading">#</a></h2>
 <p>It’s a good idea to specify the resources required by your target. Backends like
 Slurm will use these resource limits to allocate a suitable node for you,
 prioritize work, and cancel your targets if they exceed the given limits.</p>
@@ -493,35 +500,35 @@ The <cite>slurm</cite> backend supports a number of target options which are lis
 <p>For example, if you are using the <em>slurm</em> backend you can specify that you need
 8 cores and 64 GB of memory like this:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">foo</span> <span class="o">=</span> <span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s1">'foo'</span><span class="p">,</span>
-    <span class="n">inputs</span><span class="o">=</span><span class="p">{</span><span class="s1">'A'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'a1'</span><span class="p">,</span> <span class="s1">'a2'</span><span class="p">],</span> <span class="s1">'B'</span><span class="p">:</span> <span class="s1">'b'</span><span class="p">},</span>
-    <span class="n">outputs</span><span class="o">=</span><span class="p">{</span><span class="s1">'C'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'a1b'</span><span class="p">,</span> <span class="s1">'a2b'</span><span class="p">],</span> <span class="s1">'D'</span><span class="p">:</span> <span class="s1">'d'</span><span class="p">},</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span>
+    <span class="n">inputs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;a1&#39;</span><span class="p">,</span> <span class="s1">&#39;a2&#39;</span><span class="p">],</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="s1">&#39;b&#39;</span><span class="p">},</span>
+    <span class="n">outputs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;a1b&#39;</span><span class="p">,</span> <span class="s1">&#39;a2b&#39;</span><span class="p">],</span> <span class="s1">&#39;D&#39;</span><span class="p">:</span> <span class="s1">&#39;d&#39;</span><span class="p">},</span>
     <span class="n">cores</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
-    <span class="n">memory</span><span class="o">=</span><span class="s1">'64gb'</span><span class="p">,</span>
+    <span class="n">memory</span><span class="o">=</span><span class="s1">&#39;64gb&#39;</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">foo</span><span class="o">.</span><span class="n">options</span><span class="p">)</span>
-<span class="c1"># =&gt; {'cores': 8, 'memory': '64gb'}</span>
+<span class="c1"># =&gt; {&#39;cores&#39;: 8, &#39;memory&#39;: &#39;64gb&#39;}</span>
 </pre></div>
 </div>
 <p>Some target options are global to the workflow. To request 8 cores for all
 targets in your workflow, you can give the <cite>defaults</cite> argument when initializing
 your workflow:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">gwf</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">(</span><span class="n">defaults</span><span class="o">=</span><span class="p">{</span><span class="s1">'cores'</span><span class="p">:</span> <span class="mi">8</span><span class="p">})</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">gwf</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">(</span><span class="n">defaults</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;cores&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">})</span>
 
 <span class="n">foo</span> <span class="o">=</span> <span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s1">'foo'</span><span class="p">,</span>
-    <span class="n">inputs</span><span class="o">=</span><span class="p">{</span><span class="s1">'A'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'a1'</span><span class="p">,</span> <span class="s1">'a2'</span><span class="p">],</span> <span class="s1">'B'</span><span class="p">:</span> <span class="s1">'b'</span><span class="p">},</span>
-    <span class="n">outputs</span><span class="o">=</span><span class="p">{</span><span class="s1">'C'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'a1b'</span><span class="p">,</span> <span class="s1">'a2b'</span><span class="p">],</span> <span class="s1">'D'</span><span class="p">:</span> <span class="s1">'d'</span><span class="p">},</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span>
+    <span class="n">inputs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;a1&#39;</span><span class="p">,</span> <span class="s1">&#39;a2&#39;</span><span class="p">],</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="s1">&#39;b&#39;</span><span class="p">},</span>
+    <span class="n">outputs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;a1b&#39;</span><span class="p">,</span> <span class="s1">&#39;a2b&#39;</span><span class="p">],</span> <span class="s1">&#39;D&#39;</span><span class="p">:</span> <span class="s1">&#39;d&#39;</span><span class="p">},</span>
 <span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">foo</span><span class="o">.</span><span class="n">options</span><span class="p">)</span>
-<span class="c1"># =&gt; {'cores': 8}</span>
+<span class="c1"># =&gt; {&#39;cores&#39;: 8}</span>
 </pre></div>
 </div>
 </section>
 <section id="observing-target-execution">
-<h2>Observing Target Execution<a class="headerlink" href="#observing-target-execution" title="Permalink to this headline">¶</a></h2>
+<h2>Observing Target Execution<a class="headerlink" href="#observing-target-execution" title="Permalink to this heading">#</a></h2>
 <p>As workflows get larger they make take a very long time to run. With <em>gwf</em> it’s
 easy to see how many targets have been completed, how many failed and how many
 are still running using the <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">status</span></code> command. We’ll modify the workflow
@@ -530,17 +537,17 @@ from earlier to fake that each target takes some time to run:</p>
 
 <span class="n">gwf</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">()</span>
 
-<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">'TargetA'</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">'x.txt'</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">"""</span>
-<span class="s2">sleep 20 &amp;&amp; echo "this is x" &gt; x.txt</span>
-<span class="s2">"""</span>
+<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">&#39;TargetA&#39;</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x.txt&#39;</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">sleep 20 &amp;&amp; echo &quot;this is x&quot; &gt; x.txt</span>
+<span class="s2">&quot;&quot;&quot;</span>
 
-<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">'TargetB'</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">'y.txt'</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">"""</span>
-<span class="s2">sleep 30 &amp;&amp; echo "this is y" &gt; y.txt</span>
-<span class="s2">"""</span>
+<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">&#39;TargetB&#39;</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;y.txt&#39;</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">sleep 30 &amp;&amp; echo &quot;this is y&quot; &gt; y.txt</span>
+<span class="s2">&quot;&quot;&quot;</span>
 
-<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">'TargetC'</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">'x.txt'</span><span class="p">,</span> <span class="s1">'y.txt'</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">'z.txt'</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">"""</span>
+<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">&#39;TargetC&#39;</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;y.txt&#39;</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;z.txt&#39;</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">sleep 10 &amp;&amp; cat x.txt y.txt &gt; z.txt</span>
-<span class="s2">"""</span>
+<span class="s2">&quot;&quot;&quot;</span>
 </pre></div>
 </div>
 <p>Now run <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">status</span></code> (Remember to remove <code class="docutils literal notranslate"><span class="pre">x.txt</span></code>, <code class="docutils literal notranslate"><span class="pre">y.txt</span></code> and <code class="docutils literal notranslate"><span class="pre">z.txt</span></code>,
@@ -603,7 +610,7 @@ endpoints that are running and where the name starts with <cite>Align</cite>.</p
 <p>For more details you can always refer to builtin help with <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">status</span> <span class="pre">--help</span></code>.</p>
 </section>
 <section id="what-happens-when-a-target-fails">
-<h2>What Happens When a Target Fails?<a class="headerlink" href="#what-happens-when-a-target-fails" title="Permalink to this headline">¶</a></h2>
+<h2>What Happens When a Target Fails?<a class="headerlink" href="#what-happens-when-a-target-fails" title="Permalink to this heading">#</a></h2>
 <p>We all make mistakes. Sometimes there’s a mistake on your target specification
 which causes the target execution to fail. The target could also fail because
 the target exceeded the allocated resource limits or took too long to run and
@@ -627,7 +634,7 @@ target is not killed, the temporary file will be renamed to <em>b.txt</em> and <
 will show the target as completed.</p>
 </section>
 <section id="reusable-targets-with-templates">
-<span id="function-templates"></span><span id="templates"></span><h2>Reusable Targets with Templates<a class="headerlink" href="#reusable-targets-with-templates" title="Permalink to this headline">¶</a></h2>
+<span id="function-templates"></span><span id="templates"></span><h2>Reusable Targets with Templates<a class="headerlink" href="#reusable-targets-with-templates" title="Permalink to this heading">#</a></h2>
 <p>Often you will want to reuse a target definition for a lot of different files.
 For example, you may have two files with reads that you need to map to a
 reference genome. The mapping is the same for the two files, so it would be
@@ -667,17 +674,17 @@ used in this tutorial.</p></li>
 <p>Our reference genome is stored in <code class="docutils literal notranslate"><span class="pre">ponAbe2.fa.gz</span></code>, so we’ll need to unzip it first.
 Let’s write a template that unpacks files.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">unzip</span><span class="p">(</span><span class="n">inputfile</span><span class="p">,</span> <span class="n">outputfile</span><span class="p">):</span>
-    <span class="sd">"""A template for unzipping files."""</span>
+    <span class="sd">&quot;&quot;&quot;A template for unzipping files.&quot;&quot;&quot;</span>
     <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">inputfile</span><span class="p">]</span>
     <span class="n">outputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">outputfile</span><span class="p">]</span>
     <span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">'cores'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="s1">'memory'</span><span class="p">:</span> <span class="s1">'2g'</span><span class="p">,</span>
+        <span class="s1">&#39;cores&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s1">&#39;memory&#39;</span><span class="p">:</span> <span class="s1">&#39;2g&#39;</span><span class="p">,</span>
     <span class="p">}</span>
 
-    <span class="n">spec</span> <span class="o">=</span> <span class="s1">'''</span>
+    <span class="n">spec</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">    gzcat </span><span class="si">{}</span><span class="s1"> &gt; </span><span class="si">{}</span><span class="s1"></span>
-<span class="s1">    '''</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">inputfile</span><span class="p">,</span> <span class="n">outputfile</span><span class="p">)</span>
+<span class="s1">    &#39;&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">inputfile</span><span class="p">,</span> <span class="n">outputfile</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">AnonymousTarget</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span> <span class="n">spec</span><span class="o">=</span><span class="n">spec</span><span class="p">)</span>
 </pre></div>
@@ -689,10 +696,10 @@ dictionary that defines the options of the targets created with this template,
 and a string describing the action of the template.</p>
 <p>We can now create a concrete target using this template:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gwf</span><span class="o">.</span><span class="n">target_from_template</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s1">'UnzipGenome'</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;UnzipGenome&#39;</span><span class="p">,</span>
     <span class="n">template</span><span class="o">=</span><span class="n">unzip</span><span class="p">(</span>
-        <span class="n">inputfile</span><span class="o">=</span><span class="s1">'ponAbe2.fa.gz'</span><span class="p">,</span>
-        <span class="n">outputfile</span><span class="o">=</span><span class="s1">'ponAbe2.fa'</span>
+        <span class="n">inputfile</span><span class="o">=</span><span class="s1">&#39;ponAbe2.fa.gz&#39;</span><span class="p">,</span>
+        <span class="n">outputfile</span><span class="o">=</span><span class="s1">&#39;ponAbe2.fa&#39;</span>
     <span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
@@ -702,22 +709,22 @@ and submitted, and after a few seconds you should have a <code class="docutils l
 the project directory.</p>
 <p>Let’s now define another template for indexing a genome.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">bwa_index</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">):</span>
-    <span class="sd">"""Template for indexing a genome with `bwa index`."""</span>
-    <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'</span><span class="si">{}</span><span class="s1">.fa'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">)]</span>
-    <span class="n">outputs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'</span><span class="si">{}</span><span class="s1">.amb'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">),</span>
-               <span class="s1">'</span><span class="si">{}</span><span class="s1">.ann'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">),</span>
-               <span class="s1">'</span><span class="si">{}</span><span class="s1">.pac'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">),</span>
-               <span class="s1">'</span><span class="si">{}</span><span class="s1">.bwt'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">),</span>
-               <span class="s1">'</span><span class="si">{}</span><span class="s1">.sa'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">),</span>
+    <span class="sd">&quot;&quot;&quot;Template for indexing a genome with `bwa index`.&quot;&quot;&quot;</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.fa&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">)]</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.amb&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">),</span>
+               <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.ann&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">),</span>
+               <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.pac&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">),</span>
+               <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.bwt&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">),</span>
+               <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.sa&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">),</span>
                <span class="p">]</span>
     <span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">'cores'</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
-        <span class="s1">'memory'</span><span class="p">:</span> <span class="s1">'1g'</span><span class="p">,</span>
+        <span class="s1">&#39;cores&#39;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
+        <span class="s1">&#39;memory&#39;</span><span class="p">:</span> <span class="s1">&#39;1g&#39;</span><span class="p">,</span>
     <span class="p">}</span>
 
-    <span class="n">spec</span> <span class="o">=</span> <span class="s2">"""</span>
+    <span class="n">spec</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">    bwa index -p </span><span class="si">{ref_genome}</span><span class="s2"> -a bwtsw </span><span class="si">{ref_genome}</span><span class="s2">.fa</span>
-<span class="s2">    """</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="o">=</span><span class="n">ref_genome</span><span class="p">)</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="o">=</span><span class="n">ref_genome</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">AnonymousTarget</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span> <span class="n">spec</span><span class="o">=</span><span class="n">spec</span><span class="p">)</span>
 </pre></div>
@@ -727,9 +734,9 @@ We define the inputs and outputs, a dictionary with options and a string with
 the command that will be executed.</p>
 <p>Let’s use this template to create a target for indexing the reference genome:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gwf</span><span class="o">.</span><span class="n">target_from_template</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s1">'IndexGenome'</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;IndexGenome&#39;</span><span class="p">,</span>
     <span class="n">template</span><span class="o">=</span><span class="n">bwa_index</span><span class="p">(</span>
-        <span class="n">ref_genome</span><span class="o">=</span><span class="s1">'ponAbe2'</span>
+        <span class="n">ref_genome</span><span class="o">=</span><span class="s1">&#39;ponAbe2&#39;</span>
     <span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
@@ -737,23 +744,23 @@ the command that will be executed.</p>
 <p>Finally, we’ll create a template for actually mapping the reads to the
 reference.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">bwa_map</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">,</span> <span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">,</span> <span class="n">bamfile</span><span class="p">):</span>
-    <span class="sd">"""Template for mapping reads to a reference genome with `bwa` and `samtools`."""</span>
+    <span class="sd">&quot;&quot;&quot;Template for mapping reads to a reference genome with `bwa` and `samtools`.&quot;&quot;&quot;</span>
     <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">,</span>
-              <span class="s1">'</span><span class="si">{}</span><span class="s1">.amb'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">),</span>
-              <span class="s1">'</span><span class="si">{}</span><span class="s1">.ann'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">),</span>
-              <span class="s1">'</span><span class="si">{}</span><span class="s1">.pac'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">),</span>
+              <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.amb&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">),</span>
+              <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.ann&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">),</span>
+              <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.pac&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">),</span>
              <span class="p">]</span>
     <span class="n">outputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">bamfile</span><span class="p">]</span>
     <span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">'cores'</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
-        <span class="s1">'memory'</span><span class="p">:</span> <span class="s1">'1g'</span><span class="p">,</span>
+        <span class="s1">&#39;cores&#39;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
+        <span class="s1">&#39;memory&#39;</span><span class="p">:</span> <span class="s1">&#39;1g&#39;</span><span class="p">,</span>
     <span class="p">}</span>
 
-    <span class="n">spec</span> <span class="o">=</span> <span class="s1">'''</span>
+    <span class="n">spec</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">    bwa mem -t 16 </span><span class="si">{ref_genome}</span><span class="s1"> </span><span class="si">{r1}</span><span class="s1"> </span><span class="si">{r2}</span><span class="s1"> | </span><span class="se">\</span>
 <span class="s1">    samtools sort | </span><span class="se">\</span>
 <span class="s1">    samtools rmdup -s - </span><span class="si">{bamfile}</span><span class="s1"></span>
-<span class="s1">    '''</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="o">=</span><span class="n">ref_genome</span><span class="p">,</span> <span class="n">r1</span><span class="o">=</span><span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="o">=</span><span class="n">r2</span><span class="p">,</span> <span class="n">bamfile</span><span class="o">=</span><span class="n">bamfile</span><span class="p">)</span>
+<span class="s1">    &#39;&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="o">=</span><span class="n">ref_genome</span><span class="p">,</span> <span class="n">r1</span><span class="o">=</span><span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="o">=</span><span class="n">r2</span><span class="p">,</span> <span class="n">bamfile</span><span class="o">=</span><span class="n">bamfile</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">AnonymousTarget</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span> <span class="n">spec</span><span class="o">=</span><span class="n">spec</span><span class="p">)</span>
 </pre></div>
@@ -761,12 +768,12 @@ reference.</p>
 <p>This is much the same as the previous template. Here’s how we’re going to use
 it:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gwf</span><span class="o">.</span><span class="n">target_from_template</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s1">'MapReads'</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;MapReads&#39;</span><span class="p">,</span>
     <span class="n">template</span><span class="o">=</span><span class="n">bwa_map</span><span class="p">(</span>
-        <span class="n">ref_genome</span><span class="o">=</span><span class="s1">'ponAbe2'</span><span class="p">,</span>
-        <span class="n">r1</span><span class="o">=</span><span class="s1">'Masala_R1.fastq.gz'</span><span class="p">,</span>
-        <span class="n">r2</span><span class="o">=</span><span class="s1">'Masala_R2.fastq.gz'</span><span class="p">,</span>
-        <span class="n">bamfile</span><span class="o">=</span><span class="s1">'Masala.bam'</span>
+        <span class="n">ref_genome</span><span class="o">=</span><span class="s1">&#39;ponAbe2&#39;</span><span class="p">,</span>
+        <span class="n">r1</span><span class="o">=</span><span class="s1">&#39;Masala_R1.fastq.gz&#39;</span><span class="p">,</span>
+        <span class="n">r2</span><span class="o">=</span><span class="s1">&#39;Masala_R2.fastq.gz&#39;</span><span class="p">,</span>
+        <span class="n">bamfile</span><span class="o">=</span><span class="s1">&#39;Masala.bam&#39;</span>
     <span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
@@ -777,7 +784,7 @@ modules and imported into your workflow files to facilitate reuse. It’s all up
 to you!</p>
 </section>
 <section id="viewing-logs">
-<h2>Viewing Logs<a class="headerlink" href="#viewing-logs" title="Permalink to this headline">¶</a></h2>
+<h2>Viewing Logs<a class="headerlink" href="#viewing-logs" title="Permalink to this heading">#</a></h2>
 <p>We may be curious about what the <code class="docutils literal notranslate"><span class="pre">MapReads</span></code> target wrote to the console when the target
 ran, to see if there were any warnings. If a target failed, it’s also valuable to see
 it’s output to diagnose the problem. Luckily, <em>gwf</em> makes this very easy.</p>
@@ -810,7 +817,7 @@ by applying the <code class="docutils literal notranslate"><span class="pre">--s
 ones since <em>gwf</em> does not archive logs from old runs of targets.</p>
 </section>
 <section id="cleaning-up">
-<h2>Cleaning Up<a class="headerlink" href="#cleaning-up" title="Permalink to this headline">¶</a></h2>
+<h2>Cleaning Up<a class="headerlink" href="#cleaning-up" title="Permalink to this heading">#</a></h2>
 <p>Now that we have run our workflow we may wish to remove intermediate files to
 save disk space. In <em>gwf</em> we can use the <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">clean</span></code> command for this:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf clean
@@ -821,19 +828,19 @@ no other target depends on):</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf clean
 <span class="go">Will delete 1.3MiB of files!</span>
 <span class="go">Deleting output files of IndexGenome</span>
-<span class="go">Deleting file "/Users/das/Code/gwf/examples/readmapping/ponAbe2.amb" from target "IndexGenome"</span>
-<span class="go">Deleting file "/Users/das/Code/gwf/examples/readmapping/ponAbe2.ann" from target "IndexGenome"</span>
-<span class="go">Deleting file "/Users/das/Code/gwf/examples/readmapping/ponAbe2.pac" from target "IndexGenome"</span>
-<span class="go">Deleting file "/Users/das/Code/gwf/examples/readmapping/ponAbe2.bwt" from target "IndexGenome"</span>
-<span class="go">Deleting file "/Users/das/Code/gwf/examples/readmapping/ponAbe2.sa" from target "IndexGenome"</span>
+<span class="go">Deleting file &quot;/Users/das/Code/gwf/examples/readmapping/ponAbe2.amb&quot; from target &quot;IndexGenome&quot;</span>
+<span class="go">Deleting file &quot;/Users/das/Code/gwf/examples/readmapping/ponAbe2.ann&quot; from target &quot;IndexGenome&quot;</span>
+<span class="go">Deleting file &quot;/Users/das/Code/gwf/examples/readmapping/ponAbe2.pac&quot; from target &quot;IndexGenome&quot;</span>
+<span class="go">Deleting file &quot;/Users/das/Code/gwf/examples/readmapping/ponAbe2.bwt&quot; from target &quot;IndexGenome&quot;</span>
+<span class="go">Deleting file &quot;/Users/das/Code/gwf/examples/readmapping/ponAbe2.sa&quot; from target &quot;IndexGenome&quot;</span>
 <span class="go">Deleting output files of UnzipGenome</span>
-<span class="go">Deleting file "/Users/das/Code/gwf/examples/readmapping/ponAbe2.fa" from target "UnzipGenome"</span>
+<span class="go">Deleting file &quot;/Users/das/Code/gwf/examples/readmapping/ponAbe2.fa&quot; from target &quot;UnzipGenome&quot;</span>
 </pre></div>
 </div>
 <p>We can tell <em>gwf</em> to remove all files by running <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">clean</span> <span class="pre">--all</span></code>.</p>
 </section>
 <section id="a-note-about-reproducibility">
-<h2>A Note About Reproducibility<a class="headerlink" href="#a-note-about-reproducibility" title="Permalink to this headline">¶</a></h2>
+<h2>A Note About Reproducibility<a class="headerlink" href="#a-note-about-reproducibility" title="Permalink to this heading">#</a></h2>
 <p>Reproducibility is an important part of research and since <em>gwf</em> workflows describe every
 step of your computation, how the steps are connected, and the files produced in each step,
 it’s a valuable tool in making your workflows reproducible. In combination with the
@@ -874,15 +881,21 @@ reproduce the environment used locally.</p>
               </div>
             </a>
         </div>
-
-        <div class="related-information">
-              Copyright &#169; 2019, Dan Søndergaard |
-          Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
-          <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
-            | <a class="muted-link" href="../../_sources/guide/tutorial.rst.txt"
-               rel="nofollow">
-              Show Source
-            </a>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2019, Dan Søndergaard
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              
+            </div>
+          </div>
         </div>
         
       </footer>
@@ -927,6 +940,7 @@ reproduce the environment used locally.</p>
 </div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
     <script src="../../_static/scripts/furo.js"></script>
     </body>
