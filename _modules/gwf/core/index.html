@@ -213,7 +213,8 @@
         </div>
         <article role="main">
           <h1>Source code for gwf.core</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span></span><span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">os.path</span>
 <span class="kn">import</span> <span class="nn">unicodedata</span>
@@ -224,7 +225,7 @@
 
 <span class="kn">from</span> <span class="nn">.backends</span> <span class="kn">import</span> <span class="n">Status</span>
 <span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="ne">NameError</span><span class="p">,</span> <span class="n">WorkflowError</span>
-<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">cache</span><span class="p">,</span> <span class="n">is_valid_name</span><span class="p">,</span> <span class="n">timer</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">PersistableDict</span><span class="p">,</span> <span class="n">cache</span><span class="p">,</span> <span class="n">is_valid_name</span><span class="p">,</span> <span class="n">timer</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -285,6 +286,10 @@
 
 <span class="k">def</span> <span class="nf">_norm_paths</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">paths</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">[</span><span class="n">_norm_path</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span> <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">hash_spec</span><span class="p">(</span><span class="n">spec</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha1</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
 
 
 <span class="k">class</span> <span class="nc">TargetStatus</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
@@ -705,7 +710,7 @@
 
 
 <span class="k">class</span> <span class="nc">Scheduler</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filesystem</span><span class="o">=</span><span class="n">CachedFilesystem</span><span class="p">()):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec_hashes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filesystem</span><span class="o">=</span><span class="n">CachedFilesystem</span><span class="p">()):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :param gwf.Graph graph:</span>
 <span class="sd">            Graph of the workflow.</span>
@@ -714,6 +719,7 @@
 <span class="sd">            be submitted.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_filesystem</span> <span class="o">=</span> <span class="n">filesystem</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_spec_hashes</span> <span class="o">=</span> <span class="n">spec_hashes</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_scheduled</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_reasons</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -823,10 +829,19 @@
                     <span class="n">oldest_out_path</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">)</span>
+
+        <span class="n">spec_hash</span> <span class="o">=</span> <span class="n">hash_spec</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">spec</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_spec_hashes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spec_hashes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="n">spec_hash</span>
+        <span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Looks like the spec for </span><span class="si">%s</span><span class="s2"> was changed&quot;</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_spec_hashes</span><span class="p">[</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">spec_hash</span>
+            <span class="k">return</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> was sheduled because its spec had changed&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">target</span><span class="p">))</span>
         <span class="k">return</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> was not scheduled because it is up to date&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">target</span><span class="p">))</span>
 
 
-<span class="k">def</span> <span class="nf">schedule</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">graph</span><span class="p">,</span> <span class="n">filesystem</span><span class="o">=</span><span class="n">CachedFilesystem</span><span class="p">()):</span>
+<span class="k">def</span> <span class="nf">schedule</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">graph</span><span class="p">,</span> <span class="n">spec_hashes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filesystem</span><span class="o">=</span><span class="n">CachedFilesystem</span><span class="p">()):</span>
     <span class="sd">&quot;&quot;&quot;Schedule one or more targets.</span>
 
 <span class="sd">    Scheduling a target will determine whether the target needs to run.</span>
@@ -844,7 +859,9 @@
 <span class="sd">    a target to its scheduled direct dependencies, and `reasons` is a map from</span>
 <span class="sd">    a target to a string describing why (or why not) the target was scheduled.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">Scheduler</span><span class="p">(</span><span class="n">filesystem</span><span class="o">=</span><span class="n">filesystem</span><span class="p">)</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">graph</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Scheduler</span><span class="p">(</span><span class="n">spec_hashes</span><span class="o">=</span><span class="n">spec_hashes</span><span class="p">,</span> <span class="n">filesystem</span><span class="o">=</span><span class="n">filesystem</span><span class="p">)</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span>
+        <span class="n">targets</span><span class="p">,</span> <span class="n">graph</span>
+    <span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">get_status</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">scheduled</span><span class="p">,</span> <span class="n">backend</span><span class="p">):</span>
