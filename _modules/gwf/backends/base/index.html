@@ -260,8 +260,15 @@
     <span class="n">option_defaults</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">log_manager</span> <span class="o">=</span> <span class="n">FileLogManager</span><span class="p">()</span>
 
-<div class="viewcode-block" id="Backend.list"><a class="viewcode-back" href="../../../../reference/api/#gwf.backends.Backend.list">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+<div class="viewcode-block" id="Backend.guess"><a class="viewcode-back" href="../../../../reference/api/#gwf.backends.Backend.guess">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">guess</span><span class="p">():</span>
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">backend_cls</span><span class="o">.</span><span class="n">priority</span><span class="p">(),</span> <span class="n">name</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">backend_cls</span> <span class="ow">in</span> <span class="n">_load_backends</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Backend.list"><a class="viewcode-back" href="../../../../reference/api/#gwf.backends.Backend.list">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">list</span><span class="p">():</span>
         <span class="sd">&quot;&quot;&quot;Return the names of all registered backends.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">_load_backends</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 
@@ -291,6 +298,10 @@
 
     <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Backend.priority"><a class="viewcode-back" href="../../../../reference/api/#gwf.backends.Backend.priority">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">priority</span><span class="p">():</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1000</span></div>
 
 <div class="viewcode-block" id="Backend.status"><a class="viewcode-back" href="../../../../reference/api/#gwf.backends.Backend.status">[docs]</a>    <span class="k">def</span> <span class="nf">status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return the status of `target`.</span>
