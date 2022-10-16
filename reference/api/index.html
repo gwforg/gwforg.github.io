@@ -5,10 +5,10 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <link rel="index" title="Index" href="../../genindex/" /><link rel="search" title="Search" href="../../search/" /><link rel="prev" title="Backends" href="../backends/" />
 
-    <meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
+    <meta name="generator" content="sphinx-5.3.0, furo 2022.09.29"/>
         <title>API - gwf 1.8.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=d81277517bee4d6b0349d71bb2661d4890b5617c" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
@@ -199,7 +199,8 @@
           <span>Back to top</span>
         </a>
         <div class="content-icon-container">
-          <div class="theme-toggle-container theme-toggle-content">
+          
+<div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -1037,7 +1038,7 @@ each <a class="reference internal" href="#gwf.filtering.ApplyMixin.predicate" ti
         <div class="related-pages">
           
           <a class="prev-page" href="../backends/">
-              <svg><use href="#svg-arrow-right"></use></svg>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
@@ -1073,20 +1074,100 @@ each <a class="reference internal" href="#gwf.filtering.ApplyMixin.predicate" ti
       <div class="toc-sticky toc-scroll">
         <div class="toc-title-container">
           <span class="toc-title">
-            Contents
+            On this page
           </span>
         </div>
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">API</a><ul>
-<li><a class="reference internal" href="#module-gwf">Workflow</a></li>
-<li><a class="reference internal" href="#module-gwf.core">Core</a></li>
-<li><a class="reference internal" href="#module-gwf.backends">Backends</a><ul>
-<li><a class="reference internal" href="#module-gwf.backends.logmanager">Log Managers</a></li>
+<li><a class="reference internal" href="#module-gwf">Workflow</a><ul>
+<li><a class="reference internal" href="#gwf.AnonymousTarget"><code class="docutils literal notranslate"><span class="pre">AnonymousTarget</span></code></a><ul>
+<li><a class="reference internal" href="#gwf.AnonymousTarget.is_sink"><code class="docutils literal notranslate"><span class="pre">AnonymousTarget.is_sink</span></code></a></li>
+<li><a class="reference internal" href="#gwf.AnonymousTarget.is_source"><code class="docutils literal notranslate"><span class="pre">AnonymousTarget.is_source</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-gwf.filtering">Filtering</a></li>
+<li><a class="reference internal" href="#gwf.Target"><code class="docutils literal notranslate"><span class="pre">Target</span></code></a><ul>
+<li><a class="reference internal" href="#gwf.Target.empty"><code class="docutils literal notranslate"><span class="pre">Target.empty()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#gwf.TargetList"><code class="docutils literal notranslate"><span class="pre">TargetList</span></code></a><ul>
+<li><a class="reference internal" href="#gwf.TargetList.inputs"><code class="docutils literal notranslate"><span class="pre">TargetList.inputs</span></code></a></li>
+<li><a class="reference internal" href="#gwf.TargetList.outputs"><code class="docutils literal notranslate"><span class="pre">TargetList.outputs</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#gwf.Workflow"><code class="docutils literal notranslate"><span class="pre">Workflow</span></code></a><ul>
+<li><a class="reference internal" href="#gwf.Workflow.from_config"><code class="docutils literal notranslate"><span class="pre">Workflow.from_config()</span></code></a></li>
+<li><a class="reference internal" href="#gwf.Workflow.from_path"><code class="docutils literal notranslate"><span class="pre">Workflow.from_path()</span></code></a></li>
+<li><a class="reference internal" href="#gwf.Workflow.glob"><code class="docutils literal notranslate"><span class="pre">Workflow.glob()</span></code></a></li>
+<li><a class="reference internal" href="#gwf.Workflow.iglob"><code class="docutils literal notranslate"><span class="pre">Workflow.iglob()</span></code></a></li>
+<li><a class="reference internal" href="#gwf.Workflow.include"><code class="docutils literal notranslate"><span class="pre">Workflow.include()</span></code></a></li>
+<li><a class="reference internal" href="#gwf.Workflow.include_path"><code class="docutils literal notranslate"><span class="pre">Workflow.include_path()</span></code></a></li>
+<li><a class="reference internal" href="#gwf.Workflow.include_workflow"><code class="docutils literal notranslate"><span class="pre">Workflow.include_workflow()</span></code></a></li>
+<li><a class="reference internal" href="#gwf.Workflow.map"><code class="docutils literal notranslate"><span class="pre">Workflow.map()</span></code></a></li>
+<li><a class="reference internal" href="#gwf.Workflow.shell"><code class="docutils literal notranslate"><span class="pre">Workflow.shell()</span></code></a></li>
+<li><a class="reference internal" href="#gwf.Workflow.target"><code class="docutils literal notranslate"><span class="pre">Workflow.target()</span></code></a></li>
+<li><a class="reference internal" href="#gwf.Workflow.target_from_template"><code class="docutils literal notranslate"><span class="pre">Workflow.target_from_template()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-gwf.core">Core</a><ul>
+<li><a class="reference internal" href="#gwf.core.Graph"><code class="docutils literal notranslate"><span class="pre">Graph</span></code></a><ul>
+<li><a class="reference internal" href="#gwf.core.Graph.dfs"><code class="docutils literal notranslate"><span class="pre">Graph.dfs()</span></code></a></li>
+<li><a class="reference internal" href="#gwf.core.Graph.endpoints"><code class="docutils literal notranslate"><span class="pre">Graph.endpoints()</span></code></a></li>
+<li><a class="reference internal" href="#gwf.core.Graph.from_targets"><code class="docutils literal notranslate"><span class="pre">Graph.from_targets()</span></code></a></li>
+<li><a class="reference internal" href="#gwf.core.Graph.subset"><code class="docutils literal notranslate"><span class="pre">Graph.subset()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-gwf.backends">Backends</a><ul>
+<li><a class="reference internal" href="#gwf.backends.Backend"><code class="docutils literal notranslate"><span class="pre">Backend</span></code></a><ul>
+<li><a class="reference internal" href="#gwf.backends.Backend.cancel"><code class="docutils literal notranslate"><span class="pre">Backend.cancel()</span></code></a></li>
+<li><a class="reference internal" href="#gwf.backends.Backend.close"><code class="docutils literal notranslate"><span class="pre">Backend.close()</span></code></a></li>
+<li><a class="reference internal" href="#gwf.backends.Backend.from_config"><code class="docutils literal notranslate"><span class="pre">Backend.from_config()</span></code></a></li>
+<li><a class="reference internal" href="#gwf.backends.Backend.from_name"><code class="docutils literal notranslate"><span class="pre">Backend.from_name()</span></code></a></li>
+<li><a class="reference internal" href="#gwf.backends.Backend.guess"><code class="docutils literal notranslate"><span class="pre">Backend.guess()</span></code></a></li>
+<li><a class="reference internal" href="#gwf.backends.Backend.list"><code class="docutils literal notranslate"><span class="pre">Backend.list()</span></code></a></li>
+<li><a class="reference internal" href="#gwf.backends.Backend.log_manager"><code class="docutils literal notranslate"><span class="pre">Backend.log_manager</span></code></a></li>
+<li><a class="reference internal" href="#gwf.backends.Backend.logs"><code class="docutils literal notranslate"><span class="pre">Backend.logs()</span></code></a></li>
+<li><a class="reference internal" href="#gwf.backends.Backend.option_defaults"><code class="docutils literal notranslate"><span class="pre">Backend.option_defaults</span></code></a></li>
+<li><a class="reference internal" href="#gwf.backends.Backend.priority"><code class="docutils literal notranslate"><span class="pre">Backend.priority()</span></code></a></li>
+<li><a class="reference internal" href="#gwf.backends.Backend.status"><code class="docutils literal notranslate"><span class="pre">Backend.status()</span></code></a></li>
+<li><a class="reference internal" href="#gwf.backends.Backend.submit"><code class="docutils literal notranslate"><span class="pre">Backend.submit()</span></code></a></li>
+<li><a class="reference internal" href="#gwf.backends.Backend.submit_full"><code class="docutils literal notranslate"><span class="pre">Backend.submit_full()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#gwf.backends.Status"><code class="docutils literal notranslate"><span class="pre">Status</span></code></a><ul>
+<li><a class="reference internal" href="#gwf.backends.Status.RUNNING"><code class="docutils literal notranslate"><span class="pre">Status.RUNNING</span></code></a></li>
+<li><a class="reference internal" href="#gwf.backends.Status.SUBMITTED"><code class="docutils literal notranslate"><span class="pre">Status.SUBMITTED</span></code></a></li>
+<li><a class="reference internal" href="#gwf.backends.Status.UNKNOWN"><code class="docutils literal notranslate"><span class="pre">Status.UNKNOWN</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-gwf.backends.logmanager">Log Managers</a><ul>
+<li><a class="reference internal" href="#gwf.backends.logmanager.FileLogManager"><code class="docutils literal notranslate"><span class="pre">FileLogManager</span></code></a><ul>
+<li><a class="reference internal" href="#gwf.backends.logmanager.FileLogManager.open_stderr"><code class="docutils literal notranslate"><span class="pre">FileLogManager.open_stderr()</span></code></a></li>
+<li><a class="reference internal" href="#gwf.backends.logmanager.FileLogManager.open_stdout"><code class="docutils literal notranslate"><span class="pre">FileLogManager.open_stdout()</span></code></a></li>
+<li><a class="reference internal" href="#gwf.backends.logmanager.FileLogManager.stderr_path"><code class="docutils literal notranslate"><span class="pre">FileLogManager.stderr_path()</span></code></a></li>
+<li><a class="reference internal" href="#gwf.backends.logmanager.FileLogManager.stdout_path"><code class="docutils literal notranslate"><span class="pre">FileLogManager.stdout_path()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#gwf.backends.logmanager.MemoryLogManager"><code class="docutils literal notranslate"><span class="pre">MemoryLogManager</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-gwf.filtering">Filtering</a><ul>
+<li><a class="reference internal" href="#gwf.filtering.filter_generic"><code class="docutils literal notranslate"><span class="pre">filter_generic()</span></code></a></li>
+<li><a class="reference internal" href="#gwf.filtering.filter_names"><code class="docutils literal notranslate"><span class="pre">filter_names()</span></code></a></li>
+<li><a class="reference internal" href="#gwf.filtering.ApplyMixin"><code class="docutils literal notranslate"><span class="pre">ApplyMixin</span></code></a><ul>
+<li><a class="reference internal" href="#gwf.filtering.ApplyMixin.apply"><code class="docutils literal notranslate"><span class="pre">ApplyMixin.apply()</span></code></a></li>
+<li><a class="reference internal" href="#gwf.filtering.ApplyMixin.predicate"><code class="docutils literal notranslate"><span class="pre">ApplyMixin.predicate()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1103,6 +1184,7 @@ each <a class="reference internal" href="#gwf.filtering.ApplyMixin.predicate" ti
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/scripts/furo.js"></script>
     </body>
 </html>
