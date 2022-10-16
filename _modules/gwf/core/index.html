@@ -213,9 +213,7 @@
         </div>
         <article role="main">
           <h1>Source code for gwf.core</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">attrs</span>
-
-<span class="kn">import</span> <span class="nn">hashlib</span>
+<span></span><span class="kn">import</span> <span class="nn">hashlib</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">os.path</span>
@@ -224,6 +222,8 @@
 <span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Mapping</span>
 <span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
 <span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">fspath</span>
+
+<span class="kn">import</span> <span class="nn">attrs</span>
 
 <span class="kn">from</span> <span class="nn">.backends</span> <span class="kn">import</span> <span class="n">Status</span>
 <span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="ne">NameError</span><span class="p">,</span> <span class="n">WorkflowError</span>
