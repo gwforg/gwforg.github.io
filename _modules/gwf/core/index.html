@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex/" /><link rel="search" title="Search" href="../../../search/" />
 
     <meta name="generator" content="sphinx-5.3.0, furo 2022.09.29"/>
-        <title>gwf.core - gwf 1.8.0 documentation</title>
+        <title>gwf.core - gwf 1.8.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?digest=d81277517bee4d6b0349d71bb2661d4890b5617c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -122,7 +122,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../"><div class="brand">gwf 1.8.0 documentation</div></a>
+      <a href="../../../"><div class="brand">gwf 1.8.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -145,7 +145,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../">
   
   
-  <span class="sidebar-brand-text">gwf 1.8.0 documentation</span>
+  <span class="sidebar-brand-text">gwf 1.8.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search/" role="search">
   <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
@@ -223,9 +223,6 @@
 <span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
 <span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">fspath</span>
 
-<span class="kn">import</span> <span class="nn">attrs</span>
-
-<span class="kn">from</span> <span class="nn">.backends</span> <span class="kn">import</span> <span class="n">Status</span>
 <span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="ne">NameError</span><span class="p">,</span> <span class="n">WorkflowError</span>
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">cache</span><span class="p">,</span> <span class="n">is_valid_name</span><span class="p">,</span> <span class="n">timer</span>
 
@@ -501,7 +498,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">(name=</span><span class="si">{!r}</span><span class="s2">, ...)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">(name=</span><span class="si">{!r}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>
@@ -660,18 +657,6 @@
         <span class="n">dfs_inner</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">path</span></div>
 
-<div class="viewcode-block" id="Graph.subset"><a class="viewcode-back" href="../../../reference/api/#gwf.Graph.subset">[docs]</a>    <span class="k">def</span> <span class="nf">subset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoints</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Subset a graph given an iterable of endpoints.</span>
-
-<span class="sd">        This will return a new, potentially disjoint graph with the given</span>
-<span class="sd">        endpoints and all of their dependencies.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">targets</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">endpoints</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
-                <span class="n">targets</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">dep</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">Graph</span><span class="o">.</span><span class="n">from_targets</span><span class="p">(</span><span class="n">targets</span><span class="p">)</span></div>
-
     <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">targets</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
 
@@ -709,241 +694,6 @@
         <span class="k">if</span> <span class="n">st</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">st</span>
-
-
-<span class="k">class</span> <span class="nc">Reason</span><span class="p">:</span>
-    <span class="nd">@attrs</span><span class="o">.</span><span class="n">frozen</span>
-    <span class="k">class</span> <span class="nc">_Base</span><span class="p">:</span>
-        <span class="k">def</span> <span class="nf">reason</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-            <span class="k">return</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;reason&quot;</span><span class="p">)</span>
-
-        <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reason</span><span class="p">()</span>
-
-    <span class="nd">@attrs</span><span class="o">.</span><span class="n">frozen</span>
-    <span class="k">class</span> <span class="nc">IsSink</span><span class="p">(</span><span class="n">_Base</span><span class="p">):</span>
-        <span class="n">target</span><span class="p">:</span> <span class="n">Target</span>
-        <span class="n">scheduled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-
-        <span class="k">def</span> <span class="nf">reason</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-            <span class="k">return</span> <span class="s2">&quot;scheduled because it is a sink&quot;</span>
-
-    <span class="nd">@attrs</span><span class="o">.</span><span class="n">frozen</span>
-    <span class="k">class</span> <span class="nc">IsSource</span><span class="p">(</span><span class="n">_Base</span><span class="p">):</span>
-        <span class="n">target</span><span class="p">:</span> <span class="n">Target</span>
-        <span class="n">scheduled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-
-        <span class="k">def</span> <span class="nf">reason</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-            <span class="k">return</span> <span class="s2">&quot;not scheduled because it is a source&quot;</span>
-
-    <span class="nd">@attrs</span><span class="o">.</span><span class="n">frozen</span>
-    <span class="k">class</span> <span class="nc">DependencyScheduled</span><span class="p">(</span><span class="n">_Base</span><span class="p">):</span>
-        <span class="n">target</span><span class="p">:</span> <span class="n">Target</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
-        <span class="n">dependencies</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
-        <span class="n">scheduled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-
-        <span class="k">def</span> <span class="nf">reason</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-            <span class="k">return</span> <span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;scheduled because its dependency </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">dependencies</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> &quot;</span>
-                <span class="s2">&quot;was scheduled&quot;</span>
-            <span class="p">)</span>
-
-    <span class="nd">@attrs</span><span class="o">.</span><span class="n">frozen</span>
-    <span class="k">class</span> <span class="nc">MissingOutput</span><span class="p">(</span><span class="n">_Base</span><span class="p">):</span>
-        <span class="n">target</span><span class="p">:</span> <span class="n">Target</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
-        <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
-        <span class="n">scheduled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-
-        <span class="k">def</span> <span class="nf">reason</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;scheduled because its output file </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2"> does not exist&quot;</span>
-
-    <span class="nd">@attrs</span><span class="o">.</span><span class="n">frozen</span>
-    <span class="k">class</span> <span class="nc">OutOfDate</span><span class="p">(</span><span class="n">_Base</span><span class="p">):</span>
-        <span class="n">target</span><span class="p">:</span> <span class="n">Target</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
-        <span class="n">input_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
-        <span class="n">output_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
-        <span class="n">scheduled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-
-        <span class="k">def</span> <span class="nf">reason</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-            <span class="k">return</span> <span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;scheduled because input file </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">input_path</span><span class="si">}</span><span class="s2"> is newer &quot;</span>
-                <span class="s2">&quot;than output file </span><span class="si">{self.output_path}</span><span class="s2">&quot;</span>
-            <span class="p">)</span>
-
-    <span class="nd">@attrs</span><span class="o">.</span><span class="n">frozen</span>
-    <span class="k">class</span> <span class="nc">SpecChanged</span><span class="p">(</span><span class="n">_Base</span><span class="p">):</span>
-        <span class="n">target</span><span class="p">:</span> <span class="n">Target</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
-        <span class="n">old_hash</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
-        <span class="n">curr_hash</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
-        <span class="n">scheduled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-
-        <span class="k">def</span> <span class="nf">reason</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-            <span class="k">return</span> <span class="s2">&quot;sheduled because its spec has changed&quot;</span>
-
-    <span class="nd">@attrs</span><span class="o">.</span><span class="n">frozen</span>
-    <span class="k">class</span> <span class="nc">UpToDate</span><span class="p">(</span><span class="n">_Base</span><span class="p">):</span>
-        <span class="n">target</span><span class="p">:</span> <span class="n">Target</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
-        <span class="n">scheduled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-
-        <span class="k">def</span> <span class="nf">reason</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-            <span class="k">return</span> <span class="s2">&quot;is up-to-date&quot;</span>
-
-
-<span class="k">class</span> <span class="nc">Scheduler</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec_hashes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filesystem</span><span class="o">=</span><span class="n">CachedFilesystem</span><span class="p">()):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :param gwf.Graph graph:</span>
-<span class="sd">            Graph of the workflow.</span>
-<span class="sd">        :param gwf.backends.Backend backend:</span>
-<span class="sd">            An instance of :class:`gwf.backends.Backend` to which targets will</span>
-<span class="sd">            be submitted.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_filesystem</span> <span class="o">=</span> <span class="n">filesystem</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_spec_hashes</span> <span class="o">=</span> <span class="n">spec_hashes</span>
-
-    <span class="k">def</span> <span class="nf">schedule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Schedule multiple targets and their dependencies.</span>
-
-<span class="sd">        :param list targets:</span>
-<span class="sd">            A list of targets to be scheduled.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Scheduling </span><span class="si">%d</span><span class="s2"> target(s)&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">targets</span><span class="p">))</span>
-        <span class="k">with</span> <span class="n">timer</span><span class="p">(</span><span class="s2">&quot;Scheduled targets in </span><span class="si">%.3f</span><span class="s2">ms&quot;</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">):</span>
-            <span class="n">plans</span> <span class="o">=</span> <span class="p">{}</span>
-            <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">:</span>
-                <span class="n">plans</span><span class="p">[</span><span class="n">target</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">should_schedule</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">graph</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">plans</span>
-
-    <span class="nd">@cache</span>
-    <span class="k">def</span> <span class="nf">should_schedule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return whether a target should be run or not.&quot;&quot;&quot;</span>
-
-        <span class="n">dep_reasons</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">should_schedule</span><span class="p">(</span><span class="n">dep</span><span class="p">,</span> <span class="n">graph</span><span class="p">)</span> <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">dependencies</span><span class="p">[</span><span class="n">target</span><span class="p">]</span>
-        <span class="p">]</span>
-        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">dep_reasons</span> <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">scheduled</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">Reason</span><span class="o">.</span><span class="n">DependencyScheduled</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">dep_reasons</span><span class="p">)</span>
-
-        <span class="c1"># Check whether all input files actually exists are are being provided</span>
-        <span class="c1"># by another target. If not, it&#39;s an error.</span>
-        <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">target</span><span class="o">.</span><span class="n">flattened_inputs</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">unresolved</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_filesystem</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
-                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="s1">&#39;File &quot;</span><span class="si">{}</span><span class="s1">&quot; is required by &quot;</span><span class="si">{}</span><span class="s1">&quot;, but does not exist and is not &#39;</span>
-                    <span class="s2">&quot;provided by any target in the workflow.&quot;</span>
-                <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
-                <span class="k">raise</span> <span class="n">WorkflowError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">target</span><span class="o">.</span><span class="n">is_sink</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">Reason</span><span class="o">.</span><span class="n">IsSink</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
-
-        <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">target</span><span class="o">.</span><span class="n">flattened_outputs</span><span class="p">():</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_filesystem</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
-                <span class="k">return</span> <span class="n">Reason</span><span class="o">.</span><span class="n">MissingOutput</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">target</span><span class="o">.</span><span class="n">is_source</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">Reason</span><span class="o">.</span><span class="n">IsSource</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spec_hashes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">curr_hash</span> <span class="o">=</span> <span class="n">hash_spec</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">spec</span><span class="p">)</span>
-            <span class="n">old_hash</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spec_hashes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">curr_hash</span> <span class="o">!=</span> <span class="n">old_hash</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">Reason</span><span class="o">.</span><span class="n">SpecChanged</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">old_hash</span><span class="p">,</span> <span class="n">curr_hash</span><span class="p">)</span>
-
-        <span class="n">youngest_in_ts</span><span class="p">,</span> <span class="n">youngest_in_path</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
-            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_filesystem</span><span class="o">.</span><span class="n">changed_at</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="n">path</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">target</span><span class="o">.</span><span class="n">flattened_inputs</span><span class="p">()</span>
-        <span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-            <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> is the youngest input file of </span><span class="si">%s</span><span class="s2"> with timestamp </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
-            <span class="n">youngest_in_path</span><span class="p">,</span>
-            <span class="n">target</span><span class="p">,</span>
-            <span class="n">youngest_in_ts</span><span class="p">,</span>
-        <span class="p">)</span>
-
-        <span class="n">oldest_out_ts</span><span class="p">,</span> <span class="n">oldest_out_path</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
-            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_filesystem</span><span class="o">.</span><span class="n">changed_at</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="n">path</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">target</span><span class="o">.</span><span class="n">flattened_outputs</span><span class="p">()</span>
-        <span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-            <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> is the oldest output file of </span><span class="si">%s</span><span class="s2"> with timestamp </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
-            <span class="n">oldest_out_path</span><span class="p">,</span>
-            <span class="n">target</span><span class="p">,</span>
-            <span class="n">oldest_out_ts</span><span class="p">,</span>
-        <span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">youngest_in_ts</span> <span class="o">&gt;</span> <span class="n">oldest_out_ts</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">Reason</span><span class="o">.</span><span class="n">OutOfDate</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">youngest_in_path</span><span class="p">,</span> <span class="n">oldest_out_path</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">Reason</span><span class="o">.</span><span class="n">UpToDate</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">schedule</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">graph</span><span class="p">,</span> <span class="n">spec_hashes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filesystem</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Schedule one or more targets.</span>
-
-<span class="sd">    Scheduling a target will determine whether the target needs to run.</span>
-
-<span class="sd">    When scheduling a target, the scheduler checks whether any of its inputs</span>
-<span class="sd">    are unresolved, meaning that during construction of the graph, no other</span>
-<span class="sd">    target providing the file was found. This means that the file should then</span>
-<span class="sd">    exist on disk. If it doesn&#39;t the following exception is raised:</span>
-
-<span class="sd">    :raises gwf.exceptions.WorkflowError:</span>
-<span class="sd">        Raised if a target has an input file that does not exist on the file</span>
-<span class="sd">        system and that is not provided by another target.</span>
-
-<span class="sd">    Returns a tuple `(scheduled, reasons)` where `scheduled` is a map from</span>
-<span class="sd">    a target to its scheduled direct dependencies, and `reasons` is a map from</span>
-<span class="sd">    a target to a string describing why (or why not) the target was scheduled.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">filesystem</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">filesystem</span> <span class="o">=</span> <span class="n">CachedFilesystem</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">Scheduler</span><span class="p">(</span><span class="n">spec_hashes</span><span class="o">=</span><span class="n">spec_hashes</span><span class="p">,</span> <span class="n">filesystem</span><span class="o">=</span><span class="n">filesystem</span><span class="p">)</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span>
-        <span class="n">targets</span><span class="p">,</span> <span class="n">graph</span>
-    <span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">linearize_plan</span><span class="p">(</span><span class="n">plan</span><span class="p">):</span>
-    <span class="n">linear_plan</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">visited</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">traverse</span><span class="p">(</span><span class="n">reason</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">reason</span><span class="o">.</span><span class="n">scheduled</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">reason</span><span class="p">,</span> <span class="n">Reason</span><span class="o">.</span><span class="n">DependencyScheduled</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="n">reason</span><span class="o">.</span><span class="n">dependencies</span><span class="p">:</span>
-                <span class="n">traverse</span><span class="p">(</span><span class="n">dep</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">reason</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">visited</span><span class="p">:</span>
-            <span class="n">linear_plan</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">reason</span><span class="p">)</span>
-            <span class="n">visited</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">reason</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-
-    <span class="n">traverse</span><span class="p">(</span><span class="n">plan</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">linear_plan</span>
-
-
-<span class="k">def</span> <span class="nf">get_scheduled_targets</span><span class="p">(</span><span class="n">plan</span><span class="p">):</span>
-    <span class="n">scheduled</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">scheduled_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">reason</span> <span class="ow">in</span> <span class="n">linearize_plan</span><span class="p">(</span><span class="n">plan</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">reason</span><span class="o">.</span><span class="n">scheduled</span> <span class="ow">and</span> <span class="n">reason</span><span class="o">.</span><span class="n">target</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">scheduled_set</span><span class="p">:</span>
-            <span class="n">scheduled</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">reason</span><span class="p">)</span>
-            <span class="n">scheduled_set</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">reason</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">scheduled_set</span>
-
-
-<span class="k">def</span> <span class="nf">get_status</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">scheduled</span><span class="p">,</span> <span class="n">backend</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return the status of a target.</span>
-
-<span class="sd">    Returns the status of a target where it is taken into account whether</span>
-<span class="sd">    the target should run or not.</span>
-
-<span class="sd">    :param Target target:</span>
-<span class="sd">        The target to return status for.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">status</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">status</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="n">Status</span><span class="o">.</span><span class="n">UNKNOWN</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">scheduled</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">TargetStatus</span><span class="o">.</span><span class="n">SHOULDRUN</span>
-        <span class="k">return</span> <span class="n">TargetStatus</span><span class="o">.</span><span class="n">COMPLETED</span>
-    <span class="k">return</span> <span class="n">TargetStatus</span><span class="p">[</span><span class="n">status</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
 </pre></div>
         </article>
       </div>
