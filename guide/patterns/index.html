@@ -5,10 +5,10 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <link rel="index" title="Index" href="../../genindex/" /><link rel="search" title="Search" href="../../search/" /><link rel="next" title="Plugins" href="../plugins/" /><link rel="prev" title="Configuration" href="../configuration/" />
 
-    <meta name="generator" content="sphinx-5.3.0, furo 2022.09.29"/>
-        <title>Tips and Tricks - gwf 1.8.1 documentation</title>
+    <!-- Generated with Sphinx 6.1.3 and Furo 2022.12.07 -->
+        <title>Tips and Tricks - gwf 1.8.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=d81277517bee4d6b0349d71bb2661d4890b5617c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=91d0f0d1c444bdcb17a68e833c7a53903343c195" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../"><div class="brand">gwf 1.8.1 documentation</div></a>
+      <a href="../../"><div class="brand">gwf 1.8.2 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,10 +146,10 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../">
   
   
-  <span class="sidebar-brand-text">gwf 1.8.1 documentation</span>
+  <span class="sidebar-brand-text">gwf 1.8.2 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search/" role="search">
-  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form>
@@ -249,7 +249,7 @@ of the parameters:</p>
         <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;input.txt&#39;</span><span class="p">],</span>
         <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;output_</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">.txt&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)],</span>
     <span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">    ./simulate </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2"></span>
+<span class="s2">    ./simulate </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span>
 <span class="s2">    &quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -279,7 +279,7 @@ builds the workflow and returns it:</p>
         <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;input.txt&#39;</span><span class="p">],</span>
         <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="n">foo_output</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">    ./run_foo &gt; </span><span class="si">{}</span><span class="s2"></span>
+<span class="s2">    ./run_foo &gt; </span><span class="si">{}</span>
 <span class="s2">    &quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">foo_output</span><span class="p">)</span>
 
     <span class="n">bar_output</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="s1">&#39;output2.txt&#39;</span><span class="p">)</span>
@@ -303,7 +303,7 @@ which you can import the function. In this case, let’s put the file next to
 </pre></div>
 </div>
 <p>We can now run the workflow as usual:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ gwf run
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>gwf<span class="w"> </span>run
 </pre></div>
 </div>
 <p>However, we can now easily change the output directory:</p>
@@ -329,7 +329,7 @@ now always be needed. In this case, we can let the user choose to leave it out:<
         <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;input.txt&#39;</span><span class="p">],</span>
         <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="n">foo_output</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">    ./run_foo &gt; </span><span class="si">{}</span><span class="s2"></span>
+<span class="s2">    ./run_foo &gt; </span><span class="si">{}</span>
 <span class="s2">    &quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">foo_output</span><span class="p">)</span>
 
     <span class="c1"># Only create target `Bar` if we want to summarize the data.</span>
@@ -360,10 +360,10 @@ touching any Python code at all. That is, we want an external configuration file
 <p>The configuration format could be anything, but in this example we’ll use a JSON
 as the configuration format. First, this is what our configuration file is going
 to look like:</p>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nt">&quot;output_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;some_output_directory/&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="nt">&quot;summarize&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;output_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;some_output_directory/&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;summarize&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>We put this file next to <code class="docutils literal notranslate"><span class="pre">workflow.py</span></code>, e.g. as <code class="docutils literal notranslate"><span class="pre">config.json</span></code>. We can now read
@@ -414,7 +414,7 @@ each input file, as shown here:</p>
 </div>
 <p>You can now run the workflow for a single sample by specifying the name of the
 workflow:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf -f workflow.py:Analyse.Sample1 run
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf<span class="w"> </span>-f<span class="w"> </span>workflow.py:Analyse.Sample1<span class="w"> </span>run
 </pre></div>
 </div>
 <p>This will only run the targets associated with <cite>Sample1</cite>. While this means that
@@ -461,9 +461,7 @@ the targets associated with the selected sample.</p>
             
           </div>
           <div class="right-details">
-            <div class="icons">
-              
-            </div>
+            
           </div>
         </div>
         
@@ -498,9 +496,6 @@ the targets associated with the selected sample.</p>
     </aside>
   </div>
 </div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
     <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/scripts/furo.js"></script>

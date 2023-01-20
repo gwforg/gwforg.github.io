@@ -5,10 +5,10 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <link rel="index" title="Index" href="../../genindex/" /><link rel="search" title="Search" href="../../search/" /><link rel="next" title="Mapping over Inputs" href="../mapping/" /><link rel="prev" title="Installation" href="../installation/" />
 
-    <meta name="generator" content="sphinx-5.3.0, furo 2022.09.29"/>
-        <title>Tutorial - gwf 1.8.1 documentation</title>
+    <!-- Generated with Sphinx 6.1.3 and Furo 2022.12.07 -->
+        <title>Tutorial - gwf 1.8.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=d81277517bee4d6b0349d71bb2661d4890b5617c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=91d0f0d1c444bdcb17a68e833c7a53903343c195" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../"><div class="brand">gwf 1.8.1 documentation</div></a>
+      <a href="../../"><div class="brand">gwf 1.8.2 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,10 +146,10 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../">
   
   
-  <span class="sidebar-brand-text">gwf 1.8.1 documentation</span>
+  <span class="sidebar-brand-text">gwf 1.8.2 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search/" role="search">
-  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form>
@@ -224,13 +224,13 @@ familiar with how to install and manage packages and environments through the
 <em>conda</em> package manager.</p>
 <p>First, let’s install <em>gwf</em> in its own conda environment. Create a new environment
 for your project, we’ll call it <em>myproject</em>.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>conda config --add channels gwforg
-<span class="gp">$ </span>conda create -n myproject <span class="nv">python</span><span class="o">=</span><span class="m">3</span>.5 gwf
-<span class="gp">$ </span><span class="nb">source</span> activate myproject
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>conda<span class="w"> </span>config<span class="w"> </span>--add<span class="w"> </span>channels<span class="w"> </span>gwforg
+<span class="gp">$ </span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>myproject<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.5<span class="w"> </span>gwf
+<span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>activate<span class="w"> </span>myproject
 </pre></div>
 </div>
 <p>You should now be able to run the following command.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf --help
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf<span class="w"> </span>--help
 </pre></div>
 </div>
 <p>This should show you the commands and options available through <em>gwf</em>.</p>
@@ -321,7 +321,7 @@ for small workflows that don’t require a lot of resources.</p>
 <p>If you’re running <em>gwf</em> on a cluster you may want to use a backend that can
 submit targets to your clusters’ queueing system/workload manager like
 Slurm. For example, to use the Slurm backend, run the command:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf config <span class="nb">set</span> backend slurm
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span>backend<span class="w"> </span>slurm
 </pre></div>
 </div>
 <p>Now that you’re using the Slurm backend you don’t have to start any
@@ -329,13 +329,13 @@ workers. That is, just skip the step below.</p>
 </div>
 <p>First, open another terminal window and navigate to the <code class="docutils literal notranslate"><span class="pre">myproject</span></code> directory.
 Then run the command:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf workers
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf<span class="w"> </span>workers
 <span class="go">Started 4 workers, listening on port 12345</span>
 </pre></div>
 </div>
 <p>This will start a pool of workers that <em>gwf</em> can now submit targets to.
 Switch back to the other terminal and then run:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf run
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf<span class="w"> </span>run
 <span class="go">Scheduling target MyTarget</span>
 <span class="go">Submitting target MyTarget</span>
 </pre></div>
@@ -348,7 +348,7 @@ already exist).</p>
 <p>Within a few seconds you should see <code class="docutils literal notranslate"><span class="pre">greeting.txt</span></code> in the project directory. Try
 to open it in your favorite text editor!</p>
 <p>Now try the same command again:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf run
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf<span class="w"> </span>run
 <span class="go">Scheduling target MyTarget</span>
 </pre></div>
 </div>
@@ -366,14 +366,14 @@ workers and press <kbd class="kbd compound docutils literal notranslate"><kbd cl
 <p>Maybe you got tired of seeing this much output from <em>gwf</em> all the time, despite
 the pretty colors. We can change the verbosity (how chatty <em>gwf</em> is) using the
 <code class="docutils literal notranslate"><span class="pre">-v/--verbose</span></code> flag:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf -v warning run
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf<span class="w"> </span>-v<span class="w"> </span>warning<span class="w"> </span>run
 </pre></div>
 </div>
 <p>Now <em>gwf</em> only prints warnings. However, it quickly gets annoying to type this
 again and again, so let’s configure <em>gwf</em> to make <code class="docutils literal notranslate"><span class="pre">warning</span></code> the default
 verbosity level.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf config <span class="nb">set</span> verbose warning
-<span class="gp">$ </span>gwf run
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span>verbose<span class="w"> </span>warning
+<span class="gp">$ </span>gwf<span class="w"> </span>run
 </pre></div>
 </div>
 <p>As we’d expect, <em>gwf</em> outputs the same as before, but this time we didn’t have
@@ -386,14 +386,14 @@ details, refer to the <a class="reference internal" href="../configuration/#conf
 <p>If your workflow doesn’t look right or you find that e.g. <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">status</span></code>
 doesn’t show the right thing, you may need to debug your workflow. The first
 thing to try is to increase the verbosity level:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf -v debug status
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf<span class="w"> </span>-v<span class="w"> </span>debug<span class="w"> </span>status
 </pre></div>
 </div>
 <p>This will show you exactly what <em>gwf</em> is thinking about each target in your
 workflow. Why should it run? Why should it not run?</p>
 <p>To investigate further you can always use <code class="docutils literal notranslate"><span class="pre">print()</span></code> in your code and run
 your <code class="file docutils literal notranslate"><span class="pre">workflow.py</span></code> as a normal Python script:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python workflow.py
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>workflow.py
 </pre></div>
 </div>
 <p>In the end, there’s not a big difference between debugging a <em>gwf</em> workflow
@@ -429,7 +429,7 @@ declares that it needs two files as inputs. Since the file names match the
 file names produced by <code class="docutils literal notranslate"><span class="pre">TargetA</span></code> and <code class="docutils literal notranslate"><span class="pre">TargetB</span></code>, <code class="docutils literal notranslate"><span class="pre">TargetC</span></code> depends on these
 two targets.</p>
 <p>Let’s try to run this workflow:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf run
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf<span class="w"> </span>run
 <span class="go">Scheduling target TargetC</span>
 <span class="go">Scheduling dependency TargetA of TargetC</span>
 <span class="go">Submitting target TargetA</span>
@@ -565,8 +565,8 @@ how many dependencies of the target have been completed. If all dependencies of
 the target, and the target itself, have been completed, the percentage will be
 100%.</p>
 <p>Let’s try to run the workflow and see what happens.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf run
-<span class="gp">$ </span>gwf status
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf<span class="w"> </span>run
+<span class="gp">$ </span>gwf<span class="w"> </span>status
 <span class="go">TargetA    running         0.00%</span>
 <span class="go">TargetB    submitted       0.00%</span>
 <span class="go">TargetC    submitted       0.00%</span>
@@ -675,7 +675,7 @@ used in this tutorial.</p></li>
 <p>Our reference genome is stored in <code class="docutils literal notranslate"><span class="pre">ponAbe2.fa.gz</span></code>, so we’ll need to unzip it first.
 Let’s write a template that unpacks files.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">unzip</span><span class="p">(</span><span class="n">inputfile</span><span class="p">,</span> <span class="n">outputfile</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;A template for unzipping files.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A template for unzipping files.&quot;&quot;&quot;</span>
     <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">inputfile</span><span class="p">]</span>
     <span class="n">outputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">outputfile</span><span class="p">]</span>
     <span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
@@ -684,7 +684,7 @@ Let’s write a template that unpacks files.</p>
     <span class="p">}</span>
 
     <span class="n">spec</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
-<span class="s1">    gzcat </span><span class="si">{}</span><span class="s1"> &gt; </span><span class="si">{}</span><span class="s1"></span>
+<span class="s1">    gzcat </span><span class="si">{}</span><span class="s1"> &gt; </span><span class="si">{}</span>
 <span class="s1">    &#39;&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">inputfile</span><span class="p">,</span> <span class="n">outputfile</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">AnonymousTarget</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span> <span class="n">spec</span><span class="o">=</span><span class="n">spec</span><span class="p">)</span>
@@ -710,7 +710,7 @@ and submitted, and after a few seconds you should have a <code class="docutils l
 the project directory.</p>
 <p>Let’s now define another template for indexing a genome.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">bwa_index</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Template for indexing a genome with `bwa index`.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Template for indexing a genome with `bwa index`.&quot;&quot;&quot;</span>
     <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.fa&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">)]</span>
     <span class="n">outputs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.amb&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">),</span>
                <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.ann&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">),</span>
@@ -745,7 +745,7 @@ the command that will be executed.</p>
 <p>Finally, we’ll create a template for actually mapping the reads to the
 reference.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">bwa_map</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">,</span> <span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">,</span> <span class="n">bamfile</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Template for mapping reads to a reference genome with `bwa` and `samtools`.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Template for mapping reads to a reference genome with `bwa` and `samtools`.&quot;&quot;&quot;</span>
     <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">,</span>
               <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.amb&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">),</span>
               <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.ann&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="p">),</span>
@@ -760,7 +760,7 @@ reference.</p>
     <span class="n">spec</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">    bwa mem -t 16 </span><span class="si">{ref_genome}</span><span class="s1"> </span><span class="si">{r1}</span><span class="s1"> </span><span class="si">{r2}</span><span class="s1"> | </span><span class="se">\</span>
 <span class="s1">    samtools sort | </span><span class="se">\</span>
-<span class="s1">    samtools rmdup -s - </span><span class="si">{bamfile}</span><span class="s1"></span>
+<span class="s1">    samtools rmdup -s - </span><span class="si">{bamfile}</span>
 <span class="s1">    &#39;&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genome</span><span class="o">=</span><span class="n">ref_genome</span><span class="p">,</span> <span class="n">r1</span><span class="o">=</span><span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="o">=</span><span class="n">r2</span><span class="p">,</span> <span class="n">bamfile</span><span class="o">=</span><span class="n">bamfile</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">AnonymousTarget</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span> <span class="n">spec</span><span class="o">=</span><span class="n">spec</span><span class="p">)</span>
@@ -789,17 +789,17 @@ to you!</p>
 <p>We may be curious about what the <code class="docutils literal notranslate"><span class="pre">MapReads</span></code> target wrote to the console when the target
 ran, to see if there were any warnings. If a target failed, it’s also valuable to see
 it’s output to diagnose the problem. Luckily, <em>gwf</em> makes this very easy.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf logs MapReads
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf<span class="w"> </span>logs<span class="w"> </span>MapReads
 </pre></div>
 </div>
 <p>When you run this command you’ll see nothing. This is because the <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">logs</span></code> command by
 default only shows things written to stdout by the target, and not stderr, and apparently
 nothing was written to stdout in this target. Let’s try to take a look at stderr instead
 by applying the <code class="docutils literal notranslate"><span class="pre">--stderr</span></code> flag (or the short version <code class="docutils literal notranslate"><span class="pre">-e</span></code>).</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf logs --stderr MapReads
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf<span class="w"> </span>logs<span class="w"> </span>--stderr<span class="w"> </span>MapReads
 <span class="go">[M::bwa_idx_load_from_disk] read 0 ALT contigs</span>
 <span class="go">[M::process] read 15000 sequences (1500000 bp)...</span>
-<span class="gp">[M::mem_pestat] # </span>candidate unique pairs <span class="k">for</span> <span class="o">(</span>FF, FR, RF, RR<span class="o">)</span>: <span class="o">(</span><span class="m">1</span>, <span class="m">65</span>, <span class="m">1</span>, <span class="m">0</span><span class="o">)</span>
+<span class="gp">[M::mem_pestat] # </span>candidate<span class="w"> </span>unique<span class="w"> </span>pairs<span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="o">(</span>FF,<span class="w"> </span>FR,<span class="w"> </span>RF,<span class="w"> </span>RR<span class="o">)</span>:<span class="w"> </span><span class="o">(</span><span class="m">1</span>,<span class="w"> </span><span class="m">65</span>,<span class="w"> </span><span class="m">1</span>,<span class="w"> </span><span class="m">0</span><span class="o">)</span>
 <span class="go">[M::mem_pestat] skip orientation FF as there are not enough pairs</span>
 <span class="go">[M::mem_pestat] analyzing insert size distribution for orientation FR...</span>
 <span class="go">[M::mem_pestat] (25, 50, 75) percentile: (313, 369, 429)</span>
@@ -821,12 +821,12 @@ ones since <em>gwf</em> does not archive logs from old runs of targets.</p>
 <h2>Cleaning Up<a class="headerlink" href="#cleaning-up" title="Permalink to this heading">#</a></h2>
 <p>Now that we have run our workflow we may wish to remove intermediate files to
 save disk space. In <em>gwf</em> we can use the <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">clean</span></code> command for this:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf clean
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf<span class="w"> </span>clean
 </pre></div>
 </div>
 <p>This command only removes files produced by an endpoint target (a target which
 no other target depends on):</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf clean
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf<span class="w"> </span>clean
 <span class="go">Will delete 1.3MiB of files!</span>
 <span class="go">Deleting output files of IndexGenome</span>
 <span class="go">Deleting file &quot;/Users/das/Code/gwf/examples/readmapping/ponAbe2.amb&quot; from target &quot;IndexGenome&quot;</span>
@@ -893,9 +893,7 @@ reproduce the environment used locally.</p>
             
           </div>
           <div class="right-details">
-            <div class="icons">
-              
-            </div>
+            
           </div>
         </div>
         
@@ -939,9 +937,6 @@ reproduce the environment used locally.</p>
     </aside>
   </div>
 </div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
     <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/scripts/furo.js"></script>

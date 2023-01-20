@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex/" /><link rel="search" title="Search" href="../../../../search/" />
 
-    <meta name="generator" content="sphinx-5.3.0, furo 2022.09.29"/>
-        <title>gwf.backends.base - gwf 1.8.1 documentation</title>
+    <!-- Generated with Sphinx 6.1.3 and Furo 2022.12.07 -->
+        <title>gwf.backends.base - gwf 1.8.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?digest=d81277517bee4d6b0349d71bb2661d4890b5617c" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?digest=91d0f0d1c444bdcb17a68e833c7a53903343c195" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
@@ -122,7 +122,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../"><div class="brand">gwf 1.8.1 documentation</div></a>
+      <a href="../../../../"><div class="brand">gwf 1.8.2 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -145,10 +145,10 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../">
   
   
-  <span class="sidebar-brand-text">gwf 1.8.1 documentation</span>
+  <span class="sidebar-brand-text">gwf 1.8.2 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search/" role="search">
-  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form>
@@ -238,7 +238,7 @@
 
 
 <div class="viewcode-block" id="Status"><a class="viewcode-back" href="../../../../reference/api/#gwf.backends.Status">[docs]</a><span class="k">class</span> <span class="nc">Status</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Status of a target.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Status of a target.</span>
 
 <span class="sd">    A target is unknown to the backend if it has not been submitted or the</span>
 <span class="sd">    target has completed and thus isn&#39;t being tracked anymore by the backend.</span>
@@ -255,7 +255,7 @@
 
 
 <div class="viewcode-block" id="Backend"><a class="viewcode-back" href="../../../../reference/api/#gwf.backends.Backend">[docs]</a><span class="k">class</span> <span class="nc">Backend</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Base class for backends.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for backends.&quot;&quot;&quot;</span>
 
     <span class="n">option_defaults</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">log_manager</span> <span class="o">=</span> <span class="n">FileLogManager</span><span class="p">()</span>
@@ -269,12 +269,12 @@
 
 <div class="viewcode-block" id="Backend.list"><a class="viewcode-back" href="../../../../reference/api/#gwf.backends.Backend.list">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">list</span><span class="p">():</span>
-        <span class="sd">&quot;&quot;&quot;Return the names of all registered backends.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the names of all registered backends.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">_load_backends</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 
 <div class="viewcode-block" id="Backend.from_name"><a class="viewcode-back" href="../../../../reference/api/#gwf.backends.Backend.from_name">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return backend class for the backend given by `name`.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return backend class for the backend given by `name`.</span>
 
 <span class="sd">        Returns the backend class registered with `name`. Note that the *class*</span>
 <span class="sd">        is returned, not the instance, since not all uses requires</span>
@@ -288,7 +288,7 @@
 
 <div class="viewcode-block" id="Backend.from_config"><a class="viewcode-back" href="../../../../reference/api/#gwf.backends.Backend.from_config">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_config</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return backend class for the backend specified by `config`.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return backend class for the backend specified by `config`.</span>
 
 <span class="sd">        See :func:`Backend.from_name` for further information.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_name</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;backend&quot;</span><span class="p">])</span></div>
@@ -304,14 +304,14 @@
         <span class="k">return</span> <span class="o">-</span><span class="mi">1000</span></div>
 
 <div class="viewcode-block" id="Backend.status"><a class="viewcode-back" href="../../../../reference/api/#gwf.backends.Backend.status">[docs]</a>    <span class="k">def</span> <span class="nf">status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return the status of `target`.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the status of `target`.</span>
 
 <span class="sd">        :param gwf.Target target: The target to return the status of.</span>
 <span class="sd">        :return gwf.backends.Status: Status of `target`.</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
 <div class="viewcode-block" id="Backend.submit_full"><a class="viewcode-back" href="../../../../reference/api/#gwf.backends.Backend.submit_full">[docs]</a>    <span class="k">def</span> <span class="nf">submit_full</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Prepare and submit `target` with `dependencies`.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Prepare and submit `target` with `dependencies`.</span>
 
 <span class="sd">        Will prepare the target for submission by injecting option defaults</span>
 <span class="sd">        from the backend, check for unsupported options, and removing options</span>
@@ -339,7 +339,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Backend.submit"><a class="viewcode-back" href="../../../../reference/api/#gwf.backends.Backend.submit">[docs]</a>    <span class="k">def</span> <span class="nf">submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Submit `target` with `dependencies`.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Submit `target` with `dependencies`.</span>
 
 <span class="sd">        This method must submit the `target` and return immediately. That is,</span>
 <span class="sd">        the method must not block while waiting for the target to complete.</span>
@@ -352,7 +352,7 @@
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
 <div class="viewcode-block" id="Backend.cancel"><a class="viewcode-back" href="../../../../reference/api/#gwf.backends.Backend.cancel">[docs]</a>    <span class="k">def</span> <span class="nf">cancel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Cancel `target`.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Cancel `target`.</span>
 
 <span class="sd">        :param gwf.Target target:</span>
 <span class="sd">            The target to cancel.</span>
@@ -362,7 +362,7 @@
 
 <div class="viewcode-block" id="Backend.logs"><a class="viewcode-back" href="../../../../reference/api/#gwf.backends.Backend.logs">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">logs</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return log files for a target.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return log files for a target.</span>
 
 <span class="sd">        If the backend cannot return logs a</span>
 <span class="sd">        :class:`~gwf.exceptions.NoLogFoundError` is raised.</span>
@@ -385,7 +385,7 @@
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">log_manager</span><span class="o">.</span><span class="n">open_stdout</span><span class="p">(</span><span class="n">target</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Backend.close"><a class="viewcode-back" href="../../../../reference/api/#gwf.backends.Backend.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Close the backend.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Close the backend.</span>
 
 <span class="sd">        Called when the backend is no longer needed and should close all</span>
 <span class="sd">        resources (open files, connections) used by the backend.</span>
@@ -393,7 +393,7 @@
 
 
 <span class="k">class</span> <span class="nc">PbsLikeBackendBase</span><span class="p">(</span><span class="n">Backend</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;PBS-like backend base class.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;PBS-like backend base class.&quot;&quot;&quot;</span>
 
     <span class="n">option_flags</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">option_defaults</span> <span class="o">=</span> <span class="p">{}</span>
@@ -458,13 +458,13 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_tracked</span><span class="o">.</span><span class="n">persist</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">forget_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Force the backend to forget the job associated with `target`.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Force the backend to forget the job associated with `target`.&quot;&quot;&quot;</span>
         <span class="n">job_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_job_id</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status</span><span class="p">[</span><span class="n">job_id</span><span class="p">]</span>
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tracked</span><span class="p">[</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">get_job_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Get the Slurm job id for a target.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the Slurm job id for a target.</span>
 
 <span class="sd">        :raises KeyError: if the target is not tracked by the backend.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -510,9 +510,7 @@
             
           </div>
           <div class="right-details">
-            <div class="icons">
-              
-            </div>
+            
           </div>
         </div>
         
@@ -525,9 +523,6 @@
     </aside>
   </div>
 </div><script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
-    <script src="../../../../_static/jquery.js"></script>
-    <script src="../../../../_static/underscore.js"></script>
-    <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../../_static/doctools.js"></script>
     <script src="../../../../_static/sphinx_highlight.js"></script>
     <script src="../../../../_static/scripts/furo.js"></script>
