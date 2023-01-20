@@ -219,14 +219,10 @@
 <p>In this tutorial we will explore various concepts in <em>gwf</em>. We will define
 workflows and see how <em>gwf</em> can help us keep track of the progress of workflow
 execution, the output of targets and dependencies between targets. Have fun!</p>
-<p>We’ll assume that you have the <a class="reference external" href="https://www.continuum.io/downloads">Anaconda</a> distribution installed and that you are
-familiar with how to install and manage packages and environments through the
-<em>conda</em> package manager.</p>
 <p>First, let’s install <em>gwf</em> in its own conda environment. Create a new environment
 for your project, we’ll call it <em>myproject</em>.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>conda<span class="w"> </span>config<span class="w"> </span>--add<span class="w"> </span>channels<span class="w"> </span>gwforg
-<span class="gp">$ </span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>myproject<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.5<span class="w"> </span>gwf
-<span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>activate<span class="w"> </span>myproject
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>myproject<span class="w"> </span>gwf
+<span class="gp">$ </span>conda<span class="w"> </span>activate<span class="w"> </span>myproject
 </pre></div>
 </div>
 <p>You should now be able to run the following command.</p>
@@ -840,6 +836,16 @@ no other target depends on):</p>
 </div>
 <p>We can tell <em>gwf</em> to remove all files by running <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">clean</span> <span class="pre">--all</span></code>.</p>
 </section>
+<section id="protecting-files-from-being-cleaned-up">
+<h2>Protecting Files From Being Cleaned Up<a class="headerlink" href="#protecting-files-from-being-cleaned-up" title="Permalink to this heading">#</a></h2>
+<p>You can protect output files from being cleaned up:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">&#39;TargetA&#39;</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">],</span> <span class="n">protect</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;d&#39;</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">...</span>
+<span class="s2">&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+<p>Now, when running <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">clean</span></code>, the file <code class="docutils literal notranslate"><span class="pre">d</span></code> will not be deleted.</p>
+</section>
 <section id="a-note-about-reproducibility">
 <h2>A Note About Reproducibility<a class="headerlink" href="#a-note-about-reproducibility" title="Permalink to this heading">#</a></h2>
 <p>Reproducibility is an important part of research and since <em>gwf</em> workflows describe every
@@ -924,6 +930,7 @@ reproduce the environment used locally.</p>
 <li><a class="reference internal" href="#reusable-targets-with-templates">Reusable Targets with Templates</a></li>
 <li><a class="reference internal" href="#viewing-logs">Viewing Logs</a></li>
 <li><a class="reference internal" href="#cleaning-up">Cleaning Up</a></li>
+<li><a class="reference internal" href="#protecting-files-from-being-cleaned-up">Protecting Files From Being Cleaned Up</a></li>
 <li><a class="reference internal" href="#a-note-about-reproducibility">A Note About Reproducibility</a></li>
 </ul>
 </li>
