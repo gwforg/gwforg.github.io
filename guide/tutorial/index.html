@@ -550,45 +550,41 @@ from earlier to fake that each target takes some time to run:</p>
 <p>Now run <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">status</span></code> (Remember to remove <code class="docutils literal notranslate"><span class="pre">x.txt</span></code>, <code class="docutils literal notranslate"><span class="pre">y.txt</span></code> and <code class="docutils literal notranslate"><span class="pre">z.txt</span></code>,
 otherwise <em>gwf</em> will not submit the targets again). You should see something like this,
 but with pretty colors.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">TargetA    shouldrun       0.00%</span>
-<span class="go">TargetB    shouldrun       0.00%</span>
-<span class="go">TargetC    shouldrun       0.00%</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">⨯ TargetA      0.00%    spec has changed</span>
+<span class="go">⨯ TargetB      0.00%    spec has changed</span>
+<span class="go">⨯ TargetC      0.00%    a dependency was scheduled</span>
 </pre></div>
 </div>
 <p>Each target in the workflow is shown on a separate line. We can see the status
-of the target (<cite>shouldrun</cite>) and percentage completion. The percentage tells us
-how many dependencies of the target have been completed. If all dependencies of
-the target, and the target itself, have been completed, the percentage will be
-100%.</p>
+of the target (<cite>⨯</cite> meaning that the target is incomplete) and percentage
+completion. In this case, <strong>gwf</strong> also tells us that the first two targets must
+run because their spec changed (since it’s the first time running the workflow).</p>
+<p>The percentage tells us how many dependencies of the target have
+been completed. If all dependencies of the target, and the target itself, have
+been completed, the percentage will be 100%.</p>
 <p>Let’s try to run the workflow and see what happens.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf<span class="w"> </span>run
 <span class="gp">$ </span>gwf<span class="w"> </span>status
-<span class="go">TargetA    running         0.00%</span>
-<span class="go">TargetB    submitted       0.00%</span>
-<span class="go">TargetC    submitted       0.00%</span>
+<span class="go">↻ TargetA      0.00%    is running</span>
+<span class="go">- TargetB      0.00%    has been submitted</span>
+<span class="go">- TargetC      0.00%    has been submitted</span>
 </pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">R</span></code> shows that one third of the targets are running (since I’m only
-running with one worker, only one target can run at a time) and the other two
-thirds have been submitted. Running the status command again after some time
-should show something like this.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">TargetA    completed     100.00%</span>
-<span class="go">TargetB    running         0.00%</span>
-<span class="go">TargetC    submitted      33.33%</span>
+<p>Now the first target is running and the other targets have been submitted and
+are waiting to run. Running the status command again after some time should show
+something like this.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">✓ TargetA    100.00%    not scheduled because it is a source</span>
+<span class="go">✓ TargetB    100.00%    not scheduled because it is a source</span>
+<span class="go">↻ TargetC     66.67%    is running</span>
 </pre></div>
 </div>
-<p>Now the target that was running before has completed, and another target is now
-running, while the final target is still just submitted. After some time, run
-the status command again. The last target should now be running.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">TargetA    completed     100.00%</span>
-<span class="go">TargetB    completed     100.00%</span>
-<span class="go">TargetC    running        66.67%</span>
-</pre></div>
-</div>
+<p>Now the first two targets have completed and TargetC is running. We’re also told
+that, if we run <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">run</span></code> again, TargetA and TargetB will not be submitted
+because they’re both “sources”, that is, they don’t have any input files.</p>
 <p>After a while, all targets should have completed.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">TargetA    completed     100.00%</span>
-<span class="go">TargetB    completed     100.00%</span>
-<span class="go">TargetC    completed     100.00%</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">✓ TargetA    100.00%    not scheduled because it is a source</span>
+<span class="go">✓ TargetB    100.00%    not scheduled because it is a source</span>
+<span class="go">✓ TargetC    100.00%    is up-to-date</span>
 </pre></div>
 </div>
 <p>Here’s a few neat things you should know about the status command:</p>
