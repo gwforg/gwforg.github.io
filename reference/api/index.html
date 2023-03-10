@@ -598,11 +598,6 @@ the target.</p></li>
 constructed. Checks are only performed at construction-time, thus
 introducing e.g. a circular dependency by manipulating <em>dependencies</em> will
 not raise an exception.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>gwf.exceptions.WorkflowError</strong> – Raised if the workflow contains a circular dependency.</p>
-</dd>
-</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="gwf.core.Graph.dfs">
 <span class="sig-name descname"><span class="pre">dfs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/core/#Graph.dfs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.core.Graph.dfs" title="Permalink to this definition">#</a></dt>
@@ -625,13 +620,10 @@ Therefore, construction of the graph is an expensive operation which
 may raise a number of exceptions:</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>gwf.exceptions.FileProvidedByMultipleTargetsError</strong> – Raised if the same file is provided by multiple targets.</p>
-</dd>
-</dl>
-<p>Since this method initializes the graph, it may also raise:</p>
-<dl class="field-list simple">
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>gwf.exceptions.WorkflowError</strong> – Raised if the workflow contains a circular dependency.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gwf.exceptions.FileProvidedByMultipleTargetsError</strong> – Raised if the same file is provided by multiple targets.</p></li>
+<li><p><strong>gwf.exceptions.CircularDependencyError</strong> – Raised if the graph contains a circular dependency.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>

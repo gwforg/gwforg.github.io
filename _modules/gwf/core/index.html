@@ -223,7 +223,7 @@
 <span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
 <span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">fspath</span>
 
-<span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="ne">NameError</span><span class="p">,</span> <span class="n">WorkflowError</span>
+<span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="n">GWFError</span><span class="p">,</span> <span class="ne">NameError</span><span class="p">,</span> <span class="n">WorkflowError</span>
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">cache</span><span class="p">,</span> <span class="n">is_valid_name</span><span class="p">,</span> <span class="n">timer</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -507,6 +507,14 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>
 
 
+<span class="k">class</span> <span class="nc">CircularDependencyError</span><span class="p">(</span><span class="n">GWFError</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">FileProvidedByMultipleTargetsError</span><span class="p">(</span><span class="n">GWFError</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
 <div class="viewcode-block" id="Graph"><a class="viewcode-back" href="../../../reference/api/#gwf.Graph">[docs]</a><span class="k">class</span> <span class="nc">Graph</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a dependency graph for a set of targets.</span>
 
@@ -542,9 +550,6 @@
 <span class="sd">    constructed. Checks are only performed at construction-time, thus</span>
 <span class="sd">    introducing e.g. a circular dependency by manipulating *dependencies* will</span>
 <span class="sd">    not raise an exception.</span>
-
-<span class="sd">    :raises gwf.exceptions.WorkflowError:</span>
-<span class="sd">        Raised if the workflow contains a circular dependency.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">provides</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">,</span> <span class="n">dependents</span><span class="p">,</span> <span class="n">unresolved</span><span class="p">):</span>
@@ -568,10 +573,8 @@
 <span class="sd">        :raises gwf.exceptions.FileProvidedByMultipleTargetsError:</span>
 <span class="sd">            Raised if the same file is provided by multiple targets.</span>
 
-<span class="sd">        Since this method initializes the graph, it may also raise:</span>
-
-<span class="sd">        :raises gwf.exceptions.WorkflowError:</span>
-<span class="sd">            Raised if the workflow contains a circular dependency.</span>
+<span class="sd">        :raises gwf.exceptions.CircularDependencyError:</span>
+<span class="sd">            Raised if the graph contains a circular dependency.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">provides</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">unresolved</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
@@ -590,7 +593,7 @@
                         <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;File &quot;</span><span class="si">{}</span><span class="s1">&quot; provided by targets &quot;</span><span class="si">{}</span><span class="s1">&quot; and &quot;</span><span class="si">{}</span><span class="s1">&quot;.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                             <span class="n">path</span><span class="p">,</span> <span class="n">provides</span><span class="p">[</span><span class="n">path</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">target</span>
                         <span class="p">)</span>
-                        <span class="k">raise</span> <span class="n">WorkflowError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                        <span class="k">raise</span> <span class="n">FileProvidedByMultipleTargetsError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
                     <span class="n">provides</span><span class="p">[</span><span class="n">path</span><span class="p">]</span> <span class="o">=</span> <span class="n">target</span>
 
         <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">:</span>
@@ -614,10 +617,6 @@
 
     <span class="nd">@timer</span><span class="p">(</span><span class="s2">&quot;Checked for circular dependencies in </span><span class="si">%.3f</span><span class="s2">ms&quot;</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">_check_for_circular_dependencies</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check for circular dependencies in the graph.</span>
-
-<span class="sd">        Raises :class:`WorkflowError` if a circular dependency is found.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Checking for circular dependencies&quot;</span><span class="p">)</span>
 
         <span class="n">fresh</span><span class="p">,</span> <span class="n">started</span><span class="p">,</span> <span class="n">done</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span>
@@ -629,7 +628,9 @@
             <span class="n">state</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="n">started</span>
             <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependencies</span><span class="p">[</span><span class="n">node</span><span class="p">]:</span>
                 <span class="k">if</span> <span class="n">state</span><span class="p">[</span><span class="n">dep</span><span class="p">]</span> <span class="o">==</span> <span class="n">started</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="n">WorkflowError</span><span class="p">(</span><span class="s2">&quot;Target </span><span class="si">{}</span><span class="s2"> depends on itself.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">node</span><span class="p">))</span>
+                    <span class="k">raise</span> <span class="n">CircularDependencyError</span><span class="p">(</span>
+                        <span class="s2">&quot;Target </span><span class="si">{}</span><span class="s2"> depends on itself.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+                    <span class="p">)</span>
                 <span class="k">elif</span> <span class="n">state</span><span class="p">[</span><span class="n">dep</span><span class="p">]</span> <span class="o">==</span> <span class="n">fresh</span><span class="p">:</span>
                     <span class="n">visitor</span><span class="p">(</span><span class="n">dep</span><span class="p">)</span>
             <span class="n">state</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="n">done</span>
