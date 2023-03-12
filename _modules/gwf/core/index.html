@@ -214,6 +214,7 @@
         <article role="main">
           <h1>Source code for gwf.core</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">os.path</span>
@@ -223,8 +224,10 @@
 <span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
 <span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">fspath</span>
 
+<span class="kn">import</span> <span class="nn">attrs</span>
+
 <span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="n">GWFError</span><span class="p">,</span> <span class="ne">NameError</span><span class="p">,</span> <span class="n">WorkflowError</span>
-<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">cache</span><span class="p">,</span> <span class="n">is_valid_name</span><span class="p">,</span> <span class="n">timer</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">PersistableDict</span><span class="p">,</span> <span class="n">is_valid_name</span><span class="p">,</span> <span class="n">timer</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -289,6 +292,37 @@
 
 <span class="k">def</span> <span class="nf">hash_spec</span><span class="p">(</span><span class="n">spec</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha1</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">hash_specs</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
+    <span class="n">hashes</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">targets</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="n">hashes</span><span class="p">[</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">hash_spec</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">spec</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">hashes</span>
+
+
+<span class="k">def</span> <span class="nf">_get_spec_hashes_path</span><span class="p">(</span><span class="n">working_dir</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="s2">&quot;.gwf&quot;</span><span class="p">,</span> <span class="s2">&quot;spec-hashes.json&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">load_spec_hashes</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">_get_spec_hashes_path</span><span class="p">(</span><span class="n">working_dir</span><span class="p">)</span>
+
+    <span class="c1"># If spec-hashes.json doesn&#39;t exist, it&#39;s because this is the first time</span>
+    <span class="c1"># we&#39;re using spec hashes, so we&#39;ll initialize the dict with the current</span>
+    <span class="c1"># spec hashes.</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;First run with spec hashes enabled - computing hashes&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">hash_specs</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">hashes_file</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">hashes_file</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">dump_spec_hashes</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span>
+    <span class="n">hashes</span> <span class="o">=</span> <span class="n">hash_specs</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">_get_spec_hashes_path</span><span class="p">(</span><span class="n">working_dir</span><span class="p">),</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">hashes_file</span><span class="p">:</span>
+        <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">hashes</span><span class="p">,</span> <span class="n">hashes_file</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">TargetStatus</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
@@ -515,7 +549,33 @@
     <span class="k">pass</span>
 
 
-<div class="viewcode-block" id="Graph"><a class="viewcode-back" href="../../../reference/api/#gwf.Graph">[docs]</a><span class="k">class</span> <span class="nc">Graph</span><span class="p">:</span>
+<span class="nd">@timer</span><span class="p">(</span><span class="s2">&quot;Checked for circular dependencies in </span><span class="si">%.3f</span><span class="s2">ms&quot;</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">check_for_circular_dependencies</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">):</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Checking for circular dependencies&quot;</span><span class="p">)</span>
+
+    <span class="n">fresh</span><span class="p">,</span> <span class="n">started</span><span class="p">,</span> <span class="n">done</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span>
+
+    <span class="n">nodes</span> <span class="o">=</span> <span class="n">targets</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">fresh</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">visitor</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+        <span class="n">state</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="n">started</span>
+        <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="n">dependencies</span><span class="p">[</span><span class="n">node</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">state</span><span class="p">[</span><span class="n">dep</span><span class="p">]</span> <span class="o">==</span> <span class="n">started</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">CircularDependencyError</span><span class="p">(</span>
+                    <span class="s2">&quot;Target </span><span class="si">{}</span><span class="s2"> depends on itself.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">state</span><span class="p">[</span><span class="n">dep</span><span class="p">]</span> <span class="o">==</span> <span class="n">fresh</span><span class="p">:</span>
+                <span class="n">visitor</span><span class="p">(</span><span class="n">dep</span><span class="p">)</span>
+        <span class="n">state</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="n">done</span>
+
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">state</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">==</span> <span class="n">fresh</span><span class="p">:</span>
+            <span class="n">visitor</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Graph"><a class="viewcode-back" href="../../../reference/api/#gwf.Graph">[docs]</a><span class="nd">@attrs</span><span class="o">.</span><span class="n">define</span>
+<span class="k">class</span> <span class="nc">Graph</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a dependency graph for a set of targets.</span>
 
 <span class="sd">    The graph represents the targets present in a workflow, but also their</span>
@@ -552,14 +612,11 @@
 <span class="sd">    not raise an exception.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">provides</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">,</span> <span class="n">dependents</span><span class="p">,</span> <span class="n">unresolved</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">targets</span> <span class="o">=</span> <span class="n">targets</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">provides</span> <span class="o">=</span> <span class="n">provides</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dependencies</span> <span class="o">=</span> <span class="n">dependencies</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dependents</span> <span class="o">=</span> <span class="n">dependents</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">unresolved</span> <span class="o">=</span> <span class="n">unresolved</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">_check_for_circular_dependencies</span><span class="p">()</span>
+    <span class="n">targets</span><span class="p">:</span> <span class="nb">dict</span>
+    <span class="n">provides</span><span class="p">:</span> <span class="nb">dict</span>
+    <span class="n">dependencies</span><span class="p">:</span> <span class="n">defaultdict</span>
+    <span class="n">dependents</span><span class="p">:</span> <span class="n">defaultdict</span>
+    <span class="n">unresolved</span><span class="p">:</span> <span class="nb">set</span>
 
 <div class="viewcode-block" id="Graph.from_targets"><a class="viewcode-back" href="../../../reference/api/#gwf.Graph.from_targets">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_targets</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
@@ -607,44 +664,22 @@
             <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="n">deps</span><span class="p">:</span>
                 <span class="n">dependents</span><span class="p">[</span><span class="n">dep</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
 
+        <span class="n">targets</span> <span class="o">=</span> <span class="p">{</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">target</span> <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">}</span>
+        <span class="n">check_for_circular_dependencies</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
-            <span class="n">targets</span><span class="o">=</span><span class="p">{</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">target</span> <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">},</span>
+            <span class="n">targets</span><span class="o">=</span><span class="n">targets</span><span class="p">,</span>
             <span class="n">provides</span><span class="o">=</span><span class="n">provides</span><span class="p">,</span>
             <span class="n">dependencies</span><span class="o">=</span><span class="n">dependencies</span><span class="p">,</span>
             <span class="n">dependents</span><span class="o">=</span><span class="n">dependents</span><span class="p">,</span>
             <span class="n">unresolved</span><span class="o">=</span><span class="n">unresolved</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-    <span class="nd">@timer</span><span class="p">(</span><span class="s2">&quot;Checked for circular dependencies in </span><span class="si">%.3f</span><span class="s2">ms&quot;</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">_check_for_circular_dependencies</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Checking for circular dependencies&quot;</span><span class="p">)</span>
-
-        <span class="n">fresh</span><span class="p">,</span> <span class="n">started</span><span class="p">,</span> <span class="n">done</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span>
-
-        <span class="n">nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">targets</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
-        <span class="n">state</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">fresh</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">)</span>
-
-        <span class="k">def</span> <span class="nf">visitor</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
-            <span class="n">state</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="n">started</span>
-            <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependencies</span><span class="p">[</span><span class="n">node</span><span class="p">]:</span>
-                <span class="k">if</span> <span class="n">state</span><span class="p">[</span><span class="n">dep</span><span class="p">]</span> <span class="o">==</span> <span class="n">started</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="n">CircularDependencyError</span><span class="p">(</span>
-                        <span class="s2">&quot;Target </span><span class="si">{}</span><span class="s2"> depends on itself.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
-                    <span class="p">)</span>
-                <span class="k">elif</span> <span class="n">state</span><span class="p">[</span><span class="n">dep</span><span class="p">]</span> <span class="o">==</span> <span class="n">fresh</span><span class="p">:</span>
-                    <span class="n">visitor</span><span class="p">(</span><span class="n">dep</span><span class="p">)</span>
-            <span class="n">state</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="n">done</span>
-
-        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">state</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">==</span> <span class="n">fresh</span><span class="p">:</span>
-                <span class="n">visitor</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
-
 <div class="viewcode-block" id="Graph.endpoints"><a class="viewcode-back" href="../../../reference/api/#gwf.Graph.endpoints">[docs]</a>    <span class="k">def</span> <span class="nf">endpoints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a set of all targets that are not depended on by other targets.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">targets</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dependents</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="Graph.dfs"><a class="viewcode-back" href="../../../reference/api/#gwf.Graph.dfs">[docs]</a>    <span class="nd">@cache</span>
-    <span class="k">def</span> <span class="nf">dfs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
+<div class="viewcode-block" id="Graph.dfs"><a class="viewcode-back" href="../../../reference/api/#gwf.Graph.dfs">[docs]</a>    <span class="k">def</span> <span class="nf">dfs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the depth-first traversal path through a graph from `root`.&quot;&quot;&quot;</span>
         <span class="n">visited</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="n">path</span> <span class="o">=</span> <span class="p">[]</span>
@@ -674,11 +709,11 @@
         <span class="k">return</span> <span class="n">target_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">targets</span></div>
 
 
+<span class="nd">@attrs</span><span class="o">.</span><span class="n">define</span>
 <span class="k">class</span> <span class="nc">CachedFilesystem</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A cached file system abstraction.&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">_cache</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_lookup_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">path</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">:</span>
