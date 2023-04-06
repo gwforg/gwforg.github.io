@@ -226,7 +226,7 @@
 
 <span class="kn">import</span> <span class="nn">attrs</span>
 
-<span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="n">GWFError</span><span class="p">,</span> <span class="ne">NameError</span><span class="p">,</span> <span class="n">WorkflowError</span>
+<span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="n">GWFError</span>
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">is_valid_name</span><span class="p">,</span> <span class="n">timer</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -261,22 +261,21 @@
     <span class="k">return</span> <span class="kc">None</span>
 
 
-<span class="k">def</span> <span class="nf">_check_path</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">InvalidPathError</span><span class="p">(</span><span class="n">GWFError</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">def</span> <span class="nf">_check_path</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="p">:</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;Target &quot;</span><span class="si">{}</span><span class="s1">&quot; has an empty </span><span class="si">{}</span><span class="s1"> path.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">target_name</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
-        <span class="k">raise</span> <span class="n">WorkflowError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">InvalidPathError</span><span class="p">(</span><span class="s2">&quot;Path is empty&quot;</span><span class="p">)</span>
 
     <span class="n">result</span> <span class="o">=</span> <span class="n">_has_nonprintable_char</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">clean_path</span><span class="p">,</span> <span class="n">char</span><span class="p">,</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">result</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="s1">&#39;Path &quot;</span><span class="si">{}</span><span class="s1">&quot; in target &quot;</span><span class="si">{}</span><span class="s1">&quot; </span><span class="si">{}</span><span class="s1">s contains a &#39;</span>
-            <span class="s1">&#39;non-printable character &quot;</span><span class="si">{}</span><span class="s1">&quot; on position </span><span class="si">{}</span><span class="s1">. &#39;</span>
-            <span class="s2">&quot;This is always unintentional and can cause &quot;</span>
-            <span class="s2">&quot;strange behaviour.&quot;</span>
-        <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">clean_path</span><span class="p">,</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">char</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
-        <span class="k">raise</span> <span class="n">WorkflowError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">path</span>
+        <span class="k">raise</span> <span class="n">InvalidPathError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Path </span><span class="si">{</span><span class="n">clean_path</span><span class="si">}</span><span class="s2"> contains a non-printable character &#39;</span><span class="si">{</span><span class="n">char</span><span class="si">}</span><span class="s2">&#39; at </span><span class="si">{</span><span class="n">pos</span><span class="si">}</span><span class="s2">. &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;This is always unintentional and can cause strange behaviour.&quot;</span>
+        <span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">_norm_path</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
@@ -294,35 +293,75 @@
     <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha1</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
 
 
-<span class="k">def</span> <span class="nf">hash_specs</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
-    <span class="n">hashes</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">targets</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
-        <span class="n">hashes</span><span class="p">[</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">hash_spec</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">spec</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">hashes</span>
+<span class="nd">@attrs</span><span class="o">.</span><span class="n">define</span>
+<span class="k">class</span> <span class="nc">NoopSpecHashes</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">has_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">invalidate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">exc</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
 
-<span class="k">def</span> <span class="nf">_get_spec_hashes_path</span><span class="p">(</span><span class="n">working_dir</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="s2">&quot;.gwf&quot;</span><span class="p">,</span> <span class="s2">&quot;spec-hashes.json&quot;</span><span class="p">)</span>
+<span class="nd">@attrs</span><span class="o">.</span><span class="n">define</span>
+<span class="k">class</span> <span class="nc">FileSpecHashes</span><span class="p">:</span>
+    <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+    <span class="n">hashes</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__attrs_post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">hashes_file</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">hashes</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">hashes_file</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;First run with spec hashes enabled&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">has_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="n">spec_hash</span> <span class="o">=</span> <span class="n">hash_spec</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">spec</span><span class="p">)</span>
+        <span class="n">saved_hash</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hashes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">saved_hash</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;No spec hash for </span><span class="si">%s</span><span class="s2"> exists&quot;</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">spec_hash</span>
+        <span class="k">if</span> <span class="n">spec_hash</span> <span class="o">!=</span> <span class="n">saved_hash</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Spec for </span><span class="si">%s</span><span class="s2"> has changed&quot;</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">spec_hash</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hashes</span><span class="p">[</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">hash_spec</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">spec</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">invalidate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">hashes</span><span class="p">[</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">hashes_file</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hashes</span><span class="p">,</span> <span class="n">hashes_file</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">exc</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
 
-<span class="k">def</span> <span class="nf">load_spec_hashes</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span>
-    <span class="n">path</span> <span class="o">=</span> <span class="n">_get_spec_hashes_path</span><span class="p">(</span><span class="n">working_dir</span><span class="p">)</span>
-
-    <span class="c1"># If spec-hashes.json doesn&#39;t exist, it&#39;s because this is the first time</span>
-    <span class="c1"># we&#39;re using spec hashes, so we&#39;ll initialize the dict with the current</span>
-    <span class="c1"># spec hashes.</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;First run with spec hashes enabled - computing hashes&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">hash_specs</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
-
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">hashes_file</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">hashes_file</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">dump_spec_hashes</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span>
-    <span class="n">hashes</span> <span class="o">=</span> <span class="n">hash_specs</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">_get_spec_hashes_path</span><span class="p">(</span><span class="n">working_dir</span><span class="p">),</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">hashes_file</span><span class="p">:</span>
-        <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">hashes</span><span class="p">,</span> <span class="n">hashes_file</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">get_spec_hashes</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">working_dir</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;use_spec_hashes&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">FileSpecHashes</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="s2">&quot;.gwf&quot;</span><span class="p">,</span> <span class="s2">&quot;spec-hashes.json&quot;</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">NoopSpecHashes</span><span class="p">()</span>
 
 
 <span class="k">class</span> <span class="nc">TargetStatus</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
@@ -334,7 +373,8 @@
     <span class="n">COMPLETED</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1">#: The target has completed and should not run.</span>
 
 
-<div class="viewcode-block" id="AnonymousTarget"><a class="viewcode-back" href="../../../reference/api/#gwf.AnonymousTarget">[docs]</a><span class="k">class</span> <span class="nc">AnonymousTarget</span><span class="p">:</span>
+<div class="viewcode-block" id="AnonymousTarget"><a class="viewcode-back" href="../../../reference/api/#gwf.AnonymousTarget">[docs]</a><span class="nd">@attrs</span><span class="o">.</span><span class="n">define</span><span class="p">(</span><span class="n">eq</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">AnonymousTarget</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents an unnamed target.</span>
 
 <span class="sd">    An anonymous target is an unnamed, abstract target much like the tuple</span>
@@ -357,85 +397,16 @@
 <span class="sd">        cleaning, even if this target is not an endpoint.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">_creation_order</span> <span class="o">=</span> <span class="mi">0</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">working_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">spec</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">protect</span><span class="o">=</span><span class="kc">None</span>
-    <span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">options</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">working_dir</span> <span class="o">=</span> <span class="n">working_dir</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span> <span class="o">=</span> <span class="n">inputs</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">outputs</span> <span class="o">=</span> <span class="n">outputs</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span> <span class="o">=</span> <span class="n">spec</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">order</span> <span class="o">=</span> <span class="n">AnonymousTarget</span><span class="o">.</span><span class="n">_creation_order</span>
-        <span class="n">AnonymousTarget</span><span class="o">.</span><span class="n">_creation_order</span> <span class="o">+=</span> <span class="mi">1</span>
-
-        <span class="k">if</span> <span class="n">protect</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">protect</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">protect</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">protect</span><span class="p">)</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">spec</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span>
-
-    <span class="nd">@spec</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">spec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="s2">&quot;Target spec must be a string, not </span><span class="si">{}</span><span class="s2">. Did you attempt to &quot;</span>
-                <span class="s2">&quot;assign a template to this target? This is no is not allowed &quot;</span>
-                <span class="s2">&quot;since version 1.0. Use the Workflow.target_from_template() &quot;</span>
-                <span class="s2">&quot;method instead. See the tutorial for more details.&quot;</span>
-            <span class="p">)</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)))</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span> <span class="o">=</span> <span class="n">value</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">is_source</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return whether this target is a source.</span>
-
-<span class="sd">        A target is a source if it does not depend on any files.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">is_sink</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return whether this target is a sink.</span>
-
-<span class="sd">        A target is a sink if it does not output any files.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">outputs</span>
-
-    <span class="k">def</span> <span class="nf">inherit_options</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">super_options</span><span class="p">):</span>
-        <span class="n">options</span> <span class="o">=</span> <span class="n">super_options</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">options</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">options</span>
-
-    <span class="k">def</span> <span class="fm">__lshift__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">spec</span> <span class="o">=</span> <span class="n">spec</span>
-        <span class="k">return</span> <span class="bp">self</span>
-
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">(</span>
-            <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">(inputs=</span><span class="si">{!r}</span><span class="s2">, outputs=</span><span class="si">{!r}</span><span class="s2">, options=</span><span class="si">{!r}</span><span class="s2">, working_dir=</span><span class="si">{!r}</span><span class="s2">, &quot;</span>
-            <span class="s2">&quot;spec=</span><span class="si">{!r}</span><span class="s2">)&quot;</span>
-        <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">outputs</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">working_dir</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">spec</span><span class="p">,</span>
-        <span class="p">)</span>
-
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span></div>
+    <span class="n">inputs</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+    <span class="n">outputs</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+    <span class="n">options</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+    <span class="n">working_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+    <span class="n">protect</span><span class="p">:</span> <span class="nb">set</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">factory</span><span class="o">=</span><span class="nb">set</span><span class="p">,</span> <span class="n">converter</span><span class="o">=</span><span class="nb">set</span><span class="p">)</span>
+    <span class="n">spec</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Target"><a class="viewcode-back" href="../../../reference/api/#gwf.Target">[docs]</a><span class="k">class</span> <span class="nc">Target</span><span class="p">(</span><span class="n">AnonymousTarget</span><span class="p">):</span>
+<div class="viewcode-block" id="Target"><a class="viewcode-back" href="../../../reference/api/#gwf.Target">[docs]</a><span class="nd">@attrs</span><span class="o">.</span><span class="n">define</span><span class="p">(</span><span class="n">eq</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">Target</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a target.</span>
 
 <span class="sd">    This class inherits from :class:`AnonymousTarget`.</span>
@@ -488,27 +459,44 @@
 <span class="sd">        and *outputs* to be lists.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">working_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">spec</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">protect</span><span class="o">=</span><span class="kc">None</span>
-    <span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+    <span class="n">inputs</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+    <span class="n">outputs</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+    <span class="n">options</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+    <span class="n">working_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+    <span class="n">protect</span><span class="p">:</span> <span class="nb">set</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">factory</span><span class="o">=</span><span class="nb">set</span><span class="p">,</span> <span class="n">converter</span><span class="o">=</span><span class="nb">set</span><span class="p">)</span>
+    <span class="n">spec</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">order</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">_creation_order</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="nd">@order</span><span class="o">.</span><span class="n">default</span>  <span class="c1"># type: ignore</span>
+    <span class="k">def</span> <span class="nf">_set_target_order</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="n">Target</span><span class="o">.</span><span class="n">_creation_order</span>
+        <span class="n">Target</span><span class="o">.</span><span class="n">_creation_order</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">order</span>
+
+    <span class="nd">@name</span><span class="o">.</span><span class="n">validator</span>  <span class="c1"># type: ignore</span>
+    <span class="k">def</span> <span class="nf">_validate_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">is_valid_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s1">&#39;Target defined with invalid name: &quot;</span><span class="si">{}</span><span class="s1">&quot;.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">GWFError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Target defined with invalid name: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-        <span class="n">_check_path</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">target_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;working_dir&quot;</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">:</span>
-            <span class="n">_check_path</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">target_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;input&quot;</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">outputs</span><span class="p">:</span>
-            <span class="n">_check_path</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">target_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;output&quot;</span><span class="p">)</span>
+    <span class="nd">@inputs</span><span class="o">.</span><span class="n">validator</span>
+    <span class="nd">@outputs</span><span class="o">.</span><span class="n">validator</span>
+    <span class="k">def</span> <span class="nf">_validate_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
+            <span class="n">_check_path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span>
-            <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">,</span>
-            <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span>
-            <span class="n">working_dir</span><span class="o">=</span><span class="n">working_dir</span><span class="p">,</span>
-            <span class="n">spec</span><span class="o">=</span><span class="n">spec</span><span class="p">,</span>
-            <span class="n">protect</span><span class="o">=</span><span class="n">protect</span><span class="p">,</span>
-        <span class="p">)</span>
+    <span class="nd">@working_dir</span><span class="o">.</span><span class="n">validator</span>
+    <span class="k">def</span> <span class="nf">_validate_working_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">_check_path</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__lshift__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spec</span> <span class="o">=</span> <span class="n">spec</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
 
     <span class="k">def</span> <span class="nf">flattened_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">_norm_paths</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">_flatten</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">))</span>
@@ -517,28 +505,7 @@
         <span class="k">return</span> <span class="n">_norm_paths</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">_flatten</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outputs</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">protected</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">_norm_paths</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">_flatten</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">protect</span><span class="p">)))</span>
-
-<div class="viewcode-block" id="Target.empty"><a class="viewcode-back" href="../../../reference/api/#gwf.Target.empty">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">empty</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a target with no inputs, outputs and options.</span>
-
-<span class="sd">        This is mostly useful for testing.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
-            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">options</span><span class="o">=</span><span class="p">{},</span> <span class="n">working_dir</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
-        <span class="p">)</span></div>
-
-    <span class="k">def</span> <span class="nf">qualname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">namespace</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">namespace</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">namespace</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
-
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">(name=</span><span class="si">{!r}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>
+        <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">_norm_paths</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">_flatten</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">protect</span><span class="p">)))</span></div>
 
 
 <span class="k">class</span> <span class="nc">CircularDependencyError</span><span class="p">(</span><span class="n">GWFError</span><span class="p">):</span>
@@ -546,6 +513,10 @@
 
 
 <span class="k">class</span> <span class="nc">FileProvidedByMultipleTargetsError</span><span class="p">(</span><span class="n">GWFError</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">UnresolvedInputError</span><span class="p">(</span><span class="n">GWFError</span><span class="p">):</span>
     <span class="k">pass</span>
 
 
@@ -619,7 +590,7 @@
     <span class="n">unresolved</span><span class="p">:</span> <span class="nb">set</span>
 
 <div class="viewcode-block" id="Graph.from_targets"><a class="viewcode-back" href="../../../reference/api/#gwf.Graph.from_targets">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_targets</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">from_targets</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">fs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Construct a dependency graph from a set of targets.</span>
 
 <span class="sd">        When a graph is initialized it computes all dependency relations</span>
@@ -663,6 +634,17 @@
         <span class="k">for</span> <span class="n">target</span><span class="p">,</span> <span class="n">deps</span> <span class="ow">in</span> <span class="n">dependencies</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="n">deps</span><span class="p">:</span>
                 <span class="n">dependents</span><span class="p">[</span><span class="n">dep</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+
+        <span class="c1"># Check whether all input files actually exist or are being provided</span>
+        <span class="c1"># by another target. If not, it&#39;s an error.</span>
+        <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">target</span><span class="o">.</span><span class="n">flattened_inputs</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">unresolved</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">fs</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="s1">&#39;File &quot;</span><span class="si">{}</span><span class="s1">&quot; is required by &quot;</span><span class="si">{}</span><span class="s1">&quot;, but does not exist and is not &#39;</span>
+                        <span class="s2">&quot;provided by any target in the workflow.&quot;</span>
+                    <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="n">UnresolvedInputError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
         <span class="n">targets</span> <span class="o">=</span> <span class="p">{</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">target</span> <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">}</span>
         <span class="n">check_for_circular_dependencies</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">)</span>
