@@ -583,11 +583,11 @@
 <span class="sd">    not raise an exception.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">targets</span><span class="p">:</span> <span class="nb">dict</span>
-    <span class="n">provides</span><span class="p">:</span> <span class="nb">dict</span>
-    <span class="n">dependencies</span><span class="p">:</span> <span class="n">defaultdict</span>
-    <span class="n">dependents</span><span class="p">:</span> <span class="n">defaultdict</span>
-    <span class="n">unresolved</span><span class="p">:</span> <span class="nb">set</span>
+    <span class="n">targets</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+    <span class="n">provides</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+    <span class="n">dependencies</span><span class="p">:</span> <span class="n">defaultdict</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+    <span class="n">dependents</span><span class="p">:</span> <span class="n">defaultdict</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+    <span class="n">unresolved</span><span class="p">:</span> <span class="nb">set</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
 
 <div class="viewcode-block" id="Graph.from_targets"><a class="viewcode-back" href="../../../reference/api/#gwf.Graph.from_targets">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_targets</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">fs</span><span class="p">):</span>

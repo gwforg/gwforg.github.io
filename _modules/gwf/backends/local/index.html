@@ -213,18 +213,20 @@
         </div>
         <article role="main">
           <h1>Source code for gwf.backends.local</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">multiprocessing</span>
+<span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">os.path</span>
+<span class="kn">import</span> <span class="nn">selectors</span>
+<span class="kn">import</span> <span class="nn">socket</span>
 <span class="kn">import</span> <span class="nn">subprocess</span>
-<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">uuid</span>
 <span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
-<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Manager</span>
-<span class="kn">from</span> <span class="nn">multiprocessing.connection</span> <span class="kn">import</span> <span class="n">Client</span> <span class="k">as</span> <span class="n">Client_</span>
-<span class="kn">from</span> <span class="nn">multiprocessing.connection</span> <span class="kn">import</span> <span class="n">Listener</span>
-<span class="kn">from</span> <span class="nn">multiprocessing.pool</span> <span class="kn">import</span> <span class="n">Pool</span>
+<span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">TextIOWrapper</span>
+<span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">Lock</span><span class="p">,</span> <span class="n">Thread</span>
+
+<span class="kn">import</span> <span class="nn">attrs</span>
 
 <span class="kn">from</span> <span class="nn">..conf</span> <span class="kn">import</span> <span class="n">config</span>
 <span class="kn">from</span> <span class="nn">..utils</span> <span class="kn">import</span> <span class="n">PersistableDict</span>
@@ -234,6 +236,10 @@
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Client&quot;</span><span class="p">,</span> <span class="s2">&quot;Server&quot;</span><span class="p">,</span> <span class="s2">&quot;LocalBackend&quot;</span><span class="p">)</span>
 
+
+<span class="n">DEFAULT_HOST</span> <span class="o">=</span> <span class="s2">&quot;localhost&quot;</span>
+<span class="n">DEFAULT_PORT</span> <span class="o">=</span> <span class="mi">12345</span>
+
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
@@ -241,78 +247,80 @@
     <span class="k">return</span> <span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span>
 
 
-<span class="k">def</span> <span class="nf">catch_keyboard_interrupt</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                <span class="s2">&quot;Shutting down worker </span><span class="si">%s</span><span class="s2">...&quot;</span><span class="p">,</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">current_process</span><span class="p">()</span><span class="o">.</span><span class="n">pid</span>
-            <span class="p">)</span>
-            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="nd">@attrs</span><span class="o">.</span><span class="n">frozen</span>
+<span class="k">class</span> <span class="nc">Connection</span><span class="p">:</span>
+    <span class="n">sock</span><span class="p">:</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="nb">hash</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">reader</span><span class="p">:</span> <span class="n">TextIOWrapper</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">writer</span><span class="p">:</span> <span class="n">TextIOWrapper</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">wrapper</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">hostname</span><span class="p">,</span> <span class="n">port</span><span class="p">):</span>
+        <span class="n">sock</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+        <span class="n">sock</span><span class="o">.</span><span class="n">connect</span><span class="p">((</span><span class="n">hostname</span><span class="p">,</span> <span class="n">port</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_socket</span><span class="p">(</span><span class="n">sock</span><span class="p">)</span>
 
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_socket</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">sock</span><span class="p">):</span>
+        <span class="n">reader</span> <span class="o">=</span> <span class="n">sock</span><span class="o">.</span><span class="n">makefile</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
+        <span class="n">writer</span> <span class="o">=</span> <span class="n">sock</span><span class="o">.</span><span class="n">makefile</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">sock</span><span class="o">=</span><span class="n">sock</span><span class="p">,</span> <span class="n">reader</span><span class="o">=</span><span class="n">reader</span><span class="p">,</span> <span class="n">writer</span><span class="o">=</span><span class="n">writer</span><span class="p">)</span>
 
-<span class="k">class</span> <span class="nc">ServerError</span><span class="p">(</span><span class="n">BackendError</span><span class="p">):</span>
-    <span class="k">pass</span>
+    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg_type</span><span class="p">,</span> <span class="o">**</span><span class="n">msg</span><span class="p">):</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">_type</span><span class="o">=</span><span class="n">msg_type</span><span class="p">,</span> <span class="o">**</span><span class="n">msg</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">CustomEncoder</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">writer</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
 
-
-<span class="k">class</span> <span class="nc">LocalStatus</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-    <span class="n">UNKNOWN</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">SUBMITTED</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">RUNNING</span> <span class="o">=</span> <span class="mi">2</span>
-    <span class="n">FAILED</span> <span class="o">=</span> <span class="mi">3</span>
-    <span class="n">COMPLETED</span> <span class="o">=</span> <span class="mi">4</span>
-
-
-<span class="k">class</span> <span class="nc">Request</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_queue</span><span class="p">,</span> <span class="n">status_queue</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Handle this request.&quot;&quot;&quot;</span>
-
-
-<span class="k">class</span> <span class="nc">SubmitRequest</span><span class="p">(</span><span class="n">Request</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">deps</span><span class="p">,</span> <span class="n">stdout_path</span><span class="p">,</span> <span class="n">stderr_path</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">target</span> <span class="o">=</span> <span class="n">target</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">deps</span> <span class="o">=</span> <span class="n">deps</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stdout_path</span> <span class="o">=</span> <span class="n">stdout_path</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stderr_path</span> <span class="o">=</span> <span class="n">stderr_path</span>
-
-    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_queue</span><span class="p">,</span> <span class="n">status_dict</span><span class="p">):</span>
-        <span class="n">task_id</span> <span class="o">=</span> <span class="n">_gen_task_id</span><span class="p">()</span>
-        <span class="n">status_dict</span><span class="p">[</span><span class="n">task_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">LocalStatus</span><span class="o">.</span><span class="n">SUBMITTED</span>
-        <span class="n">task_queue</span><span class="o">.</span><span class="n">put</span><span class="p">((</span><span class="n">task_id</span><span class="p">,</span> <span class="bp">self</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Task </span><span class="si">%s</span><span class="s2"> was queued with id </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">task_id</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">task_id</span>
-
-
-<span class="k">class</span> <span class="nc">StatusRequest</span><span class="p">(</span><span class="n">Request</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_queue</span><span class="p">,</span> <span class="n">status_dict</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">status_dict</span><span class="p">)</span>
-
-
-<span class="k">class</span> <span class="nc">Client</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A client for communicating with the workers.&quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">Client_</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">stdout_path</span><span class="p">,</span> <span class="n">stderr_path</span><span class="p">,</span> <span class="n">deps</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">deps</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">deps</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">request</span> <span class="o">=</span> <span class="n">SubmitRequest</span><span class="p">(</span>
-            <span class="n">target</span><span class="o">=</span><span class="n">target</span><span class="p">,</span> <span class="n">deps</span><span class="o">=</span><span class="n">deps</span><span class="p">,</span> <span class="n">stdout_path</span><span class="o">=</span><span class="n">stdout_path</span><span class="p">,</span> <span class="n">stderr_path</span><span class="o">=</span><span class="n">stderr_path</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">status</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">request</span> <span class="o">=</span> <span class="n">StatusRequest</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">recv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+        <span class="n">msg_type</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;_type&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">msg_type</span><span class="p">,</span> <span class="n">msg</span>
 
     <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;close&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sock</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">writer</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+
+<span class="nd">@attrs</span><span class="o">.</span><span class="n">define</span>
+<span class="k">class</span> <span class="nc">Client</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A client for communicating with the local backend server.&quot;&quot;&quot;</span>
+
+    <span class="n">conn</span><span class="p">:</span> <span class="n">Connection</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">hostname</span><span class="o">=</span><span class="n">DEFAULT_HOST</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">DEFAULT_PORT</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">Connection</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">hostname</span><span class="p">,</span> <span class="n">port</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">stdout_path</span><span class="p">,</span> <span class="n">stderr_path</span><span class="p">,</span> <span class="n">deps</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">task_id</span> <span class="o">=</span> <span class="n">_gen_task_id</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">send</span><span class="p">(</span>
+            <span class="s2">&quot;submit_task&quot;</span><span class="p">,</span>
+            <span class="n">task_id</span><span class="o">=</span><span class="n">task_id</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">spec</span><span class="o">=</span><span class="n">target</span><span class="o">.</span><span class="n">spec</span><span class="p">,</span>
+            <span class="n">working_dir</span><span class="o">=</span><span class="n">target</span><span class="o">.</span><span class="n">working_dir</span><span class="p">,</span>
+            <span class="n">dependencies</span><span class="o">=</span><span class="n">deps</span> <span class="ow">or</span> <span class="p">[],</span>
+            <span class="n">stdout_path</span><span class="o">=</span><span class="n">stdout_path</span><span class="p">,</span>
+            <span class="n">stderr_path</span><span class="o">=</span><span class="n">stderr_path</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">task_id</span>
+
+    <span class="k">def</span> <span class="nf">status</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;get_task_states&quot;</span><span class="p">)</span>
+        <span class="n">msg_type</span><span class="p">,</span> <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span>
+        <span class="k">assert</span> <span class="n">msg_type</span> <span class="o">==</span> <span class="s2">&quot;task_states&quot;</span><span class="p">,</span> <span class="s2">&quot;invalid response received&quot;</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">LocalStatus</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;tasks&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
 
 <div class="viewcode-block" id="LocalBackend"><a class="viewcode-back" href="../../../../reference/backends/#gwf.backends.local.LocalBackend">[docs]</a><span class="k">class</span> <span class="nc">LocalBackend</span><span class="p">(</span><span class="n">Backend</span><span class="p">):</span>
@@ -367,20 +375,18 @@
         <span class="n">host</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;local.host&quot;</span><span class="p">,</span> <span class="s2">&quot;localhost&quot;</span><span class="p">)</span>
         <span class="n">port</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;local.port&quot;</span><span class="p">,</span> <span class="mi">12345</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">((</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">Client</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ConnectionRefusedError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">BackendError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Local backend could not connect to workers on port </span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2">. &quot;</span>
-                <span class="s2">&quot;Workers can be started by running &#39;gwf workers&#39;. &quot;</span>
-                <span class="s2">&quot;You can read more in the documentation: &quot;</span>
-                <span class="s2">&quot;https://gwf.app/reference/backends/#gwf.backends.local.LocalBackend&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Local backend could not connect to workers at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2"> port </span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2">. &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Workers can be started by running `gwf workers`.&quot;</span>
             <span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">status</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">target_job_id</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_tracked</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">status</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">task_id</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_tracked</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
             <span class="k">if</span> <span class="p">(</span>
-                <span class="n">target_job_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status</span>
-                <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status</span><span class="p">[</span><span class="n">target_job_id</span><span class="p">]</span> <span class="o">==</span> <span class="n">LocalStatus</span><span class="o">.</span><span class="n">COMPLETED</span>
+                <span class="n">task_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status</span>
+                <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status</span><span class="p">[</span><span class="n">task_id</span><span class="p">]</span> <span class="o">==</span> <span class="n">LocalStatus</span><span class="o">.</span><span class="n">COMPLETED</span>
             <span class="p">):</span>
                 <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tracked</span><span class="p">[</span><span class="n">target_name</span><span class="p">]</span>
 
@@ -391,7 +397,7 @@
             <span class="p">(</span><span class="n">key</span><span class="p">,)</span> <span class="o">=</span> <span class="n">exc</span><span class="o">.</span><span class="n">args</span>
             <span class="k">raise</span> <span class="n">DependencyError</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
-        <span class="n">task_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
+        <span class="n">task_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
             <span class="n">target</span><span class="p">,</span>
             <span class="n">deps</span><span class="o">=</span><span class="n">dependency_ids</span><span class="p">,</span>
             <span class="n">stdout_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">log_manager</span><span class="o">.</span><span class="n">stdout_path</span><span class="p">(</span><span class="n">target</span><span class="p">),</span>
@@ -404,211 +410,399 @@
         <span class="k">raise</span> <span class="n">UnsupportedOperationError</span><span class="p">(</span><span class="s2">&quot;cancel&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">target_job_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tracked</span><span class="p">[</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
-            <span class="n">target_status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status</span><span class="p">[</span><span class="n">target_job_id</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">target_status</span> <span class="o">==</span> <span class="n">LocalStatus</span><span class="o">.</span><span class="n">RUNNING</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">Status</span><span class="o">.</span><span class="n">RUNNING</span>
-            <span class="k">elif</span> <span class="n">target_status</span> <span class="o">==</span> <span class="n">LocalStatus</span><span class="o">.</span><span class="n">SUBMITTED</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">Status</span><span class="o">.</span><span class="n">SUBMITTED</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">Status</span><span class="o">.</span><span class="n">UNKNOWN</span>
-        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="n">task_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tracked</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">task_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">Status</span><span class="o">.</span><span class="n">UNKNOWN</span>
+        <span class="n">task_status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">task_id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">task_status</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Status</span><span class="o">.</span><span class="n">UNKNOWN</span>
+        <span class="k">return</span> <span class="n">Status</span><span class="p">[</span><span class="n">task_status</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_tracked</span><span class="o">.</span><span class="n">persist</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">priority</span><span class="p">():</span>
         <span class="k">return</span> <span class="mi">0</span></div>
 
 
+<span class="k">class</span> <span class="nc">LocalStatus</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">UNKNOWN</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">SUBMITTED</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">RUNNING</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">FAILED</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">COMPLETED</span> <span class="o">=</span> <span class="mi">4</span>
+
+
+<span class="k">class</span> <span class="nc">CustomEncoder</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">JSONEncoder</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="p">(</span><span class="nb">set</span><span class="p">,</span> <span class="nb">frozenset</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">LocalStatus</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONEncoder</span><span class="o">.</span><span class="n">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
+
+
+<span class="nd">@attrs</span><span class="o">.</span><span class="n">frozen</span>
+<span class="k">class</span> <span class="nc">Task</span><span class="p">:</span>
+    <span class="n">task_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+    <span class="n">working_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">spec</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">dependencies</span><span class="p">:</span> <span class="nb">frozenset</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">stdout_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">stderr_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_id</span>
+
+
+<span class="nd">@attrs</span><span class="o">.</span><span class="n">define</span>
 <span class="k">class</span> <span class="nc">Worker</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="n">waiting</span><span class="p">,</span> <span class="n">lock</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">status</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">queue</span> <span class="o">=</span> <span class="n">queue</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">waiting</span> <span class="o">=</span> <span class="n">waiting</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">lock</span> <span class="o">=</span> <span class="n">lock</span>
+    <span class="n">worker_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+    <span class="n">conn</span><span class="p">:</span> <span class="n">Connection</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+    <span class="n">_logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">_shutdown_requested</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-    <span class="nd">@catch_keyboard_interrupt</span>
-    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">task_id</span><span class="p">,</span> <span class="n">request</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+    <span class="nd">@_logger</span><span class="o">.</span><span class="n">default</span>
+    <span class="k">def</span> <span class="nf">_create_logger</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">worker_id</span><span class="p">)</span>
 
-            <span class="c1"># If the task isn&#39;t pending, it may have been resubmitted by multiple</span>
-            <span class="c1"># tasks in different workers. We shouldn&#39;t run it twice, so we&#39;ll skip</span>
-            <span class="c1"># it.</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="p">[</span><span class="n">task_id</span><span class="p">]</span> <span class="o">!=</span> <span class="n">LocalStatus</span><span class="o">.</span><span class="n">SUBMITTED</span><span class="p">:</span>
-                <span class="k">continue</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">worker_id</span><span class="p">,</span> <span class="n">hostname</span><span class="o">=</span><span class="n">DEFAULT_HOST</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">DEFAULT_PORT</span><span class="p">):</span>
+        <span class="n">conn</span> <span class="o">=</span> <span class="n">Connection</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">hostname</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span>
+        <span class="n">conn</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;join_worker&quot;</span><span class="p">,</span> <span class="n">worker_id</span><span class="o">=</span><span class="n">worker_id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">worker_id</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
 
-            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_dependencies</span><span class="p">(</span><span class="n">task_id</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
-                <span class="k">continue</span>
+    <span class="k">def</span> <span class="nf">_update_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_id</span><span class="p">,</span> <span class="n">new_state</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;update_task_state&quot;</span><span class="p">,</span> <span class="n">task_id</span><span class="o">=</span><span class="n">task_id</span><span class="p">,</span> <span class="n">new_state</span><span class="o">=</span><span class="n">new_state</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="n">handle_task</span><span class="p">(</span><span class="n">task_id</span><span class="p">,</span> <span class="n">request</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">handle_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_id</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Task </span><span class="si">%s</span><span class="s2"> started target </span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">task_id</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="p">[</span><span class="n">task_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">LocalStatus</span><span class="o">.</span><span class="n">RUNNING</span>
-
+    <span class="k">def</span> <span class="nf">run_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Task </span><span class="si">%s</span><span class="s2"> started&quot;</span><span class="p">,</span> <span class="n">task</span><span class="o">.</span><span class="n">task_id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_update_state</span><span class="p">(</span><span class="n">task</span><span class="o">.</span><span class="n">task_id</span><span class="p">,</span> <span class="n">LocalStatus</span><span class="o">.</span><span class="n">RUNNING</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">execute_target</span><span class="p">(</span>
-                <span class="n">request</span><span class="o">.</span><span class="n">target</span><span class="p">,</span>
-                <span class="n">stdout_path</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">stdout_path</span><span class="p">,</span>
-                <span class="n">stderr_path</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">stderr_path</span><span class="p">,</span>
-            <span class="p">)</span>
-        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="p">[</span><span class="n">task_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">LocalStatus</span><span class="o">.</span><span class="n">FAILED</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Task </span><span class="si">%s</span><span class="s2"> failed&quot;</span><span class="p">,</span> <span class="n">task_id</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="p">[</span><span class="n">task_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">LocalStatus</span><span class="o">.</span><span class="n">COMPLETED</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Task </span><span class="si">%s</span><span class="s2"> completed target </span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">task_id</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
-        <span class="k">finally</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">requeue_dependents</span><span class="p">(</span><span class="n">task_id</span><span class="p">)</span>
+            <span class="n">env</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">env</span><span class="p">[</span><span class="s2">&quot;GWF_TARGET_NAME&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="n">name</span>
 
-    <span class="k">def</span> <span class="nf">check_dependencies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_id</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check dependencies before running a task.</span>
-
-<span class="sd">        :return: `True` if the task can run, `False` if not.&quot;&quot;&quot;</span>
-        <span class="n">any_dep_failed</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="p">[</span><span class="n">dep_id</span><span class="p">]</span> <span class="o">==</span> <span class="n">LocalStatus</span><span class="o">.</span><span class="n">FAILED</span> <span class="k">for</span> <span class="n">dep_id</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">deps</span>
-        <span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">any_dep_failed</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="p">[</span><span class="n">task_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">LocalStatus</span><span class="o">.</span><span class="n">FAILED</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-                <span class="s2">&quot;Task </span><span class="si">%s</span><span class="s2"> failed since a dependency failed.&quot;</span><span class="p">,</span> <span class="n">task_id</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span>
-            <span class="p">)</span>
-            <span class="k">return</span> <span class="kc">False</span>
-
-        <span class="n">has_non_satisfied_dep</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="k">for</span> <span class="n">dep_id</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">deps</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="p">[</span><span class="n">dep_id</span><span class="p">]</span> <span class="o">!=</span> <span class="n">LocalStatus</span><span class="o">.</span><span class="n">COMPLETED</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Task </span><span class="si">%s</span><span class="s2"> set to wait for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">task_id</span><span class="p">,</span> <span class="n">dep_id</span><span class="p">)</span>
-
-                <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">lock</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">dep_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">waiting</span><span class="p">:</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">waiting</span><span class="p">[</span><span class="n">dep_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-
-                    <span class="c1"># Do this weird thing to sync the dictionary. Using</span>
-                    <span class="c1"># deps_dict[dep_id].append(...) doesn&#39;t work.</span>
-                    <span class="n">tmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">waiting</span><span class="p">[</span><span class="n">dep_id</span><span class="p">]</span>
-                    <span class="n">tmp</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">task_id</span><span class="p">,</span> <span class="n">request</span><span class="p">))</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">waiting</span><span class="p">[</span><span class="n">dep_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span>
-
-                <span class="n">has_non_satisfied_dep</span> <span class="o">=</span> <span class="kc">True</span>
-
-        <span class="k">if</span> <span class="n">has_non_satisfied_dep</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">return</span> <span class="kc">True</span>
-
-    <span class="k">def</span> <span class="nf">requeue_dependents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_id</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Requeue targets that waiting on a specific task.&quot;&quot;&quot;</span>
-        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">lock</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">task_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">waiting</span><span class="p">:</span>
-                <span class="k">return</span>
-
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Task </span><span class="si">%s</span><span class="s2"> has waiting dependents. Requeueing&quot;</span><span class="p">,</span> <span class="n">task_id</span><span class="p">)</span>
-
-            <span class="k">for</span> <span class="n">dep_task_id</span><span class="p">,</span> <span class="n">dep_request</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">waiting</span><span class="p">[</span><span class="n">task_id</span><span class="p">]:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">put</span><span class="p">((</span><span class="n">dep_task_id</span><span class="p">,</span> <span class="n">dep_request</span><span class="p">))</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">waiting</span><span class="p">[</span><span class="n">task_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-
-    <span class="k">def</span> <span class="nf">execute_target</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">stdout_path</span><span class="p">,</span> <span class="n">stderr_path</span><span class="p">):</span>
-        <span class="n">env</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">env</span><span class="p">[</span><span class="s2">&quot;GWF_TARGET_NAME&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">name</span>
-
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">stdout_path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">stdout_fp</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span>
-            <span class="n">stderr_path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;w&quot;</span>
-        <span class="p">)</span> <span class="k">as</span> <span class="n">stderr_fp</span><span class="p">:</span>
-            <span class="n">process</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
-                <span class="p">[</span><span class="s2">&quot;bash&quot;</span><span class="p">],</span>
-                <span class="n">stdin</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
-                <span class="n">stdout</span><span class="o">=</span><span class="n">stdout_fp</span><span class="p">,</span>
-                <span class="n">stderr</span><span class="o">=</span><span class="n">stderr_fp</span><span class="p">,</span>
-                <span class="n">universal_newlines</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                <span class="n">cwd</span><span class="o">=</span><span class="n">target</span><span class="o">.</span><span class="n">working_dir</span><span class="p">,</span>
-                <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
-            <span class="p">)</span>
-
-            <span class="n">process</span><span class="o">.</span><span class="n">communicate</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">spec</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">process</span><span class="o">.</span><span class="n">returncode</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
-                    <span class="s2">&quot;Target </span><span class="si">{}</span><span class="s2"> exited with a non-zero return code.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">task</span><span class="o">.</span><span class="n">stdout_path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">stdout_fp</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span>
+                <span class="n">task</span><span class="o">.</span><span class="n">stderr_path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;w&quot;</span>
+            <span class="p">)</span> <span class="k">as</span> <span class="n">stderr_fp</span><span class="p">:</span>
+                <span class="n">process</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
+                    <span class="p">[</span><span class="s2">&quot;bash&quot;</span><span class="p">],</span>
+                    <span class="n">stdin</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
+                    <span class="n">stdout</span><span class="o">=</span><span class="n">stdout_fp</span><span class="p">,</span>
+                    <span class="n">stderr</span><span class="o">=</span><span class="n">stderr_fp</span><span class="p">,</span>
+                    <span class="n">universal_newlines</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">cwd</span><span class="o">=</span><span class="n">task</span><span class="o">.</span><span class="n">working_dir</span><span class="p">,</span>
+                    <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
                 <span class="p">)</span>
+                <span class="k">assert</span> <span class="n">process</span><span class="o">.</span><span class="n">stdin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="n">process</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">task</span><span class="o">.</span><span class="n">spec</span><span class="p">)</span>
+                <span class="n">process</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+                <span class="n">process</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
+                <span class="k">while</span> <span class="n">process</span><span class="o">.</span><span class="n">poll</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shutdown_requested</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Worker received shutdown signal&quot;</span><span class="p">)</span>
+                    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
-<span class="k">class</span> <span class="nc">Server</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hostname</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span> <span class="o">=</span> <span class="n">hostname</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">port</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span> <span class="o">=</span> <span class="n">num_workers</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">manager</span> <span class="o">=</span> <span class="n">Manager</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">queue</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">waiting</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">lock</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">handle_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Received request </span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">request</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">request</span><span class="o">.</span><span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="p">)</span>
+                <span class="n">process</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">process</span><span class="o">.</span><span class="n">returncode</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;Task </span><span class="si">{</span><span class="n">task</span><span class="o">.</span><span class="n">task_id</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">task</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">) exited with &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;return code </span><span class="si">{</span><span class="n">process</span><span class="o">.</span><span class="n">returncode</span><span class="si">}</span><span class="s2">.&quot;</span>
+                    <span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Invalid request </span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Task </span><span class="si">%s</span><span class="s2"> failed&quot;</span><span class="p">,</span> <span class="n">task</span><span class="o">.</span><span class="n">task_id</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_update_state</span><span class="p">(</span><span class="n">task</span><span class="o">.</span><span class="n">task_id</span><span class="p">,</span> <span class="n">LocalStatus</span><span class="o">.</span><span class="n">FAILED</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Task </span><span class="si">%s</span><span class="s2"> completed&quot;</span><span class="p">,</span> <span class="n">task</span><span class="o">.</span><span class="n">task_id</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_update_state</span><span class="p">(</span><span class="n">task</span><span class="o">.</span><span class="n">task_id</span><span class="p">,</span> <span class="n">LocalStatus</span><span class="o">.</span><span class="n">COMPLETED</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">handle_client</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">):</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Accepted client connection.&quot;</span><span class="p">)</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-                <span class="n">request</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span>
-                <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handle_request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">response</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">conn</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">EOFError</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Client connection closed.&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">handle_run_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span><span class="n">task_id</span><span class="o">=</span><span class="n">task_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Worker received task </span><span class="si">%s</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">task_id</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run_task</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Worker is now idle&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">wait_for_clients</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">serv</span><span class="p">):</span>
-        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">client</span> <span class="o">=</span> <span class="n">serv</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">handle_client</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">handle_shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Starts a server that controls local workers.</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shutdown_requested</span><span class="p">:</span>
+            <span class="n">msg_type</span><span class="p">,</span> <span class="n">msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span>
+            <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;handle_</span><span class="si">{</span><span class="n">msg_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)(</span><span class="o">**</span><span class="n">msg</span><span class="p">)</span>
 
-<span class="sd">        Calling this function starts a pool of `num_workers` workers used to run</span>
-<span class="sd">        targets sent to the server. The server will run indefinitely unless shut</span>
-<span class="sd">        down by the user.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">serv</span> <span class="o">=</span> <span class="n">Listener</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">))</span>
-            <span class="n">workers</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span>
-                <span class="n">processes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="p">,</span>
-                <span class="n">initializer</span><span class="o">=</span><span class="n">Worker</span><span class="p">,</span>
-                <span class="n">initargs</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">waiting</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lock</span><span class="p">),</span>
-            <span class="p">)</span>
+    <span class="k">def</span> <span class="nf">shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Shutdown requested for worker </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">worker_id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;leave_worker&quot;</span><span class="p">,</span> <span class="n">worker_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">worker_id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_shutdown_requested</span> <span class="o">=</span> <span class="kc">True</span>
 
-            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="s2">&quot;Started </span><span class="si">%s</span><span class="s2"> workers, listening on port </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="p">,</span>
-                <span class="n">serv</span><span class="o">.</span><span class="n">address</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-            <span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">wait_for_clients</span><span class="p">(</span><span class="n">serv</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">errno</span> <span class="o">==</span> <span class="mi">48</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">ServerError</span><span class="p">(</span>
-                    <span class="p">(</span>
-                        <span class="s2">&quot;Could not start workers listening on port </span><span class="si">{}</span><span class="s2">. &quot;</span>
-                        <span class="s2">&quot;The port may already be in use.&quot;</span>
-                    <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">)</span>
-                <span class="p">)</span>
-        <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Shutting down...&quot;</span><span class="p">)</span>
-            <span class="n">workers</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-            <span class="n">workers</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+
+<span class="nd">@attrs</span><span class="o">.</span><span class="n">frozen</span>
+<span class="k">class</span> <span class="nc">JoinedWorker</span><span class="p">:</span>
+    <span class="n">worker_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+    <span class="n">conn</span><span class="p">:</span> <span class="n">Connection</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="nb">hash</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">run_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;run_task&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">attrs</span><span class="o">.</span><span class="n">asdict</span><span class="p">(</span><span class="n">task</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;shutdown&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">worker_id</span>
+
+
+<span class="nd">@attrs</span><span class="o">.</span><span class="n">define</span>
+<span class="k">class</span> <span class="nc">Scheduler</span><span class="p">:</span>
+    <span class="n">sched_interval</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">_tasks</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">_task_states</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">_pending_tasks</span><span class="p">:</span> <span class="nb">set</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">factory</span><span class="o">=</span><span class="nb">set</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">_scheduled_tasks</span><span class="p">:</span> <span class="nb">set</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">factory</span><span class="o">=</span><span class="nb">set</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">_joined_workers</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">_used_workers</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">_lock</span><span class="p">:</span> <span class="n">Lock</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">factory</span><span class="o">=</span><span class="n">Lock</span><span class="p">)</span>
+    <span class="n">_logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">_shutdown_requested</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="nd">@_logger</span><span class="o">.</span><span class="n">default</span>
+    <span class="k">def</span> <span class="nf">_create_logger</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">add_worker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">worker</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_joined_workers</span><span class="p">[</span><span class="n">worker</span><span class="o">.</span><span class="n">worker_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">worker</span>
+
+    <span class="k">def</span> <span class="nf">remove_worker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">worker_id</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_joined_workers</span><span class="p">[</span><span class="n">worker_id</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">submit_task</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">task_id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">working_dir</span><span class="p">,</span> <span class="n">spec</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">,</span> <span class="n">stdout_path</span><span class="p">,</span> <span class="n">stderr_path</span>
+    <span class="p">):</span>
+        <span class="n">task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">working_dir</span><span class="o">=</span><span class="n">working_dir</span><span class="p">,</span>
+            <span class="n">spec</span><span class="o">=</span><span class="n">spec</span><span class="p">,</span>
+            <span class="n">dependencies</span><span class="o">=</span><span class="nb">frozenset</span><span class="p">(</span><span class="n">dependencies</span><span class="p">),</span>
+            <span class="n">task_id</span><span class="o">=</span><span class="n">task_id</span><span class="p">,</span>
+            <span class="n">stdout_path</span><span class="o">=</span><span class="n">stdout_path</span><span class="p">,</span>
+            <span class="n">stderr_path</span><span class="o">=</span><span class="n">stderr_path</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_tasks</span><span class="p">[</span><span class="n">task_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">task</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_task_states</span><span class="p">[</span><span class="n">task_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">LocalStatus</span><span class="o">.</span><span class="n">SUBMITTED</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_pending_tasks</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">task_id</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_task_states</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_task_states</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+    <span class="k">def</span> <span class="nf">set_task_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_id</span><span class="p">,</span> <span class="n">new_state</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_task_states</span><span class="p">[</span><span class="n">task_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_state</span>
+            <span class="k">if</span> <span class="n">new_state</span> <span class="ow">in</span> <span class="p">(</span><span class="n">LocalStatus</span><span class="o">.</span><span class="n">COMPLETED</span><span class="p">,</span> <span class="n">LocalStatus</span><span class="o">.</span><span class="n">FAILED</span><span class="p">):</span>
+                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_used_workers</span><span class="p">[</span><span class="n">task_id</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_schedule_once</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">failed_tasks</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">scheduled_tasks</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">task_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pending_tasks</span><span class="p">:</span>
+            <span class="n">task</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tasks</span><span class="p">[</span><span class="n">task_id</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_task_states</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dep_id</span><span class="p">)</span> <span class="o">==</span> <span class="n">LocalStatus</span><span class="o">.</span><span class="n">FAILED</span>
+                <span class="k">for</span> <span class="n">dep_id</span> <span class="ow">in</span> <span class="n">task</span><span class="o">.</span><span class="n">dependencies</span>
+            <span class="p">):</span>
+                <span class="n">failed_tasks</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">task_id</span><span class="p">)</span>
+                <span class="k">continue</span>
+
+            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_task_states</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dep_id</span><span class="p">)</span> <span class="o">!=</span> <span class="n">LocalStatus</span><span class="o">.</span><span class="n">COMPLETED</span>
+                <span class="k">for</span> <span class="n">dep_id</span> <span class="ow">in</span> <span class="n">task</span><span class="o">.</span><span class="n">dependencies</span>
+            <span class="p">):</span>
+                <span class="k">continue</span>
+
+            <span class="k">for</span> <span class="n">worker_id</span><span class="p">,</span> <span class="n">worker</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_joined_workers</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">worker_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_used_workers</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_used_workers</span><span class="p">[</span><span class="n">task_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">worker_id</span>
+                    <span class="n">scheduled_tasks</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">task_id</span><span class="p">)</span>
+                    <span class="n">worker</span><span class="o">.</span><span class="n">run_task</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+                    <span class="k">break</span>
+
+        <span class="k">for</span> <span class="n">task_id</span> <span class="ow">in</span> <span class="n">scheduled_tasks</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_pending_tasks</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">task_id</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">task_id</span> <span class="ow">in</span> <span class="n">failed_tasks</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_task_states</span><span class="p">[</span><span class="n">task_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">LocalStatus</span><span class="o">.</span><span class="n">FAILED</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_pending_tasks</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">task_id</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shutdown_requested</span><span class="p">:</span>
+            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_schedule_once</span><span class="p">()</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sched_interval</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_shutdown_requested</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">for</span> <span class="n">worker</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_joined_workers</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">worker</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+
+
+<span class="nd">@attrs</span><span class="o">.</span><span class="n">define</span>
+<span class="k">class</span> <span class="nc">Server</span><span class="p">:</span>
+    <span class="n">hostname</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+    <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+    <span class="n">scheduler</span><span class="p">:</span> <span class="n">Scheduler</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+
+    <span class="n">_logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">_shutdown_requested</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">_sel</span><span class="p">:</span> <span class="n">selectors</span><span class="o">.</span><span class="n">BaseSelector</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span>
+        <span class="n">factory</span><span class="o">=</span><span class="n">selectors</span><span class="o">.</span><span class="n">DefaultSelector</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+    <span class="n">_conns</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="nd">@_logger</span><span class="o">.</span><span class="n">default</span>
+    <span class="k">def</span> <span class="nf">_create_logger</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">handle_join_worker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">worker_id</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Worker </span><span class="si">%s</span><span class="s2"> has joined&quot;</span><span class="p">,</span> <span class="n">worker_id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scheduler</span><span class="o">.</span><span class="n">add_worker</span><span class="p">(</span><span class="n">JoinedWorker</span><span class="p">(</span><span class="n">worker_id</span><span class="p">,</span> <span class="n">conn</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">handle_leave_worker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">worker_id</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Worker </span><span class="si">%s</span><span class="s2"> is leaving&quot;</span><span class="p">,</span> <span class="n">worker_id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scheduler</span><span class="o">.</span><span class="n">remove_worker</span><span class="p">(</span><span class="n">worker_id</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">handle_update_task_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">task_id</span><span class="p">,</span> <span class="n">new_state</span><span class="p">):</span>
+        <span class="n">new_state</span> <span class="o">=</span> <span class="n">LocalStatus</span><span class="p">[</span><span class="n">new_state</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scheduler</span><span class="o">.</span><span class="n">set_task_state</span><span class="p">(</span><span class="n">task_id</span><span class="p">,</span> <span class="n">new_state</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">handle_get_task_states</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">):</span>
+        <span class="n">conn</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;task_states&quot;</span><span class="p">,</span> <span class="n">tasks</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scheduler</span><span class="o">.</span><span class="n">get_task_states</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">handle_submit_task</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">conn</span><span class="p">,</span>
+        <span class="n">task_id</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">,</span>
+        <span class="n">working_dir</span><span class="p">,</span>
+        <span class="n">spec</span><span class="p">,</span>
+        <span class="n">dependencies</span><span class="p">,</span>
+        <span class="n">stdout_path</span><span class="p">,</span>
+        <span class="n">stderr_path</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scheduler</span><span class="o">.</span><span class="n">submit_task</span><span class="p">(</span>
+            <span class="n">task_id</span><span class="o">=</span><span class="n">task_id</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">working_dir</span><span class="o">=</span><span class="n">working_dir</span><span class="p">,</span>
+            <span class="n">spec</span><span class="o">=</span><span class="n">spec</span><span class="p">,</span>
+            <span class="n">dependencies</span><span class="o">=</span><span class="nb">frozenset</span><span class="p">(</span><span class="n">dependencies</span><span class="p">),</span>
+            <span class="n">stdout_path</span><span class="o">=</span><span class="n">stdout_path</span><span class="p">,</span>
+            <span class="n">stderr_path</span><span class="o">=</span><span class="n">stderr_path</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">handle_close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">):</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_conns</span><span class="p">[</span><span class="n">conn</span><span class="o">.</span><span class="n">sock</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sel</span><span class="o">.</span><span class="n">unregister</span><span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">sock</span><span class="p">)</span>
+        <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">_accept</span><span class="p">(</span><span class="n">sock</span><span class="p">):</span>
+            <span class="n">client</span><span class="p">,</span> <span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span> <span class="o">=</span> <span class="n">sock</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+            <span class="n">client</span><span class="o">.</span><span class="n">setblocking</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_sel</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">selectors</span><span class="o">.</span><span class="n">EVENT_READ</span><span class="p">,</span> <span class="n">_read</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">client</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_conns</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_conns</span><span class="p">[</span><span class="n">client</span><span class="p">]</span> <span class="o">=</span> <span class="n">Connection</span><span class="o">.</span><span class="n">from_socket</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Accepted connection from </span><span class="si">%s</span><span class="s2"> port </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">_read</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
+            <span class="n">conn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_conns</span><span class="p">[</span><span class="n">client</span><span class="p">]</span>
+            <span class="n">msg_type</span><span class="p">,</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span>
+            <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;handle_</span><span class="si">{</span><span class="n">msg_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)(</span><span class="n">conn</span><span class="p">,</span> <span class="o">**</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="n">sock</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+        <span class="n">sock</span><span class="o">.</span><span class="n">setsockopt</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">SOL_SOCKET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SO_REUSEADDR</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">sock</span><span class="o">.</span><span class="n">bind</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">))</span>
+        <span class="n">sock</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+        <span class="n">sock</span><span class="o">.</span><span class="n">setblocking</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sel</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">sock</span><span class="p">,</span> <span class="n">selectors</span><span class="o">.</span><span class="n">EVENT_READ</span><span class="p">,</span> <span class="n">_accept</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s2">&quot;Server is listening on </span><span class="si">%s</span><span class="s2"> port </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shutdown_requested</span><span class="p">:</span>
+            <span class="n">events</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sel</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span>
+                <span class="n">callback</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">data</span>
+                <span class="n">callback</span><span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">fileobj</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sel</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_shutdown_requested</span> <span class="o">=</span> <span class="kc">True</span>
+
+
+<span class="nd">@attrs</span><span class="o">.</span><span class="n">define</span>
+<span class="k">class</span> <span class="nc">Cluster</span><span class="p">:</span>
+    <span class="n">num_workers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">hostname</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">DEFAULT_HOST</span><span class="p">)</span>
+    <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">DEFAULT_PORT</span><span class="p">)</span>
+
+    <span class="n">scheduler</span><span class="p">:</span> <span class="n">Scheduler</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+    <span class="n">server</span><span class="p">:</span> <span class="n">Server</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+
+    <span class="n">_scheduler_thread</span><span class="p">:</span> <span class="n">Thread</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">_server_thread</span><span class="p">:</span> <span class="n">Thread</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">_workers</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">factory</span><span class="o">=</span><span class="nb">list</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="nd">@scheduler</span><span class="o">.</span><span class="n">default</span>
+    <span class="k">def</span> <span class="nf">_create_scheduler</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Scheduler</span><span class="p">()</span>
+
+    <span class="nd">@_scheduler_thread</span><span class="o">.</span><span class="n">default</span>
+    <span class="k">def</span> <span class="nf">_create_scheduler_thread</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scheduler</span><span class="o">.</span><span class="n">start</span><span class="p">)</span>
+
+    <span class="nd">@server</span><span class="o">.</span><span class="n">default</span>
+    <span class="k">def</span> <span class="nf">_create_server</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Server</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scheduler</span><span class="p">)</span>
+
+    <span class="nd">@_server_thread</span><span class="o">.</span><span class="n">default</span>
+    <span class="k">def</span> <span class="nf">_create_server_thread</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">start</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_scheduler_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_server_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="p">):</span>
+            <span class="n">worker_id</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Worker</span><span class="si">{</span><span class="n">num</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">worker</span> <span class="o">=</span> <span class="n">Worker</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">worker_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">)</span>
+            <span class="n">worker_thread</span> <span class="o">=</span> <span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">worker</span><span class="o">.</span><span class="n">start</span><span class="p">)</span>
+            <span class="n">worker_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_workers</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">worker</span><span class="p">,</span> <span class="n">worker_thread</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scheduler</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">worker</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_workers</span><span class="p">:</span>
+            <span class="n">worker</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">worker_thread</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_workers</span><span class="p">:</span>
+            <span class="n">worker_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_scheduler_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_server_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
 </pre></div>
         </article>
       </div>

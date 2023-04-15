@@ -224,7 +224,7 @@ together and allows for easy creation of targets.</p>
 into a <code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code> which will compute the entire dependency graph of the
 workflow, checking the workflow for inconsistencies and circular dependencies.</p>
 <p>A target in a <code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code> can be scheduled on a
-<a class="reference internal" href="#gwf.backends.Backend" title="gwf.backends.Backend"><code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code></a> using the <code class="xref py py-class docutils literal notranslate"><span class="pre">Scheduler</span></code>.</p>
+<a class="reference internal" href="#gwf.backends.Backend" title="gwf.backends.Backend"><code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code></a> using the <a class="reference internal" href="#gwf.scheduling.submit_workflow" title="gwf.scheduling.submit_workflow"><code class="xref py py-class docutils literal notranslate"><span class="pre">submit_workflow</span></code></a>.</p>
 <section id="module-gwf">
 <span id="workflow"></span><h2>Workflow<a class="headerlink" href="#module-gwf" title="Permalink to this heading">#</a></h2>
 <p>gwf - a pragmatic workflow tool</p>
@@ -610,6 +610,21 @@ may raise a number of exceptions:</p>
 </dd></dl>
 
 </section>
+<section id="module-gwf.scheduling">
+<span id="scheduling"></span><h2>Scheduling<a class="headerlink" href="#module-gwf.scheduling" title="Permalink to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="gwf.scheduling.get_status_map">
+<span class="sig-prename descclassname"><span class="pre">gwf.scheduling.</span></span><span class="sig-name descname"><span class="pre">get_status_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec_hashes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endpoints</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/scheduling/#get_status_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.scheduling.get_status_map" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the status of each targets in the graph.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gwf.scheduling.submit_workflow">
+<span class="sig-prename descclassname"><span class="pre">gwf.scheduling.</span></span><span class="sig-name descname"><span class="pre">submit_workflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoints</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec_hashes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dry_run</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/scheduling/#submit_workflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.scheduling.submit_workflow" title="Permalink to this definition">#</a></dt>
+<dd><p>Submit a workflow to a backend.</p>
+</dd></dl>
+
+</section>
 <section id="module-gwf.backends">
 <span id="backends"></span><h2>Backends<a class="headerlink" href="#module-gwf.backends" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
@@ -990,6 +1005,11 @@ each <a class="reference internal" href="#gwf.filtering.ApplyMixin.predicate" ti
 <li><a class="reference internal" href="#gwf.core.Graph.from_targets"><code class="docutils literal notranslate"><span class="pre">Graph.from_targets()</span></code></a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-gwf.scheduling">Scheduling</a><ul>
+<li><a class="reference internal" href="#gwf.scheduling.get_status_map"><code class="docutils literal notranslate"><span class="pre">get_status_map()</span></code></a></li>
+<li><a class="reference internal" href="#gwf.scheduling.submit_workflow"><code class="docutils literal notranslate"><span class="pre">submit_workflow()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-gwf.backends">Backends</a><ul>
