@@ -4,8 +4,8 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex/" /><link rel="search" title="Search" href="../../../search/" />
 
-    <!-- Generated with Sphinx 6.1.3 and Furo 2023.03.27 -->
-        <title>gwf.core - gwf 1.8.5 documentation</title>
+    <!-- Generated with Sphinx 6.2.1 and Furo 2023.03.27 -->
+        <title>gwf.core - gwf 2.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -122,7 +122,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../"><div class="brand">gwf 1.8.5 documentation</div></a>
+      <a href="../../../"><div class="brand">gwf 2.0.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -145,7 +145,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../">
   
   
-  <span class="sidebar-brand-text">gwf 1.8.5 documentation</span>
+  <span class="sidebar-brand-text">gwf 2.0.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search/" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -155,30 +155,23 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../guide/">User’s Guide</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../guide/installation/">Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../guide/tutorial/">Tutorial</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../guide/mapping/">Mapping over Inputs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../guide/configuration/">Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../guide/patterns/">Tips and Tricks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../guide/plugins/">Plugins</a></li>
 </ul>
 </li>
 </ul>
 <ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../development/">How to Contribute</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../development/writingbackends/">Writing Backends</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../development/forcontributors/">For Contributors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../development/formaintainers/">For Maintainers</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog/">Change Log</a></li>
-</ul>
-<ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../reference/">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../plugins/">Plugins</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../reference/">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../reference/backends/">Backends</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../reference/api/">API</a></li>
 </ul>
 </li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog/">Change Log</a></li>
 </ul>
 
 </div>
@@ -225,6 +218,7 @@
 <span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">fspath</span>
 
 <span class="kn">import</span> <span class="nn">attrs</span>
+<span class="kn">import</span> <span class="nn">click</span>
 
 <span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="n">GWFError</span>
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">is_valid_name</span><span class="p">,</span> <span class="n">timer</span>
@@ -333,7 +327,6 @@
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;No spec hash for </span><span class="si">%s</span><span class="s2"> exists&quot;</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">spec_hash</span>
         <span class="k">if</span> <span class="n">spec_hash</span> <span class="o">!=</span> <span class="n">saved_hash</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Spec for </span><span class="si">%s</span><span class="s2"> has changed&quot;</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">spec_hash</span>
         <span class="k">return</span> <span class="kc">None</span>
 
@@ -364,13 +357,14 @@
         <span class="k">return</span> <span class="n">NoopSpecHashes</span><span class="p">()</span>
 
 
-<span class="k">class</span> <span class="nc">TargetStatus</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Status of a target as computed by the Scheduler.&quot;&quot;&quot;</span>
+<span class="k">class</span> <span class="nc">Status</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;BackendStatus of a target as computed by the Scheduler.&quot;&quot;&quot;</span>
 
     <span class="n">SHOULDRUN</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1">#: The target should run.</span>
     <span class="n">SUBMITTED</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1">#: The target has been submitted, but is not currently running.</span>
     <span class="n">RUNNING</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1">#: The target is currently running.</span>
     <span class="n">COMPLETED</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1">#: The target has completed and should not run.</span>
+    <span class="n">FAiLED</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c1">#: The target failed and should run again.</span>
 
 
 <div class="viewcode-block" id="AnonymousTarget"><a class="viewcode-back" href="../../../reference/api/#gwf.AnonymousTarget">[docs]</a><span class="nd">@attrs</span><span class="o">.</span><span class="n">define</span><span class="p">(</span><span class="n">eq</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -715,6 +709,26 @@
         <span class="k">if</span> <span class="n">st</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">st</span>
+
+
+<span class="nd">@attrs</span><span class="o">.</span><span class="n">frozen</span>
+<span class="k">class</span> <span class="nc">Context</span><span class="p">:</span>
+    <span class="n">working_dir</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+    <span class="n">backend</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+    <span class="n">workflow_file</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+    <span class="n">workflow_obj</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">config_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">working_dir</span><span class="p">,</span> <span class="s2">&quot;.gwf&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">logs_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_dir</span><span class="p">,</span> <span class="s2">&quot;logs&quot;</span><span class="p">)</span>
+
+
+<span class="n">pass_context</span> <span class="o">=</span> <span class="n">click</span><span class="o">.</span><span class="n">make_pass_decorator</span><span class="p">(</span><span class="n">Context</span><span class="p">)</span>
 </pre></div>
         </article>
       </div>

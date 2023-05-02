@@ -4,8 +4,8 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex/" /><link rel="search" title="Search" href="../../../../search/" />
 
-    <!-- Generated with Sphinx 6.1.3 and Furo 2023.03.27 -->
-        <title>gwf.backends.base - gwf 1.8.5 documentation</title>
+    <!-- Generated with Sphinx 6.2.1 and Furo 2023.03.27 -->
+        <title>gwf.backends.base - gwf 2.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -122,7 +122,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../"><div class="brand">gwf 1.8.5 documentation</div></a>
+      <a href="../../../../"><div class="brand">gwf 2.0.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -145,7 +145,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../">
   
   
-  <span class="sidebar-brand-text">gwf 1.8.5 documentation</span>
+  <span class="sidebar-brand-text">gwf 2.0.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search/" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -155,30 +155,23 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../guide/">User’s Guide</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../../guide/installation/">Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../guide/tutorial/">Tutorial</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../guide/mapping/">Mapping over Inputs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../guide/configuration/">Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../guide/patterns/">Tips and Tricks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../../guide/plugins/">Plugins</a></li>
 </ul>
 </li>
 </ul>
 <ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../development/">How to Contribute</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../../development/writingbackends/">Writing Backends</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../../development/forcontributors/">For Contributors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../../development/formaintainers/">For Maintainers</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../changelog/">Change Log</a></li>
-</ul>
-<ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../reference/">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../plugins/">Plugins</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../reference/">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../reference/backends/">Backends</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../reference/api/">API</a></li>
 </ul>
 </li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../changelog/">Change Log</a></li>
 </ul>
 
 </div>
@@ -213,25 +206,21 @@
         </div>
         <article role="main">
           <h1>Source code for gwf.backends.base</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os.path</span>
 <span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
 
-<span class="kn">from</span> <span class="nn">..utils</span> <span class="kn">import</span> <span class="n">PersistableDict</span><span class="p">,</span> <span class="n">entry_points</span><span class="p">,</span> <span class="n">retry</span>
-<span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="n">BackendError</span><span class="p">,</span> <span class="n">DependencyError</span><span class="p">,</span> <span class="n">TargetError</span>
-<span class="kn">from</span> <span class="nn">.logmanager</span> <span class="kn">import</span> <span class="n">FileLogManager</span>
+<span class="kn">import</span> <span class="nn">attrs</span>
+
+<span class="kn">from</span> <span class="nn">..utils</span> <span class="kn">import</span> <span class="n">entry_points</span>
+<span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="n">TargetError</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Backend&quot;</span><span class="p">,</span> <span class="s2">&quot;Status&quot;</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">_load_backends</span><span class="p">():</span>
-    <span class="k">return</span> <span class="p">{</span><span class="n">ep</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">ep</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">&quot;gwf.backends&quot;</span><span class="p">)}</span>
-
-
-<div class="viewcode-block" id="Status"><a class="viewcode-back" href="../../../../reference/api/#gwf.backends.Status">[docs]</a><span class="k">class</span> <span class="nc">Status</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Status of a target.</span>
+<div class="viewcode-block" id="BackendStatus"><a class="viewcode-back" href="../../../../reference/api/#gwf.backends.BackendStatus">[docs]</a><span class="k">class</span> <span class="nc">BackendStatus</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;BackendStatus of a target.</span>
 
 <span class="sd">    A target is unknown to the backend if it has not been submitted or the</span>
 <span class="sd">    target has completed and thus isn&#39;t being tracked anymore by the backend.</span>
@@ -244,245 +233,105 @@
 
     <span class="n">UNKNOWN</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">SUBMITTED</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">RUNNING</span> <span class="o">=</span> <span class="mi">2</span></div>
+    <span class="n">RUNNING</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">COMPLETED</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">FAILED</span> <span class="o">=</span> <span class="mi">4</span></div>
 
 
-<div class="viewcode-block" id="Backend"><a class="viewcode-back" href="../../../../reference/api/#gwf.backends.Backend">[docs]</a><span class="k">class</span> <span class="nc">Backend</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for backends.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="guess_backend"><a class="viewcode-back" href="../../../../reference/api/#gwf.backends.guess_backend">[docs]</a><span class="k">def</span> <span class="nf">guess_backend</span><span class="p">():</span>
+    <span class="n">max_score</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1000</span>
+    <span class="n">chosen_backend</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">backend_name</span><span class="p">,</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">score</span><span class="p">)</span> <span class="ow">in</span> <span class="n">discover_backends</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">score</span> <span class="o">&gt;</span> <span class="n">max_score</span><span class="p">:</span>
+            <span class="n">max_score</span> <span class="o">=</span> <span class="n">score</span>
+            <span class="n">chosen_backend</span> <span class="o">=</span> <span class="n">backend_name</span>
+    <span class="k">return</span> <span class="n">max_score</span><span class="p">,</span> <span class="n">chosen_backend</span></div>
 
-    <span class="n">option_defaults</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">log_manager</span> <span class="o">=</span> <span class="n">FileLogManager</span><span class="p">()</span>
 
-<div class="viewcode-block" id="Backend.guess"><a class="viewcode-back" href="../../../../reference/api/#gwf.backends.Backend.guess">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">guess</span><span class="p">():</span>
-        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span>
-            <span class="p">(</span><span class="n">backend_cls</span><span class="o">.</span><span class="n">priority</span><span class="p">(),</span> <span class="n">name</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">backend_cls</span> <span class="ow">in</span> <span class="n">_load_backends</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-        <span class="p">)</span></div>
+<div class="viewcode-block" id="discover_backends"><a class="viewcode-back" href="../../../../reference/api/#gwf.backends.discover_backends">[docs]</a><span class="k">def</span> <span class="nf">discover_backends</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">ep</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">ep</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">&quot;gwf.backends&quot;</span><span class="p">)}</span></div>
 
-<div class="viewcode-block" id="Backend.list"><a class="viewcode-back" href="../../../../reference/api/#gwf.backends.Backend.list">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">list</span><span class="p">():</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the names of all registered backends.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">_load_backends</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="Backend.from_name"><a class="viewcode-back" href="../../../../reference/api/#gwf.backends.Backend.from_name">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return backend class for the backend given by `name`.</span>
+<div class="viewcode-block" id="list_backends"><a class="viewcode-back" href="../../../../reference/api/#gwf.backends.list_backends">[docs]</a><span class="k">def</span> <span class="nf">list_backends</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the names of all registered backends.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">discover_backends</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 
-<span class="sd">        Returns the backend class registered with `name`. Note that the *class*</span>
-<span class="sd">        is returned, not the instance, since not all uses requires</span>
-<span class="sd">        initialization of the backend (e.g. accessing the backends&#39; log</span>
-<span class="sd">        manager), and initialization of the backend may be expensive.</span>
 
-<span class="sd">        :arg str name: Path to a workflow file, optionally specifying a</span>
-<span class="sd">            workflow object in that file.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">_load_backends</span><span class="p">()[</span><span class="n">name</span><span class="p">]</span></div>
+<div class="viewcode-block" id="create_backend"><a class="viewcode-back" href="../../../../reference/api/#gwf.backends.create_backend">[docs]</a><span class="k">def</span> <span class="nf">create_backend</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">working_dir</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return backend class for the backend given by `name`.</span>
 
-<div class="viewcode-block" id="Backend.from_config"><a class="viewcode-back" href="../../../../reference/api/#gwf.backends.Backend.from_config">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_config</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return backend class for the backend specified by `config`.</span>
+<span class="sd">    Returns the backend class registered with `name`. Note that the *class*</span>
+<span class="sd">    is returned, not the instance, since not all uses requires</span>
+<span class="sd">    initialization of the backend (e.g. accessing the backends&#39; log</span>
+<span class="sd">    manager), and initialization of the backend may be expensive.</span>
 
-<span class="sd">        See :func:`Backend.from_name` for further information.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_name</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;backend&quot;</span><span class="p">])</span></div>
+<span class="sd">    :arg str name: Path to a workflow file, optionally specifying a</span>
+<span class="sd">        workflow object in that file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">backend_args</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get_namespace</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;backend.</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">backend_cls</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">discover_backends</span><span class="p">()[</span><span class="n">name</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">backend_cls</span><span class="p">(</span><span class="n">working_dir</span><span class="o">=</span><span class="n">working_dir</span><span class="p">,</span> <span class="o">**</span><span class="n">backend_args</span><span class="p">)</span></div>
+
+
+<span class="nd">@attrs</span><span class="o">.</span><span class="n">define</span><span class="p">()</span>
+<span class="k">class</span> <span class="nc">TrackingBackend</span><span class="p">:</span>
+    <span class="n">working_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+    <span class="n">ops</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+
+    <span class="n">_tracked_jobs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">_job_states</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="nd">@_tracked_jobs</span><span class="o">.</span><span class="n">default</span>
+    <span class="k">def</span> <span class="nf">_init_tracked</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_state_path</span><span class="p">())</span> <span class="k">as</span> <span class="n">state_file</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">state_file</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{}</span>
+
+    <span class="nd">@_job_states</span><span class="o">.</span><span class="n">default</span>
+    <span class="k">def</span> <span class="nf">_init_status</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">get_job_states</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_tracked_jobs</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+
+    <span class="k">def</span> <span class="nf">_get_state_path</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">working_dir</span><span class="p">,</span> <span class="s2">&quot;.gwf&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">-backend-tracked.json&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="n">job_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tracked_jobs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_job_states</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">job_id</span><span class="p">,</span> <span class="n">BackendStatus</span><span class="o">.</span><span class="n">UNKNOWN</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">):</span>
+        <span class="n">dependency_ids</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_tracked_jobs</span><span class="p">[</span><span class="n">dep</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="n">dependencies</span><span class="p">]</span>
+        <span class="n">job_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">submit_target</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">dependency_ids</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tracked_jobs</span><span class="p">[</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">job_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_job_states</span><span class="p">[</span><span class="n">job_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">BackendStatus</span><span class="o">.</span><span class="n">SUBMITTED</span>
+
+    <span class="k">def</span> <span class="nf">cancel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">job_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tracked_jobs</span><span class="p">[</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">cancel_job</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_job_states</span><span class="p">[</span><span class="n">job_id</span><span class="p">]</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tracked_jobs</span><span class="p">[</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">TargetError</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
+
+    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_state_path</span><span class="p">(),</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">state_file</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_tracked_jobs</span><span class="p">,</span> <span class="n">state_file</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">target_defaults</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">target_defaults</span>
 
     <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span>
 
-    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">exc</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-
-<div class="viewcode-block" id="Backend.priority"><a class="viewcode-back" href="../../../../reference/api/#gwf.backends.Backend.priority">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">priority</span><span class="p">():</span>
-        <span class="k">return</span> <span class="o">-</span><span class="mi">1000</span></div>
-
-<div class="viewcode-block" id="Backend.status"><a class="viewcode-back" href="../../../../reference/api/#gwf.backends.Backend.status">[docs]</a>    <span class="k">def</span> <span class="nf">status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the status of `target`.</span>
-
-<span class="sd">        :param gwf.Target target: The target to return the status of.</span>
-<span class="sd">        :return gwf.backends.Status: Status of `target`.</span>
-<span class="sd">        &quot;&quot;&quot;</span></div>
-
-<div class="viewcode-block" id="Backend.submit_full"><a class="viewcode-back" href="../../../../reference/api/#gwf.backends.Backend.submit_full">[docs]</a>    <span class="k">def</span> <span class="nf">submit_full</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Prepare and submit `target` with `dependencies`.</span>
-
-<span class="sd">        Will prepare the target for submission by injecting option defaults</span>
-<span class="sd">        from the backend, check for unsupported options, and removing options</span>
-<span class="sd">        with a `None` value.</span>
-
-<span class="sd">        This is the primary way to submit a target. Do not call</span>
-<span class="sd">        :func:`submit` directly, unless you want to manually deal with with</span>
-<span class="sd">        injection of option defaults.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">new_options</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">option_defaults</span><span class="p">)</span>
-        <span class="n">new_options</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">options</span><span class="p">)</span>
-
-        <span class="k">for</span> <span class="n">option_name</span><span class="p">,</span> <span class="n">option_value</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">new_options</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
-            <span class="k">if</span> <span class="n">option_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">option_defaults</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                    <span class="s2">&quot;Option &#39;</span><span class="si">%s</span><span class="s2">&#39; used in &#39;</span><span class="si">%s</span><span class="s2">&#39; is not supported by backend. Ignored.&quot;</span><span class="p">,</span>
-                    <span class="n">option_name</span><span class="p">,</span>
-                    <span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                <span class="p">)</span>
-                <span class="k">del</span> <span class="n">new_options</span><span class="p">[</span><span class="n">option_name</span><span class="p">]</span>
-            <span class="k">elif</span> <span class="n">option_value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">del</span> <span class="n">new_options</span><span class="p">[</span><span class="n">option_name</span><span class="p">]</span>
-        <span class="n">target</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">new_options</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="Backend.submit"><a class="viewcode-back" href="../../../../reference/api/#gwf.backends.Backend.submit">[docs]</a>    <span class="k">def</span> <span class="nf">submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Submit `target` with `dependencies`.</span>
-
-<span class="sd">        This method must submit the `target` and return immediately. That is,</span>
-<span class="sd">        the method must not block while waiting for the target to complete.</span>
-
-<span class="sd">        :param gwf.Target target:</span>
-<span class="sd">            The target to submit.</span>
-<span class="sd">        :param dependencies:</span>
-<span class="sd">            An iterable of :class:`gwf.Target` objects that `target` depends on</span>
-<span class="sd">            and that have already been submitted to the backend.</span>
-<span class="sd">        &quot;&quot;&quot;</span></div>
-
-<div class="viewcode-block" id="Backend.cancel"><a class="viewcode-back" href="../../../../reference/api/#gwf.backends.Backend.cancel">[docs]</a>    <span class="k">def</span> <span class="nf">cancel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Cancel `target`.</span>
-
-<span class="sd">        :param gwf.Target target:</span>
-<span class="sd">            The target to cancel.</span>
-<span class="sd">        :raises gwf.exception.TargetError:</span>
-<span class="sd">            If the target does not exist in the workflow.</span>
-<span class="sd">        &quot;&quot;&quot;</span></div>
-
-<div class="viewcode-block" id="Backend.logs"><a class="viewcode-back" href="../../../../reference/api/#gwf.backends.Backend.logs">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">logs</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return log files for a target.</span>
-
-<span class="sd">        If the backend cannot return logs a</span>
-<span class="sd">        :class:`~gwf.exceptions.NoLogFoundError` is raised.</span>
-
-<span class="sd">        By default standard output (stdout) is returned. If `stderr=True`</span>
-<span class="sd">        standard error will be returned instead.</span>
-
-<span class="sd">        :param gwf.Target target:</span>
-<span class="sd">            Target to return logs for.</span>
-<span class="sd">        :param bool stderr:</span>
-<span class="sd">            default: False. If true, return standard error.</span>
-<span class="sd">        :return:</span>
-<span class="sd">            A file-like object. The user is responsible for closing the</span>
-<span class="sd">            returned file(s) after use.</span>
-<span class="sd">        :raises gwf.exceptions.NoLogFoundError:</span>
-<span class="sd">            if the backend could not find a log for the given target.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">stderr</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">log_manager</span><span class="o">.</span><span class="n">open_stderr</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">log_manager</span><span class="o">.</span><span class="n">open_stdout</span><span class="p">(</span><span class="n">target</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="Backend.close"><a class="viewcode-back" href="../../../../reference/api/#gwf.backends.Backend.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Close the backend.</span>
-
-<span class="sd">        Called when the backend is no longer needed and should close all</span>
-<span class="sd">        resources (open files, connections) used by the backend.</span>
-<span class="sd">        &quot;&quot;&quot;</span></div></div>
-
-
-<span class="k">class</span> <span class="nc">PbsLikeBackendBase</span><span class="p">(</span><span class="n">Backend</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;PBS-like backend base class.&quot;&quot;&quot;</span>
-
-    <span class="n">option_flags</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">option_defaults</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">log_manager</span> <span class="o">=</span> <span class="n">FileLogManager</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_queue_output</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">call_queue_command</span><span class="p">())</span>
-        <span class="k">except</span> <span class="n">retry</span><span class="o">.</span><span class="n">RetryError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">BackendError</span><span class="p">(</span><span class="s2">&quot;Could not get queue state&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
-
-        <span class="n">class_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
-        <span class="n">backend_name</span> <span class="o">=</span> <span class="n">class_name</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;Backend&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-
-        <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;.gwf/</span><span class="si">{name}</span><span class="s2">-backend-tracked.json&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">backend_name</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_tracked</span> <span class="o">=</span> <span class="n">PersistableDict</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">parse_queue_output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;parse_queue_output&quot;</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">call_queue_command</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;call_queue_command&quot;</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">call_submit_command</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;call_submit_command&quot;</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">call_cancel_command</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;call_cancel_command&quot;</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">compile_script</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;compile_script&quot;</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_status</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">Status</span><span class="o">.</span><span class="n">UNKNOWN</span>
-
-    <span class="k">def</span> <span class="nf">submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">):</span>
-        <span class="n">script</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compile_script</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
-        <span class="n">dependency_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_collect_dependency_ids</span><span class="p">(</span><span class="n">dependencies</span><span class="p">)</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">stdout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_submit_command</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">dependency_ids</span><span class="p">)</span>
-        <span class="k">except</span> <span class="n">retry</span><span class="o">.</span><span class="n">RetryError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">BackendError</span><span class="p">(</span><span class="s2">&quot;Could not submit target&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">job_id</span> <span class="o">=</span> <span class="n">stdout</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_add_job</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">job_id</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">cancel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">job_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_job_id</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">call_cancel_command</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">TargetError</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
-        <span class="k">except</span> <span class="n">retry</span><span class="o">.</span><span class="n">RetryError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">BackendError</span><span class="p">(</span><span class="s2">&quot;Could not cancel target&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">forget_job</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_tracked</span><span class="o">.</span><span class="n">persist</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">forget_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Force the backend to forget the job associated with `target`.&quot;&quot;&quot;</span>
-        <span class="n">job_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_job_id</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
-        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status</span><span class="p">[</span><span class="n">job_id</span><span class="p">]</span>
-        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tracked</span><span class="p">[</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
-
-    <span class="k">def</span> <span class="nf">get_job_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the Slurm job id for a target.</span>
-
-<span class="sd">        :raises KeyError: if the target is not tracked by the backend.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tracked</span><span class="p">[</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
-
-    <span class="k">def</span> <span class="nf">_add_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">job_id</span><span class="p">,</span> <span class="n">initial_status</span><span class="o">=</span><span class="n">Status</span><span class="o">.</span><span class="n">SUBMITTED</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_set_job_id</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">job_id</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_set_status</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">initial_status</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">_set_job_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">job_id</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_tracked</span><span class="p">[</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">job_id</span>
-
-    <span class="k">def</span> <span class="nf">_get_status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
-        <span class="n">job_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_job_id</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status</span><span class="p">[</span><span class="n">job_id</span><span class="p">]</span>
-
-    <span class="k">def</span> <span class="nf">_set_status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">status</span><span class="p">):</span>
-        <span class="n">job_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_job_id</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_status</span><span class="p">[</span><span class="n">job_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">status</span>
-
-    <span class="k">def</span> <span class="nf">_collect_dependency_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">):</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_tracked</span><span class="p">[</span><span class="n">dep</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="n">dependencies</span><span class="p">]</span>
-        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DependencyError</span><span class="p">(</span><span class="n">exc</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
         </article>
       </div>

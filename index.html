@@ -5,8 +5,8 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <link rel="index" title="Index" href="genindex/" /><link rel="search" title="Search" href="search/" /><link rel="next" title="User’s Guide" href="guide/" />
 
-    <!-- Generated with Sphinx 6.1.3 and Furo 2023.03.27 -->
-        <title>gwf 1.8.5 documentation</title>
+    <!-- Generated with Sphinx 6.2.1 and Furo 2023.03.27 -->
+        <title>gwf 2.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="#"><div class="brand">gwf 1.8.5 documentation</div></a>
+      <a href="#"><div class="brand">gwf 2.0.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,7 +146,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="#">
   
   
-  <span class="sidebar-brand-text">gwf 1.8.5 documentation</span>
+  <span class="sidebar-brand-text">gwf 2.0.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search/" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -156,30 +156,23 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
 <li class="toctree-l1 has-children"><a class="reference internal" href="guide/">User’s Guide</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="guide/installation/">Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="guide/tutorial/">Tutorial</a></li>
 <li class="toctree-l2"><a class="reference internal" href="guide/mapping/">Mapping over Inputs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="guide/configuration/">Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="guide/patterns/">Tips and Tricks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="guide/plugins/">Plugins</a></li>
 </ul>
 </li>
 </ul>
 <ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="development/">How to Contribute</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="development/writingbackends/">Writing Backends</a></li>
-<li class="toctree-l2"><a class="reference internal" href="development/forcontributors/">For Contributors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="development/formaintainers/">For Maintainers</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="changelog/">Change Log</a></li>
-</ul>
-<ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="reference/">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1"><a class="reference internal" href="plugins/">Plugins</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="reference/">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="reference/backends/">Backends</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reference/api/">API</a></li>
 </ul>
 </li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="changelog/">Change Log</a></li>
 </ul>
 
 </div>
@@ -226,12 +219,6 @@ Aarhus University.</p>
 <dt>Getting started</dt><dd><p>To quickly get started writing workflows in <em>gwf</em> you can read the
 <a class="reference internal" href="guide/tutorial/#tutorial"><span class="std std-ref">Tutorial</span></a>.</p>
 </dd>
-<dt>Extending</dt><dd><p>We don’t have the backend you need to run your workflow on your cluster?
-See the <a class="reference internal" href="development/writingbackends/#writing-backends"><span class="std std-ref">Writing Backends</span></a> section to roll your own.</p>
-</dd>
-<dt>Contributing</dt><dd><p>We aim to make <em>gwf</em> a community developed project. Learn how to
-<a class="reference internal" href="development/forcontributors/"><span class="doc">contribute</span></a>.</p>
-</dd>
 </dl>
 <section id="features">
 <h2>Features<a class="headerlink" href="#features" title="Permalink to this heading">#</a></h2>
@@ -246,12 +233,32 @@ workflow running</p></li>
 <li><p>Friendly to your system administrator!</p></li>
 </ul>
 </section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">#</a></h2>
+<p>We’ll assume that you have the <a class="reference external" href="https://www.continuum.io/downloads">Anaconda</a> distribution installed and that you are
+familiar with how to install and manage packages and environments through the
+<em>conda</em> package manager.</p>
+<p>To install <em>gwf</em> via Conda:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">config</span> <span class="o">--</span><span class="n">add</span> <span class="n">channels</span> <span class="n">gwforg</span>
+<span class="n">conda</span> <span class="n">install</span> <span class="n">gwf</span>
+</pre></div>
+</div>
+<p>We recommend that you install <em>gwf</em> in a project-specific environment:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">config</span> <span class="o">--</span><span class="n">add</span> <span class="n">channels</span> <span class="n">gwforg</span>
+<span class="n">conda</span> <span class="n">create</span> <span class="o">-</span><span class="n">n</span> <span class="n">myproject</span> <span class="n">gwf</span> <span class="n">dep1</span> <span class="n">dep2</span> <span class="o">...</span>
+<span class="n">conda</span> <span class="n">activate</span> <span class="n">myproject</span>
+</pre></div>
+</div>
+<p>You can find the code for <em>gwf</em> <a class="reference external" href="https://github.com/gwforg/gwf">here</a>. You are
+encouraged to report any issues through the
+<a class="reference external" href="https://github.com/gwforg/gwf/issues">issue tracker</a>, which is also a good place
+to ask questions.</p>
+</section>
 <section id="user-s-guide">
 <h2>User’s Guide<a class="headerlink" href="#user-s-guide" title="Permalink to this heading">#</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="guide/">User’s Guide</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="guide/installation/">Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="guide/tutorial/">Tutorial</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="guide/tutorial/#a-minimal-workflow">A Minimal Workflow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="guide/tutorial/#running-your-first-workflow">Running Your First Workflow</a></li>
@@ -288,8 +295,34 @@ workflow running</p></li>
 <li class="toctree-l3"><a class="reference internal" href="guide/patterns/#large-workflows">Large Workflows</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="guide/plugins/">Plugins</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="guide/plugins/#gwf-utilization">gwf-utilization</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="extending">
+<h2>Extending<a class="headerlink" href="#extending" title="Permalink to this heading">#</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="plugins/">Plugins</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="plugins/#gwf-utilization">gwf-utilization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugins/#gwf-graph">gwf-graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugins/#gwf-torque-backend">gwf-torque-backend</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference/">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/backends/">Backends</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/backends/#module-gwf.backends.local">Local</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/backends/#module-gwf.backends.slurm">Slurm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/backends/#module-gwf.backends.sge">Sun Grid Engine (SGE)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/api/">API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/api/#module-gwf">Workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/api/#module-gwf.core">Core</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/api/#module-gwf.scheduling">Scheduling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/api/#module-gwf.backends">Backends</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/api/#module-gwf.filtering">Filtering</a></li>
 </ul>
 </li>
 </ul>
@@ -297,17 +330,12 @@ workflow running</p></li>
 </ul>
 </div>
 </section>
-<section id="development">
-<h2>Development<a class="headerlink" href="#development" title="Permalink to this heading">#</a></h2>
+<section id="release-history">
+<h2>Release history<a class="headerlink" href="#release-history" title="Permalink to this heading">#</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="development/">How to Contribute</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="development/writingbackends/">Writing Backends</a></li>
-<li class="toctree-l2"><a class="reference internal" href="development/forcontributors/">For Contributors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="development/formaintainers/">For Maintainers</a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="changelog/">Change Log</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog/#version-2-0-0">Version 2.0.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changelog/#version-1-8-5">Version 1.8.5</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changelog/#version-1-8-4">Version 1.8.4</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changelog/#version-1-8-3">Version 1.8.3</a></li>
@@ -338,40 +366,6 @@ workflow running</p></li>
 </li>
 </ul>
 </div>
-</section>
-<section id="api-reference">
-<h2>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this heading">#</a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="reference/">API Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="reference/backends/">Backends</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="reference/backends/#local">Local</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/backends/#slurm">Slurm</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/backends/#sun-grid-engine-sge">Sun Grid Engine (SGE)</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="reference/api/">API</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="reference/api/#module-gwf">Workflow</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/api/#module-gwf.core">Core</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/api/#module-gwf.scheduling">Scheduling</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/api/#module-gwf.backends">Backends</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/api/#module-gwf.filtering">Filtering</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</div>
-</section>
-<section id="contributors">
-<h2>Contributors<a class="headerlink" href="#contributors" title="Permalink to this heading">#</a></h2>
-<ul class="simple">
-<li><p>Thomas Mailund</p></li>
-<li><p>Dan Søndergaard</p></li>
-<li><p>Anders Halager</p></li>
-<li><p>Michael Knudsen</p></li>
-<li><p>Tobias Madsen</p></li>
-</ul>
 </section>
 </section>
 
@@ -422,10 +416,10 @@ workflow running</p></li>
             <ul>
 <li><a class="reference internal" href="#">Welcome to gwf</a><ul>
 <li><a class="reference internal" href="#features">Features</a></li>
+<li><a class="reference internal" href="#installation">Installation</a></li>
 <li><a class="reference internal" href="#user-s-guide">User’s Guide</a></li>
-<li><a class="reference internal" href="#development">Development</a></li>
-<li><a class="reference internal" href="#api-reference">API Reference</a></li>
-<li><a class="reference internal" href="#contributors">Contributors</a></li>
+<li><a class="reference internal" href="#extending">Extending</a></li>
+<li><a class="reference internal" href="#release-history">Release history</a></li>
 </ul>
 </li>
 </ul>
