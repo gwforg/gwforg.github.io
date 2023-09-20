@@ -1,13 +1,13 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="en" data-content_root="../../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../../genindex/" /><link rel="search" title="Search" href="../../search/" /><link rel="next" title="Mapping over Inputs" href="../mapping/" /><link rel="prev" title="User’s Guide" href="../" />
 
-    <!-- Generated with Sphinx 7.1.1 and Furo 2023.07.26 -->
+    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
         <title>Tutorial - gwf 2.0.2 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b849a4e9" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=649a27d8" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     
@@ -208,7 +208,7 @@
         </div>
         <article role="main">
           <section id="tutorial">
-<span id="id1"></span><h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this heading">#</a></h1>
+<span id="id1"></span><h1>Tutorial<a class="headerlink" href="#tutorial" title="Link to this heading">#</a></h1>
 <p>In this tutorial we will explore various concepts in <em>gwf</em>. We will define
 workflows and see how <em>gwf</em> can help us keep track of the progress of workflow
 execution, the output of targets and dependencies between targets. Have fun!</p>
@@ -245,7 +245,7 @@ if you’re in Denmark you may want to use the following configuration:</p>
 </div>
 </div>
 <section id="a-minimal-workflow">
-<h2>A Minimal Workflow<a class="headerlink" href="#a-minimal-workflow" title="Permalink to this heading">#</a></h2>
+<h2>A Minimal Workflow<a class="headerlink" href="#a-minimal-workflow" title="Link to this heading">#</a></h2>
 <p>To get started we must define a <em>workflow file</em> containing a workflow to which
 we can add targets. Unless <em>gwf</em> is told otherwise it assumes that the workflow
 file is called <code class="docutils literal notranslate"><span class="pre">workflow.py</span></code> and that the workflow is called <cite>gwf</cite>:</p>
@@ -283,7 +283,7 @@ creates the file <code class="docutils literal notranslate"><span class="pre">gr
 try to run our workflow…</p>
 </section>
 <section id="running-your-first-workflow">
-<h2>Running Your First Workflow<a class="headerlink" href="#running-your-first-workflow" title="Permalink to this heading">#</a></h2>
+<h2>Running Your First Workflow<a class="headerlink" href="#running-your-first-workflow" title="Link to this heading">#</a></h2>
 <p>First, let’s make a directory for our project. We’ll call the directory
 <code class="docutils literal notranslate"><span class="pre">myproject</span></code>. Now create an empty file called <code class="docutils literal notranslate"><span class="pre">workflow.py</span></code> in the project
 directory and paste the workflow specification into it:</p>
@@ -351,7 +351,7 @@ workers and press <kbd class="kbd compound docutils literal notranslate"><kbd cl
 </div>
 </section>
 <section id="setting-the-default-verbosity">
-<h2>Setting the Default Verbosity<a class="headerlink" href="#setting-the-default-verbosity" title="Permalink to this heading">#</a></h2>
+<h2>Setting the Default Verbosity<a class="headerlink" href="#setting-the-default-verbosity" title="Link to this heading">#</a></h2>
 <p>Maybe you got tired of seeing this much output from <em>gwf</em> all the time, despite
 the pretty colors. We can change the verbosity (how chatty <em>gwf</em> is) using the
 <code class="docutils literal notranslate"><span class="pre">-v/--verbose</span></code> flag:</p>
@@ -371,7 +371,7 @@ to set the <code class="docutils literal notranslate"><span class="pre">-v</span
 details, refer to the <a class="reference internal" href="../configuration/#configuration"><span class="std std-ref">Configuration</span></a> page.</p>
 </section>
 <section id="debugging-a-workflow">
-<h2>Debugging a Workflow<a class="headerlink" href="#debugging-a-workflow" title="Permalink to this heading">#</a></h2>
+<h2>Debugging a Workflow<a class="headerlink" href="#debugging-a-workflow" title="Link to this heading">#</a></h2>
 <p>If your workflow doesn’t look right or you find that e.g. <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">status</span></code>
 doesn’t show the right thing, you may need to debug your workflow. The first
 thing to try is to increase the verbosity level:</p>
@@ -389,7 +389,7 @@ your <code class="file docutils literal notranslate"><span class="pre">workflow.
 and normal Python code.</p>
 </section>
 <section id="defining-targets-with-dependencies">
-<h2>Defining Targets with Dependencies<a class="headerlink" href="#defining-targets-with-dependencies" title="Permalink to this heading">#</a></h2>
+<h2>Defining Targets with Dependencies<a class="headerlink" href="#defining-targets-with-dependencies" title="Link to this heading">#</a></h2>
 <p>Targets in <em>gwf</em> represent isolated units of work. However, we can declare
 dependencies between targets to construct complex workflows. A target B that
 depends on a target A will only run when A has been run successfully (that
@@ -453,7 +453,7 @@ Let’s try:</p>
 </div>
 </section>
 <section id="named-inputs-and-outputs">
-<h2>Named Inputs and Outputs<a class="headerlink" href="#named-inputs-and-outputs" title="Permalink to this heading">#</a></h2>
+<h2>Named Inputs and Outputs<a class="headerlink" href="#named-inputs-and-outputs" title="Link to this heading">#</a></h2>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 1.6.0: </span>Prior versions only allow lists of inputs and outputs.</p>
 </div>
@@ -479,7 +479,7 @@ values may be either strings or a list of strings:</p>
 associated files can be grouped and named.</p>
 </section>
 <section id="specifying-target-resources">
-<h2>Specifying Target Resources<a class="headerlink" href="#specifying-target-resources" title="Permalink to this heading">#</a></h2>
+<h2>Specifying Target Resources<a class="headerlink" href="#specifying-target-resources" title="Link to this heading">#</a></h2>
 <p>It’s a good idea to specify the resources required by your target. Backends like
 Slurm will use these resource limits to allocate a suitable node for you,
 prioritize work, and cancel your targets if they exceed the given limits.</p>
@@ -518,7 +518,7 @@ your workflow:</p>
 </div>
 </section>
 <section id="observing-target-execution">
-<h2>Observing Target Execution<a class="headerlink" href="#observing-target-execution" title="Permalink to this heading">#</a></h2>
+<h2>Observing Target Execution<a class="headerlink" href="#observing-target-execution" title="Link to this heading">#</a></h2>
 <p>As workflows get larger they make take a very long time to run. With <em>gwf</em> it’s
 easy to see how many targets have been completed, how many failed and how many
 are still running using the <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">status</span></code> command. We’ll modify the workflow
@@ -596,7 +596,7 @@ endpoints that are running and where the name starts with <cite>Align</cite>.</p
 <p>For more details you can always refer to builtin help with <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">status</span> <span class="pre">--help</span></code>.</p>
 </section>
 <section id="what-happens-when-a-target-fails">
-<h2>What Happens When a Target Fails?<a class="headerlink" href="#what-happens-when-a-target-fails" title="Permalink to this heading">#</a></h2>
+<h2>What Happens When a Target Fails?<a class="headerlink" href="#what-happens-when-a-target-fails" title="Link to this heading">#</a></h2>
 <p>We all make mistakes. Sometimes there’s a mistake on your target specification
 which causes the target execution to fail. The target could also fail because
 the target exceeded the allocated resource limits or took too long to run and
@@ -620,7 +620,7 @@ target is not killed, the temporary file will be renamed to <em>b.txt</em> and <
 will show the target as completed.</p>
 </section>
 <section id="reusable-targets-with-templates">
-<span id="function-templates"></span><span id="templates"></span><h2>Reusable Targets with Templates<a class="headerlink" href="#reusable-targets-with-templates" title="Permalink to this heading">#</a></h2>
+<span id="function-templates"></span><span id="templates"></span><h2>Reusable Targets with Templates<a class="headerlink" href="#reusable-targets-with-templates" title="Link to this heading">#</a></h2>
 <p>Often you will want to reuse a target definition for a lot of different files.
 For example, you may have two files with reads that you need to map to a
 reference genome. The mapping is the same for the two files, so it would be
@@ -770,7 +770,7 @@ modules and imported into your workflow files to facilitate reuse. It’s all up
 to you!</p>
 </section>
 <section id="viewing-logs">
-<h2>Viewing Logs<a class="headerlink" href="#viewing-logs" title="Permalink to this heading">#</a></h2>
+<h2>Viewing Logs<a class="headerlink" href="#viewing-logs" title="Link to this heading">#</a></h2>
 <p>We may be curious about what the <code class="docutils literal notranslate"><span class="pre">MapReads</span></code> target wrote to the console when the target
 ran, to see if there were any warnings. If a target failed, it’s also valuable to see
 it’s output to diagnose the problem. Luckily, <em>gwf</em> makes this very easy.</p>
@@ -803,7 +803,7 @@ by applying the <code class="docutils literal notranslate"><span class="pre">--s
 ones since <em>gwf</em> does not archive logs from old runs of targets.</p>
 </section>
 <section id="cleaning-up">
-<h2>Cleaning Up<a class="headerlink" href="#cleaning-up" title="Permalink to this heading">#</a></h2>
+<h2>Cleaning Up<a class="headerlink" href="#cleaning-up" title="Link to this heading">#</a></h2>
 <p>Now that we have run our workflow we may wish to remove intermediate files to
 save disk space. In <em>gwf</em> we can use the <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">clean</span></code> command for this:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf<span class="w"> </span>clean
@@ -826,7 +826,7 @@ no other target depends on):</p>
 <p>We can tell <em>gwf</em> to remove all files by running <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">clean</span> <span class="pre">--all</span></code>.</p>
 </section>
 <section id="protecting-files-from-being-cleaned-up">
-<h2>Protecting Files From Being Cleaned Up<a class="headerlink" href="#protecting-files-from-being-cleaned-up" title="Permalink to this heading">#</a></h2>
+<h2>Protecting Files From Being Cleaned Up<a class="headerlink" href="#protecting-files-from-being-cleaned-up" title="Link to this heading">#</a></h2>
 <p>You can protect output files from being cleaned up:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">&#39;TargetA&#39;</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">],</span> <span class="n">protect</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;d&#39;</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">...</span>
@@ -836,7 +836,7 @@ no other target depends on):</p>
 <p>Now, when running <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">clean</span></code>, the file <code class="docutils literal notranslate"><span class="pre">d</span></code> will not be deleted.</p>
 </section>
 <section id="a-note-about-reproducibility">
-<h2>A Note About Reproducibility<a class="headerlink" href="#a-note-about-reproducibility" title="Permalink to this heading">#</a></h2>
+<h2>A Note About Reproducibility<a class="headerlink" href="#a-note-about-reproducibility" title="Link to this heading">#</a></h2>
 <p>Reproducibility is an important part of research and since <em>gwf</em> workflows describe every
 step of your computation, how the steps are connected, and the files produced in each step,
 it’s a valuable tool in making your workflows reproducible. In combination with the
@@ -932,9 +932,9 @@ reproduce the environment used locally.</p>
       
     </aside>
   </div>
-</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=e81f84f5"></script>
+</div><script src="../../_static/documentation_options.js?v=f124a214"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

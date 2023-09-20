@@ -1,12 +1,12 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="en" data-content_root="../../../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex/" /><link rel="search" title="Search" href="../../../search/" />
 
-    <!-- Generated with Sphinx 7.1.1 and Furo 2023.07.26 -->
+    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
         <title>gwf.workflow - gwf 2.0.2 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b849a4e9" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=649a27d8" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=36a5483c" />
     
@@ -296,7 +296,9 @@
     <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">selected</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="TargetList"><a class="viewcode-back" href="../../../reference/api/#gwf.TargetList">[docs]</a><span class="nd">@attrs</span><span class="o">.</span><span class="n">define</span>
+<div class="viewcode-block" id="TargetList">
+<a class="viewcode-back" href="../../../reference/api/#gwf.TargetList">[docs]</a>
+<span class="nd">@attrs</span><span class="o">.</span><span class="n">define</span>
 <span class="k">class</span> <span class="nc">TargetList</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A list of target objects with access to all inputs and outputs.</span>
 
@@ -324,7 +326,10 @@
         <span class="k">return</span> <span class="p">[</span><span class="n">target</span><span class="o">.</span><span class="n">inputs</span> <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="Workflow"><a class="viewcode-back" href="../../../reference/api/#gwf.Workflow">[docs]</a><span class="nd">@attrs</span><span class="o">.</span><span class="n">define</span>
+
+<div class="viewcode-block" id="Workflow">
+<a class="viewcode-back" href="../../../reference/api/#gwf.Workflow">[docs]</a>
+<span class="nd">@attrs</span><span class="o">.</span><span class="n">define</span>
 <span class="k">class</span> <span class="nc">Workflow</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a workflow.</span>
 
@@ -378,7 +383,9 @@
     <span class="k">def</span> <span class="nf">from_parsed_path</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="s2">&quot;gwf&quot;</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">load_workflow</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Workflow.from_path"><a class="viewcode-back" href="../../../reference/api/#gwf.Workflow.from_path">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Workflow.from_path">
+<a class="viewcode-back" href="../../../reference/api/#gwf.Workflow.from_path">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_path</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return workflow object for the workflow given by `path`.</span>
 
@@ -391,7 +398,10 @@
         <span class="n">path</span><span class="p">,</span> <span class="n">obj</span> <span class="o">=</span> <span class="n">find_workflow</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_parsed_path</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Workflow.from_context"><a class="viewcode-back" href="../../../reference/api/#gwf.Workflow.from_context">[docs]</a>    <span class="nd">@classmethod</span>
+
+<div class="viewcode-block" id="Workflow.from_context">
+<a class="viewcode-back" href="../../../reference/api/#gwf.Workflow.from_context">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_context</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">ctx</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return workflow object for the workflow specified by `ctx`.</span>
 
@@ -399,12 +409,15 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_parsed_path</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">workflow_file</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">workflow_obj</span><span class="p">)</span></div>
 
+
     <span class="k">def</span> <span class="nf">_add_target</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">target</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">targets</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">WorkflowError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Target </span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s2"> already exists in workflow.&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">targets</span><span class="p">[</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">target</span>
 
-<div class="viewcode-block" id="Workflow.target"><a class="viewcode-back" href="../../../reference/api/#gwf.Workflow.target">[docs]</a>    <span class="k">def</span> <span class="nf">target</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">protect</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">):</span>
+<div class="viewcode-block" id="Workflow.target">
+<a class="viewcode-back" href="../../../reference/api/#gwf.Workflow.target">[docs]</a>
+    <span class="k">def</span> <span class="nf">target</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">protect</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a target and add it to the :class:`gwf.Workflow`.</span>
 
 <span class="sd">        This is syntactic sugar for creating a new :class:`~gwf.Target` and</span>
@@ -438,7 +451,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_target</span><span class="p">(</span><span class="n">new_target</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">new_target</span></div>
 
-<div class="viewcode-block" id="Workflow.target_from_template"><a class="viewcode-back" href="../../../reference/api/#gwf.Workflow.target_from_template">[docs]</a>    <span class="k">def</span> <span class="nf">target_from_template</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">template</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Workflow.target_from_template">
+<a class="viewcode-back" href="../../../reference/api/#gwf.Workflow.target_from_template">[docs]</a>
+    <span class="k">def</span> <span class="nf">target_from_template</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">template</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a target from a template and add it to the :class:`gwf.Workflow`.</span>
 
 <span class="sd">        This is syntactic sugar for creating a new :class:`~gwf.Target` and</span>
@@ -474,7 +490,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_target</span><span class="p">(</span><span class="n">new_target</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">new_target</span></div>
 
-<div class="viewcode-block" id="Workflow.map"><a class="viewcode-back" href="../../../reference/api/#gwf.Workflow.map">[docs]</a>    <span class="k">def</span> <span class="nf">map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template_func</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Workflow.map">
+<a class="viewcode-back" href="../../../reference/api/#gwf.Workflow.map">[docs]</a>
+    <span class="k">def</span> <span class="nf">map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template_func</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add targets to the workflow given a template and a list of inputs.</span>
 
 <span class="sd">        This method accepts a template function and an iterable of inputs. For</span>
@@ -589,7 +608,10 @@
             <span class="n">targets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">targets</span></div>
 
-<div class="viewcode-block" id="Workflow.glob"><a class="viewcode-back" href="../../../reference/api/#gwf.Workflow.glob">[docs]</a>    <span class="k">def</span> <span class="nf">glob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pathname</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Workflow.glob">
+<a class="viewcode-back" href="../../../reference/api/#gwf.Workflow.glob">[docs]</a>
+    <span class="k">def</span> <span class="nf">glob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pathname</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a list of paths matching `pathname`.</span>
 
 <span class="sd">        This method is equivalent to :func:`python:glob.glob`, but searches with</span>
@@ -600,7 +622,10 @@
             <span class="n">pathname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">pathname</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">_glob</span><span class="p">(</span><span class="n">pathname</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Workflow.iglob"><a class="viewcode-back" href="../../../reference/api/#gwf.Workflow.iglob">[docs]</a>    <span class="k">def</span> <span class="nf">iglob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pathname</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Workflow.iglob">
+<a class="viewcode-back" href="../../../reference/api/#gwf.Workflow.iglob">[docs]</a>
+    <span class="k">def</span> <span class="nf">iglob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pathname</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return an iterator which yields paths matching `pathname`.</span>
 
 <span class="sd">        This method is equivalent to :func:`python:glob.iglob`, but searches with</span>
@@ -611,7 +636,10 @@
             <span class="n">pathname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">pathname</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">_iglob</span><span class="p">(</span><span class="n">pathname</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Workflow.shell"><a class="viewcode-back" href="../../../reference/api/#gwf.Workflow.shell">[docs]</a>    <span class="k">def</span> <span class="nf">shell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Workflow.shell">
+<a class="viewcode-back" href="../../../reference/api/#gwf.Workflow.shell">[docs]</a>
+    <span class="k">def</span> <span class="nf">shell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the output of a shell command.</span>
 
 <span class="sd">        This method is equivalent to :func:`python:subprocess.check_output`, but</span>
@@ -628,7 +656,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">(</span>
             <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cwd</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">working_dir</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
-        <span class="p">)</span></div></div>
+        <span class="p">)</span></div>
+</div>
+
 </pre></div>
         </article>
       </div>
@@ -661,9 +691,9 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=e81f84f5"></script>
+</div><script src="../../../_static/documentation_options.js?v=f124a214"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

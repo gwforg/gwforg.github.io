@@ -1,12 +1,12 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="en" data-content_root="../../../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex/" /><link rel="search" title="Search" href="../../../search/" />
 
-    <!-- Generated with Sphinx 7.1.1 and Furo 2023.07.26 -->
+    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
         <title>gwf.core - gwf 2.0.2 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b849a4e9" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=649a27d8" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=36a5483c" />
     
@@ -368,7 +368,9 @@
     <span class="n">CANCELLED</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1">#: The target or one of its dependencies was cancelled.</span>
 
 
-<div class="viewcode-block" id="AnonymousTarget"><a class="viewcode-back" href="../../../reference/api/#gwf.AnonymousTarget">[docs]</a><span class="nd">@attrs</span><span class="o">.</span><span class="n">define</span><span class="p">(</span><span class="n">eq</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="viewcode-block" id="AnonymousTarget">
+<a class="viewcode-back" href="../../../reference/api/#gwf.AnonymousTarget">[docs]</a>
+<span class="nd">@attrs</span><span class="o">.</span><span class="n">define</span><span class="p">(</span><span class="n">eq</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">AnonymousTarget</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents an unnamed target.</span>
 
@@ -400,7 +402,15 @@
     <span class="n">spec</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Target"><a class="viewcode-back" href="../../../reference/api/#gwf.Target">[docs]</a><span class="nd">@attrs</span><span class="o">.</span><span class="n">define</span><span class="p">(</span><span class="n">eq</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">_validate_path</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">_flatten</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="n">_check_path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Target">
+<a class="viewcode-back" href="../../../reference/api/#gwf.Target">[docs]</a>
+<span class="nd">@attrs</span><span class="o">.</span><span class="n">define</span><span class="p">(</span><span class="n">eq</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">Target</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a target.</span>
 
@@ -424,7 +434,7 @@
 <span class="sd">        foo = Target(</span>
 <span class="sd">            name=&#39;foo&#39;,</span>
 <span class="sd">            inputs={&#39;A&#39;: [&#39;a1&#39;, &#39;a2&#39;], &#39;B&#39;: &#39;b&#39;},</span>
-<span class="sd">            outputs={&#39;C&#39;: [&#39;a1b&#39;, &#39;a2b], &#39;D&#39;: &#39;d},</span>
+<span class="sd">            outputs={&#39;C&#39;: [&#39;a1b&#39;, &#39;a2b&#39;], &#39;D&#39;: &#39;d&#39;},</span>
 <span class="sd">        )</span>
 
 <span class="sd">    This is useful for referring the outputs of a target::</span>
@@ -455,8 +465,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
-    <span class="n">inputs</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
-    <span class="n">outputs</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
+    <span class="n">inputs</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">validator</span><span class="o">=</span><span class="n">_validate_path</span><span class="p">)</span>
+    <span class="n">outputs</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">validator</span><span class="o">=</span><span class="n">_validate_path</span><span class="p">)</span>
     <span class="n">options</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
     <span class="n">working_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
     <span class="n">protect</span><span class="p">:</span> <span class="nb">set</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">factory</span><span class="o">=</span><span class="nb">set</span><span class="p">,</span> <span class="n">converter</span><span class="o">=</span><span class="nb">set</span><span class="p">)</span>
@@ -475,12 +485,6 @@
     <span class="k">def</span> <span class="nf">_validate_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">is_valid_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">GWFError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Target defined with invalid name: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-    <span class="nd">@inputs</span><span class="o">.</span><span class="n">validator</span>
-    <span class="nd">@outputs</span><span class="o">.</span><span class="n">validator</span>
-    <span class="k">def</span> <span class="nf">_validate_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
-            <span class="n">_check_path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 
     <span class="nd">@working_dir</span><span class="o">.</span><span class="n">validator</span>
     <span class="k">def</span> <span class="nf">_validate_working_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
@@ -501,6 +505,7 @@
 
     <span class="k">def</span> <span class="nf">protected</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">_norm_paths</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">_flatten</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">protect</span><span class="p">)))</span></div>
+
 
 
 <span class="k">class</span> <span class="nc">CircularDependencyError</span><span class="p">(</span><span class="n">GWFError</span><span class="p">):</span>
@@ -540,7 +545,9 @@
             <span class="n">visitor</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="Graph"><a class="viewcode-back" href="../../../reference/api/#gwf.Graph">[docs]</a><span class="nd">@attrs</span><span class="o">.</span><span class="n">define</span>
+<div class="viewcode-block" id="Graph">
+<a class="viewcode-back" href="../../../reference/api/#gwf.Graph">[docs]</a>
+<span class="nd">@attrs</span><span class="o">.</span><span class="n">define</span>
 <span class="k">class</span> <span class="nc">Graph</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a dependency graph for a set of targets.</span>
 
@@ -584,7 +591,9 @@
     <span class="n">dependents</span><span class="p">:</span> <span class="n">defaultdict</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
     <span class="n">unresolved</span><span class="p">:</span> <span class="nb">set</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
 
-<div class="viewcode-block" id="Graph.from_targets"><a class="viewcode-back" href="../../../reference/api/#gwf.Graph.from_targets">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Graph.from_targets">
+<a class="viewcode-back" href="../../../reference/api/#gwf.Graph.from_targets">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_targets</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">fs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Construct a dependency graph from a set of targets.</span>
 
@@ -652,11 +661,17 @@
             <span class="n">unresolved</span><span class="o">=</span><span class="n">unresolved</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="Graph.endpoints"><a class="viewcode-back" href="../../../reference/api/#gwf.Graph.endpoints">[docs]</a>    <span class="k">def</span> <span class="nf">endpoints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Graph.endpoints">
+<a class="viewcode-back" href="../../../reference/api/#gwf.Graph.endpoints">[docs]</a>
+    <span class="k">def</span> <span class="nf">endpoints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a set of all targets that are not depended on by other targets.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">targets</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dependents</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="Graph.dfs"><a class="viewcode-back" href="../../../reference/api/#gwf.Graph.dfs">[docs]</a>    <span class="k">def</span> <span class="nf">dfs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Graph.dfs">
+<a class="viewcode-back" href="../../../reference/api/#gwf.Graph.dfs">[docs]</a>
+    <span class="k">def</span> <span class="nf">dfs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the depth-first traversal path through a graph from `root`.&quot;&quot;&quot;</span>
         <span class="n">visited</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="n">path</span> <span class="o">=</span> <span class="p">[]</span>
@@ -673,6 +688,7 @@
         <span class="n">dfs_inner</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">path</span></div>
 
+
     <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">targets</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
 
@@ -684,6 +700,7 @@
 
     <span class="k">def</span> <span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_name</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">target_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">targets</span></div>
+
 
 
 <span class="nd">@attrs</span><span class="o">.</span><span class="n">define</span>
@@ -762,9 +779,9 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=e81f84f5"></script>
+</div><script src="../../../_static/documentation_options.js?v=f124a214"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

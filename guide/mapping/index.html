@@ -1,13 +1,13 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="en" data-content_root="../../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../../genindex/" /><link rel="search" title="Search" href="../../search/" /><link rel="next" title="Configuration" href="../configuration/" /><link rel="prev" title="Tutorial" href="../tutorial/" />
 
-    <!-- Generated with Sphinx 7.1.1 and Furo 2023.07.26 -->
+    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
         <title>Mapping over Inputs - gwf 2.0.2 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b849a4e9" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=649a27d8" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     
@@ -208,7 +208,7 @@
         </div>
         <article role="main">
           <section id="mapping-over-inputs">
-<span id="using-map"></span><h1>Mapping over Inputs<a class="headerlink" href="#mapping-over-inputs" title="Permalink to this heading">#</a></h1>
+<span id="using-map"></span><h1>Mapping over Inputs<a class="headerlink" href="#mapping-over-inputs" title="Link to this heading">#</a></h1>
 <p>Assume that we have a list of inputs and we wish to create a new target for
 every input in the list. We can solve this by writing a <em>template function</em> and
 then a for-loop to iterate over our list of inputs:</p>
@@ -272,7 +272,7 @@ transform_photo_2    shouldrun       0.00% [1/0/0/0]
 target is automatically derived from the name of the template function and an
 index.</p>
 <section id="naming-targets-differently">
-<h2>Naming Targets Differently<a class="headerlink" href="#naming-targets-differently" title="Permalink to this heading">#</a></h2>
+<h2>Naming Targets Differently<a class="headerlink" href="#naming-targets-differently" title="Link to this heading">#</a></h2>
 <p>That’s useful, but what if you don’t like the generated target names? If you’re
 fine with the automatic numbering, but want to use another name than the
 template function name, you can set the <code class="docutils literal notranslate"><span class="pre">name</span></code> argument to a string:</p>
@@ -305,7 +305,7 @@ transform_photo_cat      shouldrun       0.00% [1/0/0/0]
 <p>Pretty and descriptive!</p>
 </section>
 <section id="passing-multiple-arguments-to-a-template-function">
-<h2>Passing Multiple Arguments to a Template Function<a class="headerlink" href="#passing-multiple-arguments-to-a-template-function" title="Permalink to this heading">#</a></h2>
+<h2>Passing Multiple Arguments to a Template Function<a class="headerlink" href="#passing-multiple-arguments-to-a-template-function" title="Link to this heading">#</a></h2>
 <p>What if our template took multiple arguments? Let’s modify our template function
 a bit:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">transform_photo</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">width</span><span class="p">):</span>
@@ -337,7 +337,7 @@ arguments to the function template:</p>
 the inputs and set arguments with <code class="docutils literal notranslate"><span class="pre">extra</span></code> as well.</p>
 </section>
 <section id="chaining-maps">
-<h2>Chaining Maps<a class="headerlink" href="#chaining-maps" title="Permalink to this heading">#</a></h2>
+<h2>Chaining Maps<a class="headerlink" href="#chaining-maps" title="Link to this heading">#</a></h2>
 <p>You may wonder what <a class="reference external" href="https://docs.python.org/3.7/library/functions.html#map" title="(in Python v3.7)"><code class="xref py py-func docutils literal notranslate"><span class="pre">map()</span></code></a> actually returns. Let’s take a look:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">transformed_photos</span> <span class="o">=</span> <span class="n">gwf</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">transform_photo</span><span class="p">,</span> <span class="n">photos</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">get_photo_name</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">transformed_photos</span><span class="p">))</span>
@@ -359,7 +359,7 @@ photo, we can just map over the outputs of the <code class="xref py py-class doc
 <p>We could keep on going like this!</p>
 </section>
 <section id="collecting-files">
-<h2>Collecting Files<a class="headerlink" href="#collecting-files" title="Permalink to this heading">#</a></h2>
+<h2>Collecting Files<a class="headerlink" href="#collecting-files" title="Link to this heading">#</a></h2>
 <p>Now that you’ve transformed and compressed your photos, you may also want to
 zip them into a single file. For this you wrote a template that looks like this:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">zip_files</span><span class="p">(</span><span class="n">paths</span><span class="p">,</span> <span class="n">output_path</span><span class="p">):</span>
@@ -506,9 +506,9 @@ to a function.</p>
       
     </aside>
   </div>
-</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=e81f84f5"></script>
+</div><script src="../../_static/documentation_options.js?v=f124a214"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

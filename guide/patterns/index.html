@@ -1,13 +1,13 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="en" data-content_root="../../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../../genindex/" /><link rel="search" title="Search" href="../../search/" /><link rel="next" title="Plugins" href="../../plugins/" /><link rel="prev" title="Configuration" href="../configuration/" />
 
-    <!-- Generated with Sphinx 7.1.1 and Furo 2023.07.26 -->
+    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
         <title>Tips and Tricks - gwf 2.0.2 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b849a4e9" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=649a27d8" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     
@@ -208,14 +208,14 @@
         </div>
         <article role="main">
           <section id="tips-and-tricks">
-<span id="patterns"></span><h1>Tips and Tricks<a class="headerlink" href="#tips-and-tricks" title="Permalink to this heading">#</a></h1>
+<span id="patterns"></span><h1>Tips and Tricks<a class="headerlink" href="#tips-and-tricks" title="Link to this heading">#</a></h1>
 <p>This guide takes you through some advanced features and patterns that can
 be utilized in <em>gwf</em>. Remember that <em>gwf</em> is just a way of generating
 workflows using the Python programming language and thus many of these
 patterns simply use plain Python code to abstract and automate certain
 things.</p>
 <section id="iterating-over-a-parameter-space">
-<h2>Iterating Over a Parameter Space<a class="headerlink" href="#iterating-over-a-parameter-space" title="Permalink to this heading">#</a></h2>
+<h2>Iterating Over a Parameter Space<a class="headerlink" href="#iterating-over-a-parameter-space" title="Link to this heading">#</a></h2>
 <p>Say that you have a workflow that runs a program with many different
 combinations of parameters, e.g. the parameters <em>xs</em>, <em>ys</em>, and <em>zs</em>. Each
 parameter can take multiple values:</p>
@@ -249,7 +249,7 @@ of the parameters:</p>
 <p>Using <a class="reference external" href="https://docs.python.org/3.7/library/itertools.html#itertools.product" title="(in Python v3.7)"><code class="xref py py-func docutils literal notranslate"><span class="pre">itertools.product()</span></code></a> with <a class="reference internal" href="../mapping/#using-map"><span class="std std-ref">map</span></a> is even nicer!</p>
 </section>
 <section id="dynamically-generating-a-workflow">
-<h2>Dynamically Generating a Workflow<a class="headerlink" href="#dynamically-generating-a-workflow" title="Permalink to this heading">#</a></h2>
+<h2>Dynamically Generating a Workflow<a class="headerlink" href="#dynamically-generating-a-workflow" title="Link to this heading">#</a></h2>
 <p>We can make our workflows more reusable by generating them dynamically. For
 example, we may wish to make it easy for others to change the inputs to our
 workflow or let users specify a different output directory. When generating
@@ -346,7 +346,7 @@ now always be needed. In this case, we can let the user choose to leave it out:<
 </div>
 </section>
 <section id="external-configuration-of-workflows">
-<h2>External Configuration of Workflows<a class="headerlink" href="#external-configuration-of-workflows" title="Permalink to this heading">#</a></h2>
+<h2>External Configuration of Workflows<a class="headerlink" href="#external-configuration-of-workflows" title="Link to this heading">#</a></h2>
 <p>In the previous section we saw how we can parameterize workflows. However, in some
 cases we may want to let the user of our workflow specify the parameters without
 touching any Python code at all. That is, we want an external configuration file.</p>
@@ -375,7 +375,7 @@ the configuration using the Python <code class="docutils literal notranslate"><s
 <p>We can now change the values in <code class="docutils literal notranslate"><span class="pre">config.json</span></code> and run the workflow as usual.</p>
 </section>
 <section id="large-workflows">
-<h2>Large Workflows<a class="headerlink" href="#large-workflows" title="Permalink to this heading">#</a></h2>
+<h2>Large Workflows<a class="headerlink" href="#large-workflows" title="Link to this heading">#</a></h2>
 <p>While <em>gwf</em> can handle quite large workflows without any problems, there are
 some things that may cause significant pain when working with very, very large
 workflows, especially when the workflows has many (&gt; 50000) targets producing
@@ -488,9 +488,9 @@ the targets associated with the selected sample.</p>
       
     </aside>
   </div>
-</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=e81f84f5"></script>
+</div><script src="../../_static/documentation_options.js?v=f124a214"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>

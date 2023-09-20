@@ -1,12 +1,12 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="en" data-content_root="../../../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex/" /><link rel="search" title="Search" href="../../../search/" />
 
-    <!-- Generated with Sphinx 7.1.1 and Furo 2023.07.26 -->
+    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
         <title>gwf.scheduling - gwf 2.0.2 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b849a4e9" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=649a27d8" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=36a5483c" />
     
@@ -355,7 +355,9 @@
     <span class="n">spec_hashes</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="submit_workflow"><a class="viewcode-back" href="../../../reference/api/#gwf.scheduling.submit_workflow">[docs]</a><span class="k">def</span> <span class="nf">submit_workflow</span><span class="p">(</span><span class="n">endpoints</span><span class="p">,</span> <span class="n">graph</span><span class="p">,</span> <span class="n">fs</span><span class="p">,</span> <span class="n">spec_hashes</span><span class="p">,</span> <span class="n">backend</span><span class="p">,</span> <span class="n">dry_run</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="submit_workflow">
+<a class="viewcode-back" href="../../../reference/api/#gwf.scheduling.submit_workflow">[docs]</a>
+<span class="k">def</span> <span class="nf">submit_workflow</span><span class="p">(</span><span class="n">endpoints</span><span class="p">,</span> <span class="n">graph</span><span class="p">,</span> <span class="n">fs</span><span class="p">,</span> <span class="n">spec_hashes</span><span class="p">,</span> <span class="n">backend</span><span class="p">,</span> <span class="n">dry_run</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Submit a workflow to a backend.&quot;&quot;&quot;</span>
     <span class="n">submit_func</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span>
         <span class="n">_submit_dryrun</span> <span class="k">if</span> <span class="n">dry_run</span> <span class="k">else</span> <span class="n">submit_backend</span><span class="p">,</span>
@@ -372,7 +374,10 @@
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="get_status_map"><a class="viewcode-back" href="../../../reference/api/#gwf.scheduling.get_status_map">[docs]</a><span class="k">def</span> <span class="nf">get_status_map</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">fs</span><span class="p">,</span> <span class="n">spec_hashes</span><span class="p">,</span> <span class="n">backend</span><span class="p">,</span> <span class="n">endpoints</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="get_status_map">
+<a class="viewcode-back" href="../../../reference/api/#gwf.scheduling.get_status_map">[docs]</a>
+<span class="k">def</span> <span class="nf">get_status_map</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">fs</span><span class="p">,</span> <span class="n">spec_hashes</span><span class="p">,</span> <span class="n">backend</span><span class="p">,</span> <span class="n">endpoints</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the status of each targets in the graph.&quot;&quot;&quot;</span>
     <span class="n">submit_func</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">_submit_noop</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span> <span class="n">spec_hashes</span><span class="o">=</span><span class="n">spec_hashes</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">schedule</span><span class="p">(</span>
@@ -383,6 +388,7 @@
         <span class="n">status_func</span><span class="o">=</span><span class="n">backend</span><span class="o">.</span><span class="n">status</span><span class="p">,</span>
         <span class="n">submit_func</span><span class="o">=</span><span class="n">submit_func</span><span class="p">,</span>
     <span class="p">)</span></div>
+
 </pre></div>
         </article>
       </div>
@@ -415,9 +421,9 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=e81f84f5"></script>
+</div><script src="../../../_static/documentation_options.js?v=f124a214"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=32e29ea5"></script>
     </body>
 </html>
