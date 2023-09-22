@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="../genindex/" /><link rel="search" title="Search" href="../search/" /><link rel="prev" title="API" href="../reference/api/" />
 
     <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
-        <title>Change Log - gwf 2.0.2 documentation</title>
+        <title>Change Log - gwf 2.0.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=649a27d8" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../"><div class="brand">gwf 2.0.2 documentation</div></a>
+      <a href="../"><div class="brand">gwf 2.0.3 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,7 +146,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../">
   
   
-  <span class="sidebar-brand-text">gwf 2.0.2 documentation</span>
+  <span class="sidebar-brand-text">gwf 2.0.3 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search/" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -209,6 +209,21 @@
         <article role="main">
           <section id="change-log">
 <h1>Change Log<a class="headerlink" href="#change-log" title="Link to this heading">#</a></h1>
+<section id="version-2-0-3">
+<h2>Version 2.0.3<a class="headerlink" href="#version-2-0-3" title="Link to this heading">#</a></h2>
+<section id="fixed">
+<h3>Fixed<a class="headerlink" href="#fixed" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Fixed path validation when using named paths (thanks, Anders!)</p></li>
+</ul>
+</section>
+<section id="changed">
+<h3>Changed<a class="headerlink" href="#changed" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Updated list of known Slurm states in Slurm backend.</p></li>
+</ul>
+</section>
+</section>
 <section id="version-2-0-2">
 <h2>Version 2.0.2<a class="headerlink" href="#version-2-0-2" title="Link to this heading">#</a></h2>
 <section id="added">
@@ -219,8 +234,8 @@
 and shows all possible states instead of only non-zero ones (thanks, Jakob Grove).</p></li>
 </ul>
 </section>
-<section id="fixed">
-<h3>Fixed<a class="headerlink" href="#fixed" title="Link to this heading">#</a></h3>
+<section id="id1">
+<h3>Fixed<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Fixed bug where a failed target would not be included as dependency when
 submitting an upstream target.</p></li>
@@ -234,15 +249,15 @@ flushed to the database by Slurm.</p></li>
 </section>
 <section id="version-2-0-1">
 <h2>Version 2.0.1<a class="headerlink" href="#version-2-0-1" title="Link to this heading">#</a></h2>
-<section id="id1">
-<h3>Added<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<section id="id2">
+<h3>Added<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>You can now specify which parts of a workflow to touch with the <cite>gwf touch</cite> command.
 E.g. <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">touch</span> <span class="pre">Foo</span></code> will only touch Foo and its dependencies (and their dependencies).</p></li>
 </ul>
 </section>
-<section id="id2">
-<h3>Fixed<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<section id="id3">
+<h3>Fixed<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Fixed loading of entrypoints on Python 3.7.</p></li>
 </ul>
@@ -254,8 +269,8 @@ E.g. <code class="docutils literal notranslate"><span class="pre">gwf</span> <sp
 which is now much more robust and consistent, and to backends, which now can report whether
 a target failed or not. The local backend has also been rewritten from scratch. In the
 future it will be able to support e.g. target cancellation.</p>
-<section id="id3">
-<h3>Added<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<section id="id4">
+<h3>Added<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>For supported backends (currently <cite>slurm</cite> and <cite>local</cite>), the status command can now show
 failed targets. These will be rescheduled as if they were incomplete. If accounting is
@@ -263,19 +278,19 @@ not enabled in slurm, this functionality must be turned off with
 <cite>gwf config set backend.slurm.accounting_enabled no</cite>.</p></li>
 </ul>
 </section>
-<section id="id4">
-<h3>Fixed<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<section id="id5">
+<h3>Fixed<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>The configuration directory will now always be placed next to the workflow file in use.</p></li>
-<li><p>The status command is now consistent with the output of <a href="#id5"><span class="problematic" id="id6">`</span></a>gwf run`n.</p></li>
+<li><p>The status command is now consistent with the output of <a href="#id6"><span class="problematic" id="id7">`</span></a>gwf run`n.</p></li>
 <li><p>The scheduler will not re-run targets that are not “should run”.</p></li>
 <li><p>Targets with only outputs will now be scheduled if an output file is missing. Otherwise,
 it will not be scheduled.</p></li>
 <li><p>And many, many other tiny things!</p></li>
 </ul>
 </section>
-<section id="changed">
-<h3>Changed<a class="headerlink" href="#changed" title="Link to this heading">#</a></h3>
+<section id="id8">
+<h3>Changed<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Workflows can no longer be included into each other. All namespacing has been removed.</p></li>
 <li><p>Templates returning tuples are no longer supported. Templates must now return an <code class="docutils literal notranslate"><span class="pre">AnonymousTarget</span></code>.</p></li>
@@ -290,8 +305,8 @@ with <cite>gwf config set use_spec_hashes yes</cite>.</p></li>
 </section>
 <section id="version-1-8-5">
 <h2>Version 1.8.5<a class="headerlink" href="#version-1-8-5" title="Link to this heading">#</a></h2>
-<section id="id7">
-<h3>Added<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<section id="id9">
+<h3>Added<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Spec hashes will now be computed automatically on the first run with spec
 hashes enabled.</p></li>
@@ -305,8 +320,8 @@ hashes enabled.</p></li>
 </section>
 <section id="version-1-8-3">
 <h2>Version 1.8.3<a class="headerlink" href="#version-1-8-3" title="Link to this heading">#</a></h2>
-<section id="id8">
-<h3>Fixed<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
+<section id="id10">
+<h3>Fixed<a class="headerlink" href="#id10" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Status output regression reported in #399 has been fixed.</p></li>
 </ul>
@@ -314,8 +329,8 @@ hashes enabled.</p></li>
 </section>
 <section id="version-1-8-2">
 <h2>Version 1.8.2<a class="headerlink" href="#version-1-8-2" title="Link to this heading">#</a></h2>
-<section id="id9">
-<h3>Fixed<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
+<section id="id11">
+<h3>Fixed<a class="headerlink" href="#id11" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>You can now protect an output file from being deleted by the <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">clean</span></code>
 command with the <code class="docutils literal notranslate"><span class="pre">protect</span></code> argument when creating a target. Specify a list of
@@ -324,8 +339,8 @@ This was implemented before, but it was broken, so this is considered a fix.</p>
 <li><p>You can now load modules next to your workflow file, e.g., <code class="docutils literal notranslate"><span class="pre">templates.py</span></code> again.</p></li>
 </ul>
 </section>
-<section id="id10">
-<h3>Changed<a class="headerlink" href="#id10" title="Link to this heading">#</a></h3>
+<section id="id12">
+<h3>Changed<a class="headerlink" href="#id12" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Including one workflow into another workflow had very few real use cases, so the
 feature has been dropped.</p></li>
@@ -334,23 +349,23 @@ feature has been dropped.</p></li>
 </section>
 <section id="version-1-8-1">
 <h2>Version 1.8.1<a class="headerlink" href="#version-1-8-1" title="Link to this heading">#</a></h2>
-<section id="id11">
-<h3>Added<a class="headerlink" href="#id11" title="Link to this heading">#</a></h3>
+<section id="id13">
+<h3>Added<a class="headerlink" href="#id13" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Will now recursively look for a workflow file in parent directories. This
 means that you can now run e.g. <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">status</span></code> in any subdirectory below the
 directory containing your workflow file.</p></li>
 </ul>
 </section>
-<section id="id12">
-<h3>Fixed<a class="headerlink" href="#id12" title="Link to this heading">#</a></h3>
+<section id="id14">
+<h3>Fixed<a class="headerlink" href="#id14" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Fixed bug in the scheduling code which caused workflows that ran just fine to
 report “shouldrun” for some targets.</p></li>
 </ul>
 </section>
-<section id="id13">
-<h3>Changed<a class="headerlink" href="#id13" title="Link to this heading">#</a></h3>
+<section id="id15">
+<h3>Changed<a class="headerlink" href="#id15" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>The scheduler now outputs a data structure with all information from the
 scheduling process and with separate types for each “reason”.</p></li>
@@ -361,8 +376,8 @@ target.</p></li>
 </section>
 <section id="version-1-8-0">
 <h2>Version 1.8.0<a class="headerlink" href="#version-1-8-0" title="Link to this heading">#</a></h2>
-<section id="id14">
-<h3>Changed<a class="headerlink" href="#id14" title="Link to this heading">#</a></h3>
+<section id="id16">
+<h3>Changed<a class="headerlink" href="#id16" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Drop support for Python &lt;3.7.</p></li>
 <li><p>Use a nicer theme for the website!</p></li>
@@ -372,8 +387,8 @@ useful.</p></li>
 use based on which commands are available on the system.</p></li>
 </ul>
 </section>
-<section id="id15">
-<h3>Added<a class="headerlink" href="#id15" title="Link to this heading">#</a></h3>
+<section id="id17">
+<h3>Added<a class="headerlink" href="#id17" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Pretty output for the <code class="docutils literal notranslate"><span class="pre">info</span></code> command with <code class="docutils literal notranslate"><span class="pre">--format</span> <span class="pre">pretty</span></code>. Still
 supports the JSON output format as the default.</p></li>
@@ -383,8 +398,8 @@ Setting this to <cite>no</cite> will not remove old logs when <code class="docut
 <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">config</span> <span class="pre">set</span> <span class="pre">use_spec_hashes</span> <span class="pre">no</span></code>. Enabled by default.</p></li>
 </ul>
 </section>
-<section id="id16">
-<h3>Fixed<a class="headerlink" href="#id16" title="Link to this heading">#</a></h3>
+<section id="id18">
+<h3>Fixed<a class="headerlink" href="#id18" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Remove use of <code class="docutils literal notranslate"><span class="pre">time.clock()</span></code> as it was deprecated.</p></li>
 <li><p>Fix import of <code class="docutils literal notranslate"><span class="pre">collections.abc.Mapping</span></code>.</p></li>
@@ -394,15 +409,15 @@ Setting this to <cite>no</cite> will not remove old logs when <code class="docut
 </section>
 <section id="version-1-7-2">
 <h2>Version 1.7.2<a class="headerlink" href="#version-1-7-2" title="Link to this heading">#</a></h2>
-<section id="id17">
-<h3>Fixed<a class="headerlink" href="#id17" title="Link to this heading">#</a></h3>
+<section id="id19">
+<h3>Fixed<a class="headerlink" href="#id19" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Trying to cancel a target that is not running or completed will now <em>not</em> fail.</p></li>
 <li><p>Documented the Slurm target options <code class="docutils literal notranslate"><span class="pre">mail_user</span></code> and <code class="docutils literal notranslate"><span class="pre">mail_type</span></code>.</p></li>
 </ul>
 </section>
-<section id="id18">
-<h3>Added<a class="headerlink" href="#id18" title="Link to this heading">#</a></h3>
+<section id="id20">
+<h3>Added<a class="headerlink" href="#id20" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Slurm backend now accepts a <code class="docutils literal notranslate"><span class="pre">gres</span></code> target option that maps directly to
 Slurm’s <code class="docutils literal notranslate"><span class="pre">--gres</span></code> flag.</p></li>
@@ -411,8 +426,8 @@ Slurm’s <code class="docutils literal notranslate"><span class="pre">--gres</s
 </section>
 <section id="version-1-7-1">
 <h2>Version 1.7.1<a class="headerlink" href="#version-1-7-1" title="Link to this heading">#</a></h2>
-<section id="id19">
-<h3>Changed<a class="headerlink" href="#id19" title="Link to this heading">#</a></h3>
+<section id="id21">
+<h3>Changed<a class="headerlink" href="#id21" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>The <code class="docutils literal notranslate"><span class="pre">clean</span></code> command now asks for confirmation when no targets are
 specified. This can be avoided by using the <code class="docutils literal notranslate"><span class="pre">--force</span></code> flag.</p></li>
@@ -421,8 +436,8 @@ belonging to the current user. This used to be the default behaviour, but was
 unintentionally changed when refactoring the Slurm backend.</p></li>
 </ul>
 </section>
-<section id="id20">
-<h3>Fixed<a class="headerlink" href="#id20" title="Link to this heading">#</a></h3>
+<section id="id22">
+<h3>Fixed<a class="headerlink" href="#id22" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>The output of the <code class="docutils literal notranslate"><span class="pre">cancel</span></code> command is now correct.</p></li>
 </ul>
@@ -433,8 +448,8 @@ unintentionally changed when refactoring the Slurm backend.</p></li>
 <p>This release is the first version of <em>gwf</em> to support Python 3.8. We’re now
 testing on nightly version of Python so that future Python releases should be
 supported as soon as they’re available.</p>
-<section id="id21">
-<h3>Added<a class="headerlink" href="#id21" title="Link to this heading">#</a></h3>
+<section id="id23">
+<h3>Added<a class="headerlink" href="#id23" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Automatically checks for updates on a regular basis. A warning will be shown
 when a new version is available. This feature can be disabled with
@@ -444,15 +459,15 @@ the state of the queue from Slurm or if submitting a job failed.</p></li>
 <li><p>Support for Python 3.8.</p></li>
 </ul>
 </section>
-<section id="id22">
-<h3>Changed<a class="headerlink" href="#id22" title="Link to this heading">#</a></h3>
+<section id="id24">
+<h3>Changed<a class="headerlink" href="#id24" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>When running <cite>gwf cancel</cite> without specifying targets, only
 submitted/running targets will be cancelled.</p></li>
 </ul>
 </section>
-<section id="id23">
-<h3>Fixed<a class="headerlink" href="#id23" title="Link to this heading">#</a></h3>
+<section id="id25">
+<h3>Fixed<a class="headerlink" href="#id25" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Fixed a deadlock in the local backend which caused the workers to freeze.</p></li>
 <li><p>Links to examples and ReadTheDocs (we’re now hosting the docs ourselves).</p></li>
@@ -468,8 +483,8 @@ multiple targets from a template and improving readability.</p>
 user experience ranging from speed improvements for the <code class="docutils literal notranslate"><span class="pre">logs</span></code> command to
 improved debugging output.</p>
 <p>The documentation has also been restructured and improved.</p>
-<section id="id24">
-<h3>Added<a class="headerlink" href="#id24" title="Link to this heading">#</a></h3>
+<section id="id26">
+<h3>Added<a class="headerlink" href="#id26" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Named inputs and outputs. The <code class="docutils literal notranslate"><span class="pre">inputs</span></code> and <code class="docutils literal notranslate"><span class="pre">outputs</span></code> arguments to
 <code class="docutils literal notranslate"><span class="pre">Workflow.target</span></code> can now be either a string, list or dictionary. See the
@@ -484,8 +499,8 @@ fix (e.g. <em>gwf</em> reporting that a file is missing even though it seems to 
 there). Paths containing such characters now result in an error.</p></li>
 </ul>
 </section>
-<section id="id25">
-<h3>Changed<a class="headerlink" href="#id25" title="Link to this heading">#</a></h3>
+<section id="id27">
+<h3>Changed<a class="headerlink" href="#id27" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>The <code class="docutils literal notranslate"><span class="pre">logs</span></code> command is now much faster since it no longer builds the entire
 graph.</p></li>
@@ -498,8 +513,8 @@ messages are now more specific and helpful.</p></li>
 redundant information.</p></li>
 </ul>
 </section>
-<section id="id26">
-<h3>Fixed<a class="headerlink" href="#id26" title="Link to this heading">#</a></h3>
+<section id="id28">
+<h3>Fixed<a class="headerlink" href="#id28" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Crash when running <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">init</span></code> without an existing configuration file.</p></li>
 <li><p>The <code class="docutils literal notranslate"><span class="pre">--force</span></code> flag for the <code class="docutils literal notranslate"><span class="pre">cancel</span></code> command now actually forces cancellation.</p></li>
@@ -510,8 +525,8 @@ environment variable standard described <a class="reference external" href="http
 </section>
 <section id="version-1-5-1">
 <h2>Version 1.5.1<a class="headerlink" href="#version-1-5-1" title="Link to this heading">#</a></h2>
-<section id="id27">
-<h3>Fixed<a class="headerlink" href="#id27" title="Link to this heading">#</a></h3>
+<section id="id29">
+<h3>Fixed<a class="headerlink" href="#id29" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Crash when Slurm returns unknown job state (#244).</p></li>
 </ul>
@@ -519,16 +534,16 @@ environment variable standard described <a class="reference external" href="http
 </section>
 <section id="version-1-5-0">
 <h2>Version 1.5.0<a class="headerlink" href="#version-1-5-0" title="Link to this heading">#</a></h2>
-<section id="id28">
-<h3>Added<a class="headerlink" href="#id28" title="Link to this heading">#</a></h3>
+<section id="id30">
+<h3>Added<a class="headerlink" href="#id30" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Users can now run <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">init</span></code> to bootstrap a new <em>gwf</em> project (c78193).</p></li>
 <li><p>Add option to protect output files in a target from being removed when
 <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">clean</span></code> is being run (2f51ed).</p></li>
 </ul>
 </section>
-<section id="id29">
-<h3>Fixed<a class="headerlink" href="#id29" title="Link to this heading">#</a></h3>
+<section id="id31">
+<h3>Fixed<a class="headerlink" href="#id31" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Ensure job script end with a newline (#239).</p></li>
 <li><p>Ignore missing log files when cleaning on run (#237).</p></li>
@@ -537,8 +552,8 @@ environment variable standard described <a class="reference external" href="http
 </section>
 <section id="version-1-4-0">
 <h2>Version 1.4.0<a class="headerlink" href="#version-1-4-0" title="Link to this heading">#</a></h2>
-<section id="id30">
-<h3>Added<a class="headerlink" href="#id30" title="Link to this heading">#</a></h3>
+<section id="id32">
+<h3>Added<a class="headerlink" href="#id32" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Backend for Sun Grid Engine (SGE). The backend does not support all target
 options supported by the Slurm backend, so workflows can not necessarily
@@ -549,8 +564,8 @@ of supported options.</p></li>
 </section>
 <section id="version-1-3-2">
 <h2>Version 1.3.2<a class="headerlink" href="#version-1-3-2" title="Link to this heading">#</a></h2>
-<section id="id31">
-<h3>Fixed<a class="headerlink" href="#id31" title="Link to this heading">#</a></h3>
+<section id="id33">
+<h3>Fixed<a class="headerlink" href="#id33" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Made the <code class="docutils literal notranslate"><span class="pre">touch</span></code> command faster.</p></li>
 </ul>
@@ -558,8 +573,8 @@ of supported options.</p></li>
 </section>
 <section id="version-1-3-1">
 <h2>Version 1.3.1<a class="headerlink" href="#version-1-3-1" title="Link to this heading">#</a></h2>
-<section id="id32">
-<h3>Added<a class="headerlink" href="#id32" title="Link to this heading">#</a></h3>
+<section id="id34">
+<h3>Added<a class="headerlink" href="#id34" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>The <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">status</span></code> command now accepts multiple <code class="docutils literal notranslate"><span class="pre">-s/--status</span></code> flags and will show
 targets matching any of the given states. E.g. <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">status</span> <span class="pre">-s</span> <span class="pre">completed</span> <span class="pre">-s</span> <span class="pre">running</span></code>
@@ -588,8 +603,8 @@ endpoints). For users who wish to only see endpoints, there’s now a
 <p>We aim to make <em>gwf</em> a good cluster citizen. Thus, logs from targets that no
 no longer exist in the workflow will now be removed when running <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">run</span></code>.
 This ensures that <em>gwf</em> doesn’t unnecessarily accumulate logs over time.</p>
-<section id="id33">
-<h3>Fixed<a class="headerlink" href="#id33" title="Link to this heading">#</a></h3>
+<section id="id35">
+<h3>Fixed<a class="headerlink" href="#id35" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Add missing import to documentation for function templates (4eddcac).</p></li>
 <li><p>Remove reference to <code class="docutils literal notranslate"><span class="pre">--not-endpoints</span></code> flag (d7ed251).</p></li>
@@ -599,8 +614,8 @@ This ensures that <em>gwf</em> doesn’t unnecessarily accumulate logs over time
 not exist, but the output file did (reported by Jonas Berglund) (92301ef3).</p></li>
 </ul>
 </section>
-<section id="id34">
-<h3>Changed<a class="headerlink" href="#id34" title="Link to this heading">#</a></h3>
+<section id="id36">
+<h3>Changed<a class="headerlink" href="#id36" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Dots have been removed from logging output to make copy-pasting target names
 easier (f33f7195).</p></li>
@@ -609,8 +624,8 @@ easier (f33f7195).</p></li>
 <li><p>Remove status bars in <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">status</span></code> command (47cb7b50).</p></li>
 </ul>
 </section>
-<section id="id35">
-<h3>Added<a class="headerlink" href="#id35" title="Link to this heading">#</a></h3>
+<section id="id37">
+<h3>Added<a class="headerlink" href="#id37" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Added undocumented API which allows core and plugins to register validation
 functions for configuration keys. This fixes issues like #226 (c8c57d7c7).</p></li>
@@ -624,8 +639,8 @@ updates to the tutorial) (34421498).</p></li>
 </section>
 <section id="version-1-2-1">
 <h2>Version 1.2.1<a class="headerlink" href="#version-1-2-1" title="Link to this heading">#</a></h2>
-<section id="id36">
-<h3>Fixed<a class="headerlink" href="#id36" title="Link to this heading">#</a></h3>
+<section id="id38">
+<h3>Fixed<a class="headerlink" href="#id38" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Bug when returning an <code class="docutils literal notranslate"><span class="pre">AnonymousTarget</span></code> from a template function without
 specifying the <em>working_dir</em> in the constructor (#212). Thanks to Steffen
@@ -635,8 +650,8 @@ Møller-Larsen for reporting this.</p></li>
 </section>
 <section id="version-1-2">
 <h2>Version 1.2<a class="headerlink" href="#version-1-2" title="Link to this heading">#</a></h2>
-<section id="id37">
-<h3>Fixed<a class="headerlink" href="#id37" title="Link to this heading">#</a></h3>
+<section id="id39">
+<h3>Fixed<a class="headerlink" href="#id39" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Bug when using <code class="docutils literal notranslate"><span class="pre">--format</span> <span class="pre">table</span></code> and no targets were found (#203).</p></li>
 <li><p>Bug when cancelling a target running on the Slurm backend (#199).</p></li>
@@ -646,8 +661,8 @@ workers.</p></li>
 log was found.</p></li>
 </ul>
 </section>
-<section id="id38">
-<h3>Changed<a class="headerlink" href="#id38" title="Link to this heading">#</a></h3>
+<section id="id40">
+<h3>Changed<a class="headerlink" href="#id40" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Moved checking of file timestamps to the scheduler. This means that creating a
 <code class="docutils literal notranslate"><span class="pre">Graph</span></code> object will never touch the file system, and thus won’t raise an
@@ -658,8 +673,8 @@ necessary). For end users, this means that many commands have become
 substantially faster.</p></li>
 </ul>
 </section>
-<section id="id39">
-<h3>Added<a class="headerlink" href="#id39" title="Link to this heading">#</a></h3>
+<section id="id41">
+<h3>Added<a class="headerlink" href="#id41" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Added <code class="docutils literal notranslate"><span class="pre">AnonymousTarget</span></code> which represents an unnamed target. <code class="docutils literal notranslate"><span class="pre">Target</span></code> now
 inherits from this class and templates may now return an <code class="docutils literal notranslate"><span class="pre">AnonymousTarget</span></code>
@@ -671,16 +686,16 @@ backend for usage (#202).</p></li>
 </section>
 <section id="version-1-1">
 <h2>Version 1.1<a class="headerlink" href="#version-1-1" title="Link to this heading">#</a></h2>
-<section id="id40">
-<h3>Fixed<a class="headerlink" href="#id40" title="Link to this heading">#</a></h3>
+<section id="id42">
+<h3>Fixed<a class="headerlink" href="#id42" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Very slow scheduling when using dry run with unsubmitted targets (#184, 93e71a).</p></li>
 <li><p>Fixed cancellation with the Slurm backend (#183, 29445f).</p></li>
 <li><p>Fixed wildcard filtering of targets (#185, 036e3d).</p></li>
 </ul>
 </section>
-<section id="id41">
-<h3>Changed<a class="headerlink" href="#id41" title="Link to this heading">#</a></h3>
+<section id="id43">
+<h3>Changed<a class="headerlink" href="#id43" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Move file cache construction out of <code class="docutils literal notranslate"><span class="pre">Graph</span></code> (#186, 93e71a). This change is
 invisible to end-users, but speeds up the <code class="docutils literal notranslate"><span class="pre">logs</span></code>, <code class="docutils literal notranslate"><span class="pre">cancel</span></code>, <code class="docutils literal notranslate"><span class="pre">info</span></code>,
@@ -697,8 +712,8 @@ log manager to use for accessing target log files.</p></li>
 no longer called automatically on exit.</p></li>
 </ul>
 </section>
-<section id="id42">
-<h3>Added<a class="headerlink" href="#id42" title="Link to this heading">#</a></h3>
+<section id="id44">
+<h3>Added<a class="headerlink" href="#id44" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Added filtering of targets by name in the <code class="docutils literal notranslate"><span class="pre">info</span></code> command.</p></li>
 <li><p>Added API documentation for the <code class="docutils literal notranslate"><span class="pre">gwf.filtering</span></code> module.</p></li>
@@ -719,22 +734,22 @@ read the tutorial, since quite a lot of things have changed. We also recommend
 reading the guide for converting pre-1.0 workflows to version 1.0. However,
 users attempting to do this should be aware that the the template mechanism in
 1.0 is slightly different and thus requires rewriting template functions.</p>
-<section id="id43">
-<h3>Fixed<a class="headerlink" href="#id43" title="Link to this heading">#</a></h3>
+<section id="id45">
+<h3>Fixed<a class="headerlink" href="#id45" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Fixed a bug which caused <em>gwf</em> to fail when cancelling jobs when using the
 Slurm backend (8c1717).</p></li>
 </ul>
 </section>
-<section id="id44">
-<h3>Changed<a class="headerlink" href="#id44" title="Link to this heading">#</a></h3>
+<section id="id46">
+<h3>Changed<a class="headerlink" href="#id46" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Documentation in various places, especially the core API.</p></li>
 <li><p>Documentation for maintainers.</p></li>
 </ul>
 </section>
-<section id="id45">
-<h3>Added<a class="headerlink" href="#id45" title="Link to this heading">#</a></h3>
+<section id="id47">
+<h3>Added<a class="headerlink" href="#id47" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Topic guide covering templates (b175fe).</p></li>
 <li><p>Added <code class="docutils literal notranslate"><span class="pre">info</span></code> command (6dbdbb).</p></li>
@@ -743,8 +758,8 @@ Slurm backend (8c1717).</p></li>
 </section>
 <section id="version-1-0b10">
 <h2>Version 1.0b10<a class="headerlink" href="#version-1-0b10" title="Link to this heading">#</a></h2>
-<section id="id46">
-<h3>Fixed<a class="headerlink" href="#id46" title="Link to this heading">#</a></h3>
+<section id="id48">
+<h3>Fixed<a class="headerlink" href="#id48" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Fixed a subtle bug in scheduling which caused problems when resubmitting a
 workflow where some targets were already running (a5d884).</p></li>
@@ -756,15 +771,15 @@ queue contained a job with many dependencies (eb4446).</p></li>
 </section>
 <section id="version-1-0b9">
 <h2>Version 1.0b9<a class="headerlink" href="#version-1-0b9" title="Link to this heading">#</a></h2>
-<section id="id47">
-<h3>Fixed<a class="headerlink" href="#id47" title="Link to this heading">#</a></h3>
+<section id="id49">
+<h3>Fixed<a class="headerlink" href="#id49" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Fixed a bug in the <code class="docutils literal notranslate"><span class="pre">SlurmBackend</span></code> which caused running targets as unknown
 (33a6bd).</p></li>
 </ul>
 </section>
-<section id="id48">
-<h3>Changed<a class="headerlink" href="#id48" title="Link to this heading">#</a></h3>
+<section id="id50">
+<h3>Changed<a class="headerlink" href="#id50" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>The Slurm backend’s database of tracked jobs is now cleaned on initialization
 to keep it from growing indefinitely (bd3f95).</p></li>
@@ -773,8 +788,8 @@ to keep it from growing indefinitely (bd3f95).</p></li>
 </section>
 <section id="version-1-0b8">
 <h2>Version 1.0b8<a class="headerlink" href="#version-1-0b8" title="Link to this heading">#</a></h2>
-<section id="id49">
-<h3>Fixed<a class="headerlink" href="#id49" title="Link to this heading">#</a></h3>
+<section id="id51">
+<h3>Fixed<a class="headerlink" href="#id51" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Fixed a bug which caused the <em>gwf logs</em> command to always show stderr
 (01b267).</p></li>
@@ -782,8 +797,8 @@ to keep it from growing indefinitely (bd3f95).</p></li>
 depended on the same target (4d9e07).</p></li>
 </ul>
 </section>
-<section id="id50">
-<h3>Changed<a class="headerlink" href="#id50" title="Link to this heading">#</a></h3>
+<section id="id52">
+<h3>Changed<a class="headerlink" href="#id52" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Improved error message when trying to create a target from an invalid template
 (d27d1f).</p></li>
@@ -792,8 +807,8 @@ depended on the same target (4d9e07).</p></li>
 unless <cite>–no-pager</cite> is used (01b267).</p></li>
 </ul>
 </section>
-<section id="id51">
-<h3>Added<a class="headerlink" href="#id51" title="Link to this heading">#</a></h3>
+<section id="id53">
+<h3>Added<a class="headerlink" href="#id53" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Added more tests to cover scenarios with included workflows when building the
 workflow graph (86a68d0).</p></li>
@@ -803,16 +818,16 @@ workflow graph (86a68d0).</p></li>
 </section>
 <section id="version-1-0b7">
 <h2>Version 1.0b7<a class="headerlink" href="#version-1-0b7" title="Link to this heading">#</a></h2>
-<section id="id52">
-<h3>Fixed<a class="headerlink" href="#id52" title="Link to this heading">#</a></h3>
+<section id="id54">
+<h3>Fixed<a class="headerlink" href="#id54" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Fixed bug in scheduling which was actually the cause of the incorrect
 scheduling that was “fixed” in 1.0b6. Also added documentation for
 <code class="docutils literal notranslate"><span class="pre">gwf.core.schedule</span></code> (7c47cb).</p></li>
 </ul>
 </section>
-<section id="id53">
-<h3>Changed<a class="headerlink" href="#id53" title="Link to this heading">#</a></h3>
+<section id="id55">
+<h3>Changed<a class="headerlink" href="#id55" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Updated documentation in a bunch of places, mostly styling.</p></li>
 </ul>
@@ -820,23 +835,23 @@ scheduling that was “fixed” in 1.0b6. Also added documentation for
 </section>
 <section id="version-1-0b6">
 <h2>Version 1.0b6<a class="headerlink" href="#version-1-0b6" title="Link to this heading">#</a></h2>
-<section id="id54">
-<h3>Fixed<a class="headerlink" href="#id54" title="Link to this heading">#</a></h3>
+<section id="id56">
+<h3>Fixed<a class="headerlink" href="#id56" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>A bug in <code class="docutils literal notranslate"><span class="pre">SlurmBackend</span></code> which caused dependencies between targets to not be
 set correctly (6b71d2).</p></li>
 </ul>
 </section>
-<section id="id55">
-<h3>Changed<a class="headerlink" href="#id55" title="Link to this heading">#</a></h3>
+<section id="id57">
+<h3>Changed<a class="headerlink" href="#id57" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>More improvements to and clean up of build process.</p></li>
 <li><p>Updated some examples in the tutorial with current output from <em>gwf</em> (42c5da).</p></li>
 <li><p>Logging output is now more consistent (b95af04).</p></li>
 </ul>
 </section>
-<section id="id56">
-<h3>Added<a class="headerlink" href="#id56" title="Link to this heading">#</a></h3>
+<section id="id58">
+<h3>Added<a class="headerlink" href="#id58" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Documentation for maintainers on how to merge in contributions and rolling a
 new release (fe1ee3).</p></li>
@@ -845,15 +860,15 @@ new release (fe1ee3).</p></li>
 </section>
 <section id="version-1-0b5">
 <h2>Version 1.0b5<a class="headerlink" href="#version-1-0b5" title="Link to this heading">#</a></h2>
-<section id="id57">
-<h3>Fixed<a class="headerlink" href="#id57" title="Link to this heading">#</a></h3>
+<section id="id59">
+<h3>Fixed<a class="headerlink" href="#id59" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Unset option passed to backend causes error (#166, dcff44).</p></li>
 <li><p>Set import path to allow import of module in workflow file (64841c).</p></li>
 </ul>
 </section>
-<section id="id58">
-<h3>Changed<a class="headerlink" href="#id58" title="Link to this heading">#</a></h3>
+<section id="id60">
+<h3>Changed<a class="headerlink" href="#id60" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Vastly improved build and deploy process. We’re now actually building and
 testing with conda.</p></li>
@@ -910,148 +925,153 @@ testing with conda.</p></li>
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Change Log</a><ul>
-<li><a class="reference internal" href="#version-2-0-2">Version 2.0.2</a><ul>
-<li><a class="reference internal" href="#added">Added</a></li>
+<li><a class="reference internal" href="#version-2-0-3">Version 2.0.3</a><ul>
 <li><a class="reference internal" href="#fixed">Fixed</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#version-2-0-1">Version 2.0.1</a><ul>
-<li><a class="reference internal" href="#id1">Added</a></li>
-<li><a class="reference internal" href="#id2">Fixed</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#version-2-0-0">Version 2.0.0</a><ul>
-<li><a class="reference internal" href="#id3">Added</a></li>
-<li><a class="reference internal" href="#id4">Fixed</a></li>
 <li><a class="reference internal" href="#changed">Changed</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#version-2-0-2">Version 2.0.2</a><ul>
+<li><a class="reference internal" href="#added">Added</a></li>
+<li><a class="reference internal" href="#id1">Fixed</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#version-2-0-1">Version 2.0.1</a><ul>
+<li><a class="reference internal" href="#id2">Added</a></li>
+<li><a class="reference internal" href="#id3">Fixed</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#version-2-0-0">Version 2.0.0</a><ul>
+<li><a class="reference internal" href="#id4">Added</a></li>
+<li><a class="reference internal" href="#id5">Fixed</a></li>
+<li><a class="reference internal" href="#id8">Changed</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#version-1-8-5">Version 1.8.5</a><ul>
-<li><a class="reference internal" href="#id7">Added</a></li>
+<li><a class="reference internal" href="#id9">Added</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#version-1-8-4">Version 1.8.4</a></li>
 <li><a class="reference internal" href="#version-1-8-3">Version 1.8.3</a><ul>
-<li><a class="reference internal" href="#id8">Fixed</a></li>
+<li><a class="reference internal" href="#id10">Fixed</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#version-1-8-2">Version 1.8.2</a><ul>
-<li><a class="reference internal" href="#id9">Fixed</a></li>
-<li><a class="reference internal" href="#id10">Changed</a></li>
+<li><a class="reference internal" href="#id11">Fixed</a></li>
+<li><a class="reference internal" href="#id12">Changed</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#version-1-8-1">Version 1.8.1</a><ul>
-<li><a class="reference internal" href="#id11">Added</a></li>
-<li><a class="reference internal" href="#id12">Fixed</a></li>
-<li><a class="reference internal" href="#id13">Changed</a></li>
+<li><a class="reference internal" href="#id13">Added</a></li>
+<li><a class="reference internal" href="#id14">Fixed</a></li>
+<li><a class="reference internal" href="#id15">Changed</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#version-1-8-0">Version 1.8.0</a><ul>
-<li><a class="reference internal" href="#id14">Changed</a></li>
-<li><a class="reference internal" href="#id15">Added</a></li>
-<li><a class="reference internal" href="#id16">Fixed</a></li>
+<li><a class="reference internal" href="#id16">Changed</a></li>
+<li><a class="reference internal" href="#id17">Added</a></li>
+<li><a class="reference internal" href="#id18">Fixed</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#version-1-7-2">Version 1.7.2</a><ul>
-<li><a class="reference internal" href="#id17">Fixed</a></li>
-<li><a class="reference internal" href="#id18">Added</a></li>
+<li><a class="reference internal" href="#id19">Fixed</a></li>
+<li><a class="reference internal" href="#id20">Added</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#version-1-7-1">Version 1.7.1</a><ul>
-<li><a class="reference internal" href="#id19">Changed</a></li>
-<li><a class="reference internal" href="#id20">Fixed</a></li>
+<li><a class="reference internal" href="#id21">Changed</a></li>
+<li><a class="reference internal" href="#id22">Fixed</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#version-1-7-0">Version 1.7.0</a><ul>
-<li><a class="reference internal" href="#id21">Added</a></li>
-<li><a class="reference internal" href="#id22">Changed</a></li>
-<li><a class="reference internal" href="#id23">Fixed</a></li>
+<li><a class="reference internal" href="#id23">Added</a></li>
+<li><a class="reference internal" href="#id24">Changed</a></li>
+<li><a class="reference internal" href="#id25">Fixed</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#version-1-6-0">Version 1.6.0</a><ul>
-<li><a class="reference internal" href="#id24">Added</a></li>
-<li><a class="reference internal" href="#id25">Changed</a></li>
-<li><a class="reference internal" href="#id26">Fixed</a></li>
+<li><a class="reference internal" href="#id26">Added</a></li>
+<li><a class="reference internal" href="#id27">Changed</a></li>
+<li><a class="reference internal" href="#id28">Fixed</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#version-1-5-1">Version 1.5.1</a><ul>
-<li><a class="reference internal" href="#id27">Fixed</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#version-1-5-0">Version 1.5.0</a><ul>
-<li><a class="reference internal" href="#id28">Added</a></li>
 <li><a class="reference internal" href="#id29">Fixed</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#version-1-4-0">Version 1.4.0</a><ul>
+<li><a class="reference internal" href="#version-1-5-0">Version 1.5.0</a><ul>
 <li><a class="reference internal" href="#id30">Added</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#version-1-3-2">Version 1.3.2</a><ul>
 <li><a class="reference internal" href="#id31">Fixed</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#version-1-3-1">Version 1.3.1</a><ul>
+<li><a class="reference internal" href="#version-1-4-0">Version 1.4.0</a><ul>
 <li><a class="reference internal" href="#id32">Added</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#version-1-3-0">Version 1.3.0</a><ul>
+<li><a class="reference internal" href="#version-1-3-2">Version 1.3.2</a><ul>
 <li><a class="reference internal" href="#id33">Fixed</a></li>
-<li><a class="reference internal" href="#id34">Changed</a></li>
-<li><a class="reference internal" href="#id35">Added</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#version-1-3-1">Version 1.3.1</a><ul>
+<li><a class="reference internal" href="#id34">Added</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#version-1-3-0">Version 1.3.0</a><ul>
+<li><a class="reference internal" href="#id35">Fixed</a></li>
+<li><a class="reference internal" href="#id36">Changed</a></li>
+<li><a class="reference internal" href="#id37">Added</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#version-1-2-1">Version 1.2.1</a><ul>
-<li><a class="reference internal" href="#id36">Fixed</a></li>
+<li><a class="reference internal" href="#id38">Fixed</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#version-1-2">Version 1.2</a><ul>
-<li><a class="reference internal" href="#id37">Fixed</a></li>
-<li><a class="reference internal" href="#id38">Changed</a></li>
-<li><a class="reference internal" href="#id39">Added</a></li>
+<li><a class="reference internal" href="#id39">Fixed</a></li>
+<li><a class="reference internal" href="#id40">Changed</a></li>
+<li><a class="reference internal" href="#id41">Added</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#version-1-1">Version 1.1</a><ul>
-<li><a class="reference internal" href="#id40">Fixed</a></li>
-<li><a class="reference internal" href="#id41">Changed</a></li>
-<li><a class="reference internal" href="#id42">Added</a></li>
+<li><a class="reference internal" href="#id42">Fixed</a></li>
+<li><a class="reference internal" href="#id43">Changed</a></li>
+<li><a class="reference internal" href="#id44">Added</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#version-1-0">Version 1.0</a><ul>
-<li><a class="reference internal" href="#id43">Fixed</a></li>
-<li><a class="reference internal" href="#id44">Changed</a></li>
-<li><a class="reference internal" href="#id45">Added</a></li>
+<li><a class="reference internal" href="#id45">Fixed</a></li>
+<li><a class="reference internal" href="#id46">Changed</a></li>
+<li><a class="reference internal" href="#id47">Added</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#version-1-0b10">Version 1.0b10</a><ul>
-<li><a class="reference internal" href="#id46">Fixed</a></li>
+<li><a class="reference internal" href="#id48">Fixed</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#version-1-0b9">Version 1.0b9</a><ul>
-<li><a class="reference internal" href="#id47">Fixed</a></li>
-<li><a class="reference internal" href="#id48">Changed</a></li>
+<li><a class="reference internal" href="#id49">Fixed</a></li>
+<li><a class="reference internal" href="#id50">Changed</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#version-1-0b8">Version 1.0b8</a><ul>
-<li><a class="reference internal" href="#id49">Fixed</a></li>
-<li><a class="reference internal" href="#id50">Changed</a></li>
-<li><a class="reference internal" href="#id51">Added</a></li>
+<li><a class="reference internal" href="#id51">Fixed</a></li>
+<li><a class="reference internal" href="#id52">Changed</a></li>
+<li><a class="reference internal" href="#id53">Added</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#version-1-0b7">Version 1.0b7</a><ul>
-<li><a class="reference internal" href="#id52">Fixed</a></li>
-<li><a class="reference internal" href="#id53">Changed</a></li>
+<li><a class="reference internal" href="#id54">Fixed</a></li>
+<li><a class="reference internal" href="#id55">Changed</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#version-1-0b6">Version 1.0b6</a><ul>
-<li><a class="reference internal" href="#id54">Fixed</a></li>
-<li><a class="reference internal" href="#id55">Changed</a></li>
-<li><a class="reference internal" href="#id56">Added</a></li>
+<li><a class="reference internal" href="#id56">Fixed</a></li>
+<li><a class="reference internal" href="#id57">Changed</a></li>
+<li><a class="reference internal" href="#id58">Added</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#version-1-0b5">Version 1.0b5</a><ul>
-<li><a class="reference internal" href="#id57">Fixed</a></li>
-<li><a class="reference internal" href="#id58">Changed</a></li>
+<li><a class="reference internal" href="#id59">Fixed</a></li>
+<li><a class="reference internal" href="#id60">Changed</a></li>
 </ul>
 </li>
 </ul>
@@ -1065,7 +1085,7 @@ testing with conda.</p></li>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=f124a214"></script>
+</div><script src="../_static/documentation_options.js?v=e3e29e0e"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
