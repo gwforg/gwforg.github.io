@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../../genindex/" /><link rel="search" title="Search" href="../../search/" /><link rel="next" title="API" href="../api/" /><link rel="prev" title="API Reference" href="../" />
 
-    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+    <!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
         <title>Backends - gwf 2.0.5 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=649a27d8" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=135e06be" />
@@ -213,7 +213,7 @@
 backend that suits your needs here, it’s easy to write your own backend
 &lt;writing_backends&gt;`. The source code for the built-in backends is a great
 source of inspiration.</p>
-<p>By default, <em>gwf</em> comes with the <cite>local</cite>, <cite>slurm</cite>, and <cite>sge</cite> backends.</p>
+<p>By default, <em>gwf</em> comes with the <cite>local</cite>, <cite>slurm</cite>, <cite>sge</cite>, and <cite>lsf</cite> backends.</p>
 <section id="module-gwf.backends.local">
 <span id="local"></span><h2>Local<a class="headerlink" href="#module-gwf.backends.local" title="Link to this heading">#</a></h2>
 <p>Backend that runs targets on a local cluster.</p>
@@ -372,6 +372,33 @@ project.</p>
 </li>
 </ul>
 </section>
+<section id="module-gwf.backends.lsf">
+<span id="ibm-spectrum-load-sharing-facility-lsf"></span><h2>IBM Spectrum Load Sharing Facility (LSF)<a class="headerlink" href="#module-gwf.backends.lsf" title="Link to this heading">#</a></h2>
+<p>Backend for IBM Load Sharing Facility (LSF).</p>
+<p>To use this backend, you must activate the <cite>lsf</cite> backend. This backend requires
+the commands <cite>bsub</cite> and <cite>bjobs</cite>.</p>
+<p><strong>Backend options:</strong></p>
+<p>None.</p>
+<p><strong>Target options:</strong></p>
+<ul class="simple">
+<li><dl class="simple">
+<dt><strong>cores (int):</strong></dt><dd><p>Number of cores allocated to this target (default: 1).</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>memory (str):</strong></dt><dd><p>Memory allocated to this target (default: 4GB).</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>queue (str):</strong></dt><dd><p>Queue to submit the target to (default: normal).
+for different purposes or priorities.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
 </section>
 
         </article>
@@ -433,6 +460,7 @@ project.</p>
 <li><a class="reference internal" href="#module-gwf.backends.local">Local</a></li>
 <li><a class="reference internal" href="#module-gwf.backends.slurm">Slurm</a></li>
 <li><a class="reference internal" href="#module-gwf.backends.sge">Sun Grid Engine (SGE)</a></li>
+<li><a class="reference internal" href="#module-gwf.backends.lsf">IBM Spectrum Load Sharing Facility (LSF)</a></li>
 </ul>
 </li>
 </ul>
