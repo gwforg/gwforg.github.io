@@ -5,10 +5,10 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../../genindex/" /><link rel="search" title="Search" href="../../search/" /><link rel="next" title="Change Log" href="../../changelog/" /><link rel="prev" title="Backends" href="../backends/" />
 
-    <!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
+    <!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
         <title>API - gwf 2.0.5 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=649a27d8" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     
     
@@ -68,7 +68,7 @@
   <symbol id="svg-sun" viewBox="0 0 24 24">
     <title>Light mode</title>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
       <circle cx="12" cy="12" r="5"></circle>
       <line x1="12" y1="1" x2="12" y2="3"></line>
       <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -83,7 +83,7 @@
   <symbol id="svg-moon" viewBox="0 0 24 24">
     <title>Dark mode</title>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
       <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
     </svg>
@@ -91,7 +91,7 @@
   <symbol id="svg-sun-half" viewBox="0 0 24 24">
     <title>Auto light/dark mode</title>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
       <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
       <circle cx="12" cy="12" r="9" />
       <path d="M13 12h5" />
@@ -99,6 +99,60 @@
       <path d="M13 18h1" />
       <path d="M13 9h4" />
       <path d="M13 6h1" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" /
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
     </svg>
   </symbol>
 </svg>
@@ -111,6 +165,8 @@
 <label class="overlay toc-overlay" for="__toc">
   <div class="visually-hidden">Hide table of contents sidebar</div>
 </label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
 
 
 
@@ -129,7 +185,8 @@
       <div class="theme-toggle-container theme-toggle-header">
         <button class="theme-toggle">
           <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
-          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
           <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
@@ -192,11 +249,17 @@
           <span>Back to top</span>
         </a>
         <div class="content-icon-container">
-          
+          <div class="view-this-page">
+  <a class="muted-link" href="../../_sources/reference/api.rst.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
 <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
-              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
               <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
@@ -206,9 +269,9 @@
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
-        <article role="main">
+        <article role="main" id="furo-main-content">
           <section id="api">
-<h1>API<a class="headerlink" href="#api" title="Link to this heading">#</a></h1>
+<h1>API<a class="headerlink" href="#api" title="Link to this heading">¶</a></h1>
 <p>The implementation of <em>gwf</em> consists of a few main abstractions. Units of work
 are defined by creating <a class="reference internal" href="#gwf.Target" title="gwf.Target"><code class="xref py py-class docutils literal notranslate"><span class="pre">Target</span></code></a> instances which also define
 the files used and produced by the target. A <a class="reference internal" href="#gwf.Workflow" title="gwf.Workflow"><code class="xref py py-class docutils literal notranslate"><span class="pre">Workflow</span></code></a> ties
@@ -219,11 +282,11 @@ workflow, checking the workflow for inconsistencies and circular dependencies.</
 <p>A target in a <code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code> can be scheduled on a
 <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> using the <a class="reference internal" href="#gwf.scheduling.submit_workflow" title="gwf.scheduling.submit_workflow"><code class="xref py py-class docutils literal notranslate"><span class="pre">submit_workflow</span></code></a>.</p>
 <section id="module-gwf">
-<span id="workflow"></span><h2>Workflow<a class="headerlink" href="#module-gwf" title="Link to this heading">#</a></h2>
+<span id="workflow"></span><h2>Workflow<a class="headerlink" href="#module-gwf" title="Link to this heading">¶</a></h2>
 <p>gwf - a pragmatic workflow tool</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="gwf.AnonymousTarget">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gwf.</span></span><span class="sig-name descname"><span class="pre">AnonymousTarget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)"><span class="pre">list</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)"><span class="pre">list</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">working_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'.'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">protect</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">_Nothing.NOTHING</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/core/#AnonymousTarget"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.AnonymousTarget" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gwf.</span></span><span class="sig-name descname"><span class="pre">AnonymousTarget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)"><span class="pre">list</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)"><span class="pre">list</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.7/library/constants.html#None" title="(in Python v3.7)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">working_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'.'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">protect</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">NOTHING</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/core/#AnonymousTarget"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.AnonymousTarget" title="Link to this definition">¶</a></dt>
 <dd><p>Represents an unnamed target.</p>
 <p>An anonymous target is an unnamed, abstract target much like the tuple
 returned by function templates. Thus, <cite>AnonymousTarget</cite> can also be used as
@@ -235,6 +298,7 @@ the return value of a template function.</p>
 <li><p><strong>outputs</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – A string, list or dictionary containing outputs to the target.</p></li>
 <li><p><strong>options</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – Options such as number of cores, memory requirements etc. Options are
 backend-dependent. Backends will ignore unsupported options.</p></li>
+<li><p><strong>group</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The group to which the target is assigned.</p></li>
 <li><p><strong>working_dir</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Working directory of this target.</p></li>
 <li><p><strong>spec</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The specification of the target.</p></li>
 <li><p><strong>protect</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#set" title="(in Python v3.7)"><em>set</em></a>) – An iterable of protected files which will not be removed during
@@ -246,7 +310,7 @@ cleaning, even if this target is not an endpoint.</p></li>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="gwf.Target">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gwf.</span></span><span class="sig-name descname"><span class="pre">Target</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)"><span class="pre">list</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)"><span class="pre">list</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">working_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'.'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">protect</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">_Nothing.NOTHING</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/core/#Target"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.Target" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gwf.</span></span><span class="sig-name descname"><span class="pre">Target</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)"><span class="pre">list</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)"><span class="pre">list</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.7/library/constants.html#None" title="(in Python v3.7)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">working_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'.'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">protect</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">NOTHING</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/core/#Target"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.Target" title="Link to this definition">¶</a></dt>
 <dd><p>Represents a target.</p>
 <p>This class inherits from <a class="reference internal" href="#gwf.AnonymousTarget" title="gwf.AnonymousTarget"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnonymousTarget</span></code></a>.</p>
 <p>A target is a named unit of work that declare their file <em>inputs</em> and
@@ -289,7 +353,10 @@ target uses:</p>
 documentation for the backend.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of the target.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of the target.</p></li>
+<li><p><strong>group</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The group to which the target is assigned.</p></li>
+</ul>
 </dd>
 </dl>
 <div class="versionchanged">
@@ -300,14 +367,14 @@ and <em>outputs</em> to be lists.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="gwf.TargetList">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gwf.</span></span><span class="sig-name descname"><span class="pre">TargetList</span></span><a class="reference internal" href="../../_modules/gwf/workflow/#TargetList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.TargetList" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gwf.</span></span><span class="sig-name descname"><span class="pre">TargetList</span></span><a class="reference internal" href="../../_modules/gwf/workflow/#TargetList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.TargetList" title="Link to this definition">¶</a></dt>
 <dd><p>A list of target objects with access to all inputs and outputs.</p>
 <p>This is a thin wrapper around a normal list and thus provides all normal
 <code class="docutils literal notranslate"><span class="pre">list</span></code> methods. However, it provides access to the collective
 inputs and outputs of the targets contained in the list.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="gwf.TargetList.inputs">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">inputs</span></span><a class="headerlink" href="#gwf.TargetList.inputs" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">inputs</span></span><a class="headerlink" href="#gwf.TargetList.inputs" title="Link to this definition">¶</a></dt>
 <dd><p>Return a list of the inputs of all targets.</p>
 <p>The returned list may be a list of strings, lists or dictionaries
 depending on the form of the inputs of the contained targets.</p>
@@ -315,7 +382,7 @@ depending on the form of the inputs of the contained targets.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="gwf.TargetList.outputs">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">outputs</span></span><a class="headerlink" href="#gwf.TargetList.outputs" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">outputs</span></span><a class="headerlink" href="#gwf.TargetList.outputs" title="Link to this definition">¶</a></dt>
 <dd><p>Return a list of the outputs of all targets.</p>
 <p>The returned list may be a list of strings, lists or dictionaries
 depending on the form of the outputs of the contained targets.</p>
@@ -325,7 +392,7 @@ depending on the form of the outputs of the contained targets.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="gwf.Workflow">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gwf.</span></span><span class="sig-name descname"><span class="pre">Workflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">working_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">_Nothing.NOTHING</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defaults</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><span class="pre">dict</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">_Nothing.NOTHING</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/workflow/#Workflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.Workflow" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gwf.</span></span><span class="sig-name descname"><span class="pre">Workflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">working_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">NOTHING</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defaults</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><span class="pre">dict</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">NOTHING</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/workflow/#Workflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.Workflow" title="Link to this definition">¶</a></dt>
 <dd><p>Represents a workflow.</p>
 <p>This is the most central user-facing abstraction in <em>gwf</em>.</p>
 <p>A workflow consists of a collection of targets and has methods for adding
@@ -361,14 +428,14 @@ defaults individually. For example:</p>
 in <cite>defaults</cite>, but <cite>Bar</cite> overrides the <cite>cores</cite> option.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="gwf.Workflow.from_context">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/workflow/#Workflow.from_context"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.Workflow.from_context" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/workflow/#Workflow.from_context"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.Workflow.from_context" title="Link to this definition">¶</a></dt>
 <dd><p>Return workflow object for the workflow specified by <cite>ctx</cite>.</p>
 <p>See <a class="reference internal" href="#gwf.Workflow.from_path" title="gwf.Workflow.from_path"><code class="xref py py-func docutils literal notranslate"><span class="pre">Workflow.from_path()</span></code></a> for further information.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="gwf.Workflow.from_path">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/workflow/#Workflow.from_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.Workflow.from_path" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/workflow/#Workflow.from_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.Workflow.from_path" title="Link to this definition">¶</a></dt>
 <dd><p>Return workflow object for the workflow given by <cite>path</cite>.</p>
 <p>Returns a <a class="reference internal" href="#gwf.Workflow" title="gwf.Workflow"><code class="xref py py-class docutils literal notranslate"><span class="pre">Workflow</span></code></a> object containing the workflow object
 of the workflow given by <cite>path</cite>.</p>
@@ -382,7 +449,7 @@ workflow object in that file.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="gwf.Workflow.glob">
-<span class="sig-name descname"><span class="pre">glob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pathname</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/workflow/#Workflow.glob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.Workflow.glob" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">glob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pathname</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/workflow/#Workflow.glob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.Workflow.glob" title="Link to this definition">¶</a></dt>
 <dd><p>Return a list of paths matching <cite>pathname</cite>.</p>
 <p>This method is equivalent to <a class="reference external" href="https://docs.python.org/3.7/library/glob.html#glob.glob" title="(in Python v3.7)"><code class="docutils literal notranslate"><span class="pre">glob.glob()</span></code></a>, but searches with
 relative paths will be performed relative to the working directory
@@ -391,7 +458,7 @@ of the workflow.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="gwf.Workflow.iglob">
-<span class="sig-name descname"><span class="pre">iglob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pathname</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/workflow/#Workflow.iglob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.Workflow.iglob" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">iglob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pathname</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/workflow/#Workflow.iglob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.Workflow.iglob" title="Link to this definition">¶</a></dt>
 <dd><p>Return an iterator which yields paths matching <cite>pathname</cite>.</p>
 <p>This method is equivalent to <a class="reference external" href="https://docs.python.org/3.7/library/glob.html#glob.iglob" title="(in Python v3.7)"><code class="docutils literal notranslate"><span class="pre">glob.iglob()</span></code></a>, but searches with
 relative paths will be performed relative to the working directory
@@ -400,7 +467,7 @@ of the workflow.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="gwf.Workflow.map">
-<span class="sig-name descname"><span class="pre">map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/workflow/#Workflow.map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.Workflow.map" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/workflow/#Workflow.map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.Workflow.map" title="Link to this definition">¶</a></dt>
 <dd><p>Add targets to the workflow given a template and a list of inputs.</p>
 <p>This method accepts a template function and an iterable of inputs. For
 each item in <cite>inputs</cite> it produces a target using the template function
@@ -458,7 +525,7 @@ target options.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="gwf.Workflow.shell">
-<span class="sig-name descname"><span class="pre">shell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/workflow/#Workflow.shell"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.Workflow.shell" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">shell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/workflow/#Workflow.shell"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.Workflow.shell" title="Link to this definition">¶</a></dt>
 <dd><p>Return the output of a shell command.</p>
 <p>This method is equivalent to <a class="reference external" href="https://docs.python.org/3.7/library/subprocess.html#subprocess.check_output" title="(in Python v3.7)"><code class="docutils literal notranslate"><span class="pre">subprocess.check_output()</span></code></a>, but
 automatically runs the command in a shell with the current working
@@ -474,7 +541,7 @@ string with the output instead.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="gwf.Workflow.target">
-<span class="sig-name descname"><span class="pre">target</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">protect</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/workflow/#Workflow.target"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.Workflow.target" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">target</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">protect</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/workflow/#Workflow.target"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.Workflow.target" title="Link to this definition">¶</a></dt>
 <dd><p>Create a target and add it to the <a class="reference internal" href="#gwf.Workflow" title="gwf.Workflow"><code class="xref py py-class docutils literal notranslate"><span class="pre">gwf.Workflow</span></code></a>.</p>
 <p>This is syntactic sugar for creating a new <a class="reference internal" href="#gwf.Target" title="gwf.Target"><code class="xref py py-class docutils literal notranslate"><span class="pre">Target</span></code></a> and
 adding it to the workflow. The target is also returned from the method
@@ -503,7 +570,7 @@ and assign a spec to the target.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="gwf.Workflow.target_from_template">
-<span class="sig-name descname"><span class="pre">target_from_template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/workflow/#Workflow.target_from_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.Workflow.target_from_template" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">target_from_template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/workflow/#Workflow.target_from_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.Workflow.target_from_template" title="Link to this definition">¶</a></dt>
 <dd><p>Create a target from a template and add it to the <a class="reference internal" href="#gwf.Workflow" title="gwf.Workflow"><code class="xref py py-class docutils literal notranslate"><span class="pre">gwf.Workflow</span></code></a>.</p>
 <p>This is syntactic sugar for creating a new <a class="reference internal" href="#gwf.Target" title="gwf.Target"><code class="xref py py-class docutils literal notranslate"><span class="pre">Target</span></code></a> and
 adding it to the workflow. The target is also returned from the method
@@ -531,10 +598,10 @@ override any options provided by the template.</p>
 
 </section>
 <section id="module-gwf.core">
-<span id="core"></span><h2>Core<a class="headerlink" href="#module-gwf.core" title="Link to this heading">#</a></h2>
+<span id="core"></span><h2>Core<a class="headerlink" href="#module-gwf.core" title="Link to this heading">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="gwf.core.Graph">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gwf.core.</span></span><span class="sig-name descname"><span class="pre">Graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">targets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">provides</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dependencies</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/collections.html#collections.defaultdict" title="(in Python v3.7)"><span class="pre">defaultdict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dependents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/collections.html#collections.defaultdict" title="(in Python v3.7)"><span class="pre">defaultdict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">unresolved</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#set" title="(in Python v3.7)"><span class="pre">set</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/core/#Graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.core.Graph" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gwf.core.</span></span><span class="sig-name descname"><span class="pre">Graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">targets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">provides</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dependencies</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/collections.html#collections.defaultdict" title="(in Python v3.7)"><span class="pre">defaultdict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dependents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/collections.html#collections.defaultdict" title="(in Python v3.7)"><span class="pre">defaultdict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">unresolved</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#set" title="(in Python v3.7)"><span class="pre">set</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/core/#Graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.core.Graph" title="Link to this definition">¶</a></dt>
 <dd><p>Represents a dependency graph for a set of targets.</p>
 <p>The graph represents the targets present in a workflow, but also their
 dependencies and the files they provide.</p>
@@ -572,19 +639,19 @@ introducing e.g. a circular dependency by manipulating <em>dependencies</em> wil
 not raise an exception.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="gwf.core.Graph.dfs">
-<span class="sig-name descname"><span class="pre">dfs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/core/#Graph.dfs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.core.Graph.dfs" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">dfs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/core/#Graph.dfs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.core.Graph.dfs" title="Link to this definition">¶</a></dt>
 <dd><p>Return the depth-first traversal path through a graph from <cite>root</cite>.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="gwf.core.Graph.endpoints">
-<span class="sig-name descname"><span class="pre">endpoints</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/core/#Graph.endpoints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.core.Graph.endpoints" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">endpoints</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/core/#Graph.endpoints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.core.Graph.endpoints" title="Link to this definition">¶</a></dt>
 <dd><p>Return a set of all targets that are not depended on by other targets.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="gwf.core.Graph.from_targets">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_targets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">targets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/core/#Graph.from_targets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.core.Graph.from_targets" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_targets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">targets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/core/#Graph.from_targets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.core.Graph.from_targets" title="Link to this definition">¶</a></dt>
 <dd><p>Construct a dependency graph from a set of targets.</p>
 <p>When a graph is initialized it computes all dependency relations
 between targets, ensuring that the graph is semantically sane.
@@ -604,25 +671,25 @@ may raise a number of exceptions:</p>
 
 </section>
 <section id="module-gwf.scheduling">
-<span id="scheduling"></span><h2>Scheduling<a class="headerlink" href="#module-gwf.scheduling" title="Link to this heading">#</a></h2>
+<span id="scheduling"></span><h2>Scheduling<a class="headerlink" href="#module-gwf.scheduling" title="Link to this heading">¶</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="gwf.scheduling.get_status_map">
-<span class="sig-prename descclassname"><span class="pre">gwf.scheduling.</span></span><span class="sig-name descname"><span class="pre">get_status_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec_hashes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endpoints</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/scheduling/#get_status_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.scheduling.get_status_map" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">gwf.scheduling.</span></span><span class="sig-name descname"><span class="pre">get_status_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec_hashes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endpoints</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/scheduling/#get_status_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.scheduling.get_status_map" title="Link to this definition">¶</a></dt>
 <dd><p>Get the status of each targets in the graph.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="gwf.scheduling.submit_workflow">
-<span class="sig-prename descclassname"><span class="pre">gwf.scheduling.</span></span><span class="sig-name descname"><span class="pre">submit_workflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoints</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec_hashes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dry_run</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/scheduling/#submit_workflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.scheduling.submit_workflow" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">gwf.scheduling.</span></span><span class="sig-name descname"><span class="pre">submit_workflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoints</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec_hashes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dry_run</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/scheduling/#submit_workflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.scheduling.submit_workflow" title="Link to this definition">¶</a></dt>
 <dd><p>Submit a workflow to a backend.</p>
 </dd></dl>
 
 </section>
 <section id="module-gwf.backends">
-<span id="backends"></span><h2>Backends<a class="headerlink" href="#module-gwf.backends" title="Link to this heading">#</a></h2>
+<span id="backends"></span><h2>Backends<a class="headerlink" href="#module-gwf.backends" title="Link to this heading">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="gwf.backends.BackendStatus">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gwf.backends.</span></span><span class="sig-name descname"><span class="pre">BackendStatus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/backends/base/#BackendStatus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.backends.BackendStatus" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gwf.backends.</span></span><span class="sig-name descname"><span class="pre">BackendStatus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/backends/base/#BackendStatus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.backends.BackendStatus" title="Link to this definition">¶</a></dt>
 <dd><p>BackendStatus of a target.</p>
 <p>A target is unknown to the backend if it has not been submitted or the
 target has completed and thus isn’t being tracked anymore by the backend.</p>
@@ -631,39 +698,39 @@ and is pending execution.</p>
 <p>A target is running if it is currently being executed by the backend.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="gwf.backends.BackendStatus.CANCELLED">
-<span class="sig-name descname"><span class="pre">CANCELLED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></em><a class="headerlink" href="#gwf.backends.BackendStatus.CANCELLED" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">CANCELLED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></em><a class="headerlink" href="#gwf.backends.BackendStatus.CANCELLED" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="gwf.backends.BackendStatus.COMPLETED">
-<span class="sig-name descname"><span class="pre">COMPLETED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#gwf.backends.BackendStatus.COMPLETED" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">COMPLETED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#gwf.backends.BackendStatus.COMPLETED" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="gwf.backends.BackendStatus.FAILED">
-<span class="sig-name descname"><span class="pre">FAILED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#gwf.backends.BackendStatus.FAILED" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">FAILED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#gwf.backends.BackendStatus.FAILED" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="gwf.backends.BackendStatus.RUNNING">
-<span class="sig-name descname"><span class="pre">RUNNING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#gwf.backends.BackendStatus.RUNNING" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">RUNNING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#gwf.backends.BackendStatus.RUNNING" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="gwf.backends.BackendStatus.SUBMITTED">
-<span class="sig-name descname"><span class="pre">SUBMITTED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#gwf.backends.BackendStatus.SUBMITTED" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">SUBMITTED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#gwf.backends.BackendStatus.SUBMITTED" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="gwf.backends.BackendStatus.UNKNOWN">
-<span class="sig-name descname"><span class="pre">UNKNOWN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#gwf.backends.BackendStatus.UNKNOWN" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">UNKNOWN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#gwf.backends.BackendStatus.UNKNOWN" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="gwf.backends.create_backend">
-<span class="sig-prename descclassname"><span class="pre">gwf.backends.</span></span><span class="sig-name descname"><span class="pre">create_backend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">working_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/backends/base/#create_backend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.backends.create_backend" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">gwf.backends.</span></span><span class="sig-name descname"><span class="pre">create_backend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">working_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/backends/base/#create_backend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.backends.create_backend" title="Link to this definition">¶</a></dt>
 <dd><p>Return backend class for the backend given by <cite>name</cite>.</p>
 <p>Returns the backend class registered with <cite>name</cite>. Note that the <em>class</em>
 is returned, not the instance, since not all uses requires
@@ -679,26 +746,26 @@ workflow object in that file.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="gwf.backends.discover_backends">
-<span class="sig-prename descclassname"><span class="pre">gwf.backends.</span></span><span class="sig-name descname"><span class="pre">discover_backends</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/backends/base/#discover_backends"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.backends.discover_backends" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">gwf.backends.</span></span><span class="sig-name descname"><span class="pre">discover_backends</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/backends/base/#discover_backends"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.backends.discover_backends" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="gwf.backends.guess_backend">
-<span class="sig-prename descclassname"><span class="pre">gwf.backends.</span></span><span class="sig-name descname"><span class="pre">guess_backend</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/backends/base/#guess_backend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.backends.guess_backend" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">gwf.backends.</span></span><span class="sig-name descname"><span class="pre">guess_backend</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/backends/base/#guess_backend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.backends.guess_backend" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="gwf.backends.list_backends">
-<span class="sig-prename descclassname"><span class="pre">gwf.backends.</span></span><span class="sig-name descname"><span class="pre">list_backends</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/backends/base/#list_backends"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.backends.list_backends" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">gwf.backends.</span></span><span class="sig-name descname"><span class="pre">list_backends</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/backends/base/#list_backends"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.backends.list_backends" title="Link to this definition">¶</a></dt>
 <dd><p>Return the names of all registered backends.</p>
 </dd></dl>
 
 </section>
 <section id="module-gwf.filtering">
-<span id="filtering"></span><h2>Filtering<a class="headerlink" href="#module-gwf.filtering" title="Link to this heading">#</a></h2>
+<span id="filtering"></span><h2>Filtering<a class="headerlink" href="#module-gwf.filtering" title="Link to this heading">¶</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="gwf.filtering.filter_generic">
-<span class="sig-prename descclassname"><span class="pre">gwf.filtering.</span></span><span class="sig-name descname"><span class="pre">filter_generic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">targets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/filtering/#filter_generic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.filtering.filter_generic" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">gwf.filtering.</span></span><span class="sig-name descname"><span class="pre">filter_generic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">targets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/filtering/#filter_generic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.filtering.filter_generic" title="Link to this definition">¶</a></dt>
 <dd><p>Filter targets given a list of filters.</p>
 <p>Return all targets from <cite>targets</cite> passing all <cite>filters</cite>. For example:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">matched_targets</span> <span class="o">=</span> <span class="n">filter_generic</span><span class="p">(</span>
@@ -724,7 +791,7 @@ which are currently running.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="gwf.filtering.filter_names">
-<span class="sig-prename descclassname"><span class="pre">gwf.filtering.</span></span><span class="sig-name descname"><span class="pre">filter_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">targets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">patterns</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/filtering/#filter_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.filtering.filter_names" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">gwf.filtering.</span></span><span class="sig-name descname"><span class="pre">filter_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">targets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">patterns</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/filtering/#filter_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.filtering.filter_names" title="Link to this definition">¶</a></dt>
 <dd><p>Filter targets with a list of patterns.</p>
 <p>Return all targets in <cite>targets</cite> where the target name matches one or more
 of the patterns in <cite>pattern</cite>. For example:</p>
@@ -743,7 +810,7 @@ of the patterns in <cite>pattern</cite>. For example:</p>
 <p>Helpers for filtering:</p>
 <dl class="py class" id="module-0">
 <dt class="sig sig-object py" id="gwf.filtering.ApplyMixin">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gwf.filtering.</span></span><span class="sig-name descname"><span class="pre">ApplyMixin</span></span><a class="reference internal" href="../../_modules/gwf/filtering/#ApplyMixin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.filtering.ApplyMixin" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gwf.filtering.</span></span><span class="sig-name descname"><span class="pre">ApplyMixin</span></span><a class="reference internal" href="../../_modules/gwf/filtering/#ApplyMixin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.filtering.ApplyMixin" title="Link to this definition">¶</a></dt>
 <dd><p>A mixin for predicate-based filters providing the <cite>apply</cite> method.</p>
 <p>Most filters are predicate-based in the sense that they simply filter
 targets one by one based on a predicate function that decides whether to
@@ -754,7 +821,7 @@ target should be included and <cite>False</cite> otherwise.</p>
 <code class="xref py py-class docutils literal notranslate"><span class="pre">EndpointFilter</span></code> filters.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="gwf.filtering.ApplyMixin.apply">
-<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">targets</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/filtering/#ApplyMixin.apply"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.filtering.ApplyMixin.apply" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">targets</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/filtering/#ApplyMixin.apply"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.filtering.ApplyMixin.apply" title="Link to this definition">¶</a></dt>
 <dd><p>Apply the filter to all <cite>targets</cite>.</p>
 <p>This method returns a generator yielding all targets in <cite>targets</cite> for
 each <a class="reference internal" href="#gwf.filtering.ApplyMixin.predicate" title="gwf.filtering.ApplyMixin.predicate"><code class="xref py py-func docutils literal notranslate"><span class="pre">predicate()</span></code></a> returns <cite>True</cite>.</p>
@@ -762,7 +829,7 @@ each <a class="reference internal" href="#gwf.filtering.ApplyMixin.predicate" ti
 
 <dl class="py method">
 <dt class="sig sig-object py" id="gwf.filtering.ApplyMixin.predicate">
-<span class="sig-name descname"><span class="pre">predicate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/filtering/#ApplyMixin.predicate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.filtering.ApplyMixin.predicate" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">predicate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/gwf/filtering/#ApplyMixin.predicate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.filtering.ApplyMixin.predicate" title="Link to this definition">¶</a></dt>
 <dd><p>Return <cite>True</cite> if <cite>target</cite> should be included, <cite>False</cite> otherwise.</p>
 <p>This method must be overriden by subclasses.</p>
 </dd></dl>
@@ -901,8 +968,8 @@ each <a class="reference internal" href="#gwf.filtering.ApplyMixin.predicate" ti
     </aside>
   </div>
 </div><script src="../../_static/documentation_options.js?v=8d761652"></script>
-    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../../_static/scripts/furo.js?v=4e2eecee"></script>
     </body>
 </html>
