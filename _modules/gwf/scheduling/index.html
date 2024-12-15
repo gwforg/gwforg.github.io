@@ -305,13 +305,29 @@
     <span class="k">return</span> <span class="kc">False</span>
 
 
-<span class="k">def</span> <span class="nf">schedule</span><span class="p">(</span><span class="n">endpoints</span><span class="p">,</span> <span class="n">graph</span><span class="p">,</span> <span class="n">fs</span><span class="p">,</span> <span class="n">spec_hashes</span><span class="p">,</span> <span class="n">status_func</span><span class="p">,</span> <span class="n">submit_func</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">schedule</span><span class="p">(</span>
+    <span class="n">endpoints</span><span class="p">,</span>
+    <span class="n">graph</span><span class="p">,</span>
+    <span class="n">fs</span><span class="p">,</span>
+    <span class="n">spec_hashes</span><span class="p">,</span>
+    <span class="n">status_func</span><span class="p">,</span>
+    <span class="n">submit_func</span><span class="p">,</span>
+    <span class="n">force</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">no_deps</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">):</span>
     <span class="k">def</span> <span class="nf">_schedule</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
         <span class="n">submitted_deps</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">dependencies</span><span class="p">[</span><span class="n">target</span><span class="p">],</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="p">):</span>
-            <span class="n">status</span> <span class="o">=</span> <span class="n">_cached_schedule</span><span class="p">(</span><span class="n">dep</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">status</span> <span class="ow">in</span> <span class="n">SUBMITTED_STATES</span><span class="p">:</span>
-                <span class="n">submitted_deps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dep</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">no_deps</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">dependencies</span><span class="p">[</span><span class="n">target</span><span class="p">],</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="p">):</span>
+                <span class="n">status</span> <span class="o">=</span> <span class="n">_cached_schedule</span><span class="p">(</span><span class="n">dep</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">status</span> <span class="ow">in</span> <span class="n">SUBMITTED_STATES</span><span class="p">:</span>
+                    <span class="n">submitted_deps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dep</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">force</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Target </span><span class="si">%s</span><span class="s2"> is being forcibly submitted&quot;</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+            <span class="n">submit_func</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">dependencies</span><span class="o">=</span><span class="n">submitted_deps</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">Status</span><span class="o">.</span><span class="n">SHOULDRUN</span>
 
         <span class="k">if</span> <span class="n">status_func</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> <span class="o">==</span> <span class="n">BackendStatus</span><span class="o">.</span><span class="n">SUBMITTED</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Target </span><span class="si">%s</span><span class="s2"> is already submitted&quot;</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
@@ -402,7 +418,16 @@
 
 <div class="viewcode-block" id="submit_workflow">
 <a class="viewcode-back" href="../../../reference/api/#gwf.scheduling.submit_workflow">[docs]</a>
-<span class="k">def</span> <span class="nf">submit_workflow</span><span class="p">(</span><span class="n">endpoints</span><span class="p">,</span> <span class="n">graph</span><span class="p">,</span> <span class="n">fs</span><span class="p">,</span> <span class="n">spec_hashes</span><span class="p">,</span> <span class="n">backend</span><span class="p">,</span> <span class="n">dry_run</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">submit_workflow</span><span class="p">(</span>
+    <span class="n">endpoints</span><span class="p">,</span>
+    <span class="n">graph</span><span class="p">,</span>
+    <span class="n">fs</span><span class="p">,</span>
+    <span class="n">spec_hashes</span><span class="p">,</span>
+    <span class="n">backend</span><span class="p">,</span>
+    <span class="n">dry_run</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">force</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">no_deps</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Submit a workflow to a backend.&quot;&quot;&quot;</span>
     <span class="n">submit_func</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span>
         <span class="n">_submit_dryrun</span> <span class="k">if</span> <span class="n">dry_run</span> <span class="k">else</span> <span class="n">submit_backend</span><span class="p">,</span>
@@ -416,6 +441,8 @@
         <span class="n">spec_hashes</span><span class="p">,</span>
         <span class="n">status_func</span><span class="o">=</span><span class="n">backend</span><span class="o">.</span><span class="n">status</span><span class="p">,</span>
         <span class="n">submit_func</span><span class="o">=</span><span class="n">submit_func</span><span class="p">,</span>
+        <span class="n">force</span><span class="o">=</span><span class="n">force</span><span class="p">,</span>
+        <span class="n">no_deps</span><span class="o">=</span><span class="n">no_deps</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 
