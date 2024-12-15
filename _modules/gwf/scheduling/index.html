@@ -393,7 +393,7 @@
 <span class="sd">    injection of option defaults.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Submitting target </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+    <span class="c1"># logger.info(&quot;Submitting target %s&quot;, target)</span>
 
     <span class="n">new_options</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="s2">&quot;target_defaults&quot;</span><span class="p">):</span>
@@ -414,6 +414,15 @@
 
     <span class="n">backend</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">)</span>
     <span class="n">spec_hashes</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="s2">&quot;get_tracked_id&quot;</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s2">&quot;Submitted target </span><span class="si">%s</span><span class="s2"> (id: </span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span>
+            <span class="n">target</span><span class="p">,</span>
+            <span class="n">backend</span><span class="o">.</span><span class="n">get_tracked_id</span><span class="p">(</span><span class="n">target</span><span class="p">),</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Submitted target </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="submit_workflow">
