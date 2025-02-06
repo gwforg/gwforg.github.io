@@ -6,7 +6,7 @@
 
     <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
         <title>gwf.workflow - gwf 2.0.5 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=649a27d8" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=302659d7" />
     
@@ -251,28 +251,28 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for gwf.workflow</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">collections</span>
-<span class="kn">import</span> <span class="nn">collections.abc</span>
-<span class="kn">import</span> <span class="nn">inspect</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">os.path</span>
-<span class="kn">import</span> <span class="nn">subprocess</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span> <span class="k">as</span> <span class="n">_glob</span>
-<span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">iglob</span> <span class="k">as</span> <span class="n">_iglob</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">collections</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">collections.abc</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">glob</span><span class="w"> </span><span class="kn">import</span> <span class="n">glob</span> <span class="k">as</span> <span class="n">_glob</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">glob</span><span class="w"> </span><span class="kn">import</span> <span class="n">iglob</span> <span class="k">as</span> <span class="n">_iglob</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
-<span class="kn">import</span> <span class="nn">attrs</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">attrs</span>
 
-<span class="kn">from</span> <span class="nn">.core</span> <span class="kn">import</span> <span class="n">Target</span>
-<span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="n">WorkflowError</span>
-<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">chain</span><span class="p">,</span> <span class="n">find_workflow</span><span class="p">,</span> <span class="n">load_workflow</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">Target</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">WorkflowError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">chain</span><span class="p">,</span> <span class="n">find_workflow</span><span class="p">,</span> <span class="n">load_workflow</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">select</span><span class="p">(</span><span class="n">lst</span><span class="p">,</span> <span class="n">fields</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">select</span><span class="p">(</span><span class="n">lst</span><span class="p">,</span> <span class="n">fields</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Select fields from an iterable of dictionaries.</span>
 
 <span class="sd">    Given an iterable of dictionaries and an iterable of key names, selects the</span>
@@ -305,7 +305,7 @@
         <span class="k">yield</span> <span class="n">dct</span>
 
 
-<span class="k">def</span> <span class="nf">collect</span><span class="p">(</span><span class="n">lst</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">rename</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">collect</span><span class="p">(</span><span class="n">lst</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">rename</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Collect values from an iterable of dictionaries into a dictionary.</span>
 
 <span class="sd">    Given an iterable of dictionaries and an iterable of key names, collect the</span>
@@ -344,7 +344,7 @@
 <div class="viewcode-block" id="TargetList">
 <a class="viewcode-back" href="../../../reference/api/#gwf.TargetList">[docs]</a>
 <span class="nd">@attrs</span><span class="o">.</span><span class="n">define</span>
-<span class="k">class</span> <span class="nc">TargetList</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TargetList</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A list of target objects with access to all inputs and outputs.</span>
 
 <span class="sd">    This is a thin wrapper around a normal list and thus provides all normal</span>
@@ -353,7 +353,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a list of the outputs of all targets.</span>
 
 <span class="sd">        The returned list may be a list of strings, lists or dictionaries</span>
@@ -362,7 +362,7 @@
         <span class="k">return</span> <span class="p">[</span><span class="n">target</span><span class="o">.</span><span class="n">outputs</span> <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">]</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a list of the inputs of all targets.</span>
 
 <span class="sd">        The returned list may be a list of strings, lists or dictionaries</span>
@@ -375,7 +375,7 @@
 <div class="viewcode-block" id="Workflow">
 <a class="viewcode-back" href="../../../reference/api/#gwf.Workflow">[docs]</a>
 <span class="nd">@attrs</span><span class="o">.</span><span class="n">define</span>
-<span class="k">class</span> <span class="nc">Workflow</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Workflow</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a workflow.</span>
 
 <span class="sd">    This is the most central user-facing abstraction in *gwf*.</span>
@@ -417,7 +417,7 @@
     <span class="n">targets</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="nd">@working_dir</span><span class="o">.</span><span class="n">default</span>  <span class="c1"># type: ignore</span>
-    <span class="k">def</span> <span class="nf">_get_working_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_working_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># Get the frame object of whatever called the Workflow.__init__</span>
         <span class="c1"># and extract the path of the file which is was defined in. Then</span>
         <span class="c1"># normalize the path and get the directory of the file.</span>
@@ -425,13 +425,13 @@
         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_parsed_path</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="s2">&quot;gwf&quot;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_parsed_path</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="s2">&quot;gwf&quot;</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">load_workflow</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Workflow.from_path">
 <a class="viewcode-back" href="../../../reference/api/#gwf.Workflow.from_path">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_path</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_path</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return workflow object for the workflow given by `path`.</span>
 
 <span class="sd">        Returns a :class:`~gwf.Workflow` object containing the workflow object</span>
@@ -447,7 +447,7 @@
 <div class="viewcode-block" id="Workflow.from_context">
 <a class="viewcode-back" href="../../../reference/api/#gwf.Workflow.from_context">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_context</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">ctx</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_context</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">ctx</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return workflow object for the workflow specified by `ctx`.</span>
 
 <span class="sd">        See :func:`Workflow.from_path` for further information.</span>
@@ -455,14 +455,14 @@
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_parsed_path</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">workflow_file</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">workflow_obj</span><span class="p">)</span></div>
 
 
-    <span class="k">def</span> <span class="nf">_add_target</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_add_target</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">target</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">targets</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">WorkflowError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Target </span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s2"> already exists in workflow.&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">targets</span><span class="p">[</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">target</span>
 
 <div class="viewcode-block" id="Workflow.target">
 <a class="viewcode-back" href="../../../reference/api/#gwf.Workflow.target">[docs]</a>
-    <span class="k">def</span> <span class="nf">target</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">protect</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">target</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">protect</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a target and add it to the :class:`gwf.Workflow`.</span>
 
 <span class="sd">        This is syntactic sugar for creating a new :class:`~gwf.Target` and</span>
@@ -500,7 +500,7 @@
 
 <div class="viewcode-block" id="Workflow.target_from_template">
 <a class="viewcode-back" href="../../../reference/api/#gwf.Workflow.target_from_template">[docs]</a>
-    <span class="k">def</span> <span class="nf">target_from_template</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">template</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">target_from_template</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">template</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a target from a template and add it to the :class:`gwf.Workflow`.</span>
 
 <span class="sd">        This is syntactic sugar for creating a new :class:`~gwf.Target` and</span>
@@ -540,7 +540,7 @@
 
 <div class="viewcode-block" id="Workflow.map">
 <a class="viewcode-back" href="../../../reference/api/#gwf.Workflow.map">[docs]</a>
-    <span class="k">def</span> <span class="nf">map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template_func</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template_func</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add targets to the workflow given a template and a list of inputs.</span>
 
 <span class="sd">        This method accepts a template function and an iterable of inputs. For</span>
@@ -620,14 +620,14 @@
                 <span class="s2">&quot;class instance.&quot;</span>
             <span class="p">)</span>
 
-        <span class="k">def</span> <span class="nf">template_namer</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">template_namer</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">template_func</span><span class="p">,</span> <span class="s2">&quot;__name__&quot;</span><span class="p">):</span>
                 <span class="n">name</span> <span class="o">=</span> <span class="n">template_func</span><span class="o">.</span><span class="vm">__name__</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">name</span> <span class="o">=</span> <span class="n">template_func</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
             <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{name}</span><span class="s2">_</span><span class="si">{idx}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="n">idx</span><span class="p">)</span>
 
-        <span class="k">def</span> <span class="nf">string_namer</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">string_namer</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
             <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{name}</span><span class="s2">_</span><span class="si">{idx}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="n">idx</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -658,7 +658,7 @@
 
 <div class="viewcode-block" id="Workflow.glob">
 <a class="viewcode-back" href="../../../reference/api/#gwf.Workflow.glob">[docs]</a>
-    <span class="k">def</span> <span class="nf">glob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pathname</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">glob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pathname</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a list of paths matching `pathname`.</span>
 
 <span class="sd">        This method is equivalent to :func:`python:glob.glob`, but searches with</span>
@@ -672,7 +672,7 @@
 
 <div class="viewcode-block" id="Workflow.iglob">
 <a class="viewcode-back" href="../../../reference/api/#gwf.Workflow.iglob">[docs]</a>
-    <span class="k">def</span> <span class="nf">iglob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pathname</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">iglob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pathname</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return an iterator which yields paths matching `pathname`.</span>
 
 <span class="sd">        This method is equivalent to :func:`python:glob.iglob`, but searches with</span>
@@ -686,7 +686,7 @@
 
 <div class="viewcode-block" id="Workflow.shell">
 <a class="viewcode-back" href="../../../reference/api/#gwf.Workflow.shell">[docs]</a>
-    <span class="k">def</span> <span class="nf">shell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">shell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the output of a shell command.</span>
 
 <span class="sd">        This method is equivalent to :func:`python:subprocess.check_output`, but</span>

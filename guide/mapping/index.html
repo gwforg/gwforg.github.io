@@ -7,7 +7,7 @@
 
     <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
         <title>Mapping over Inputs - gwf 2.0.5 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=649a27d8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=302659d7" />
     
@@ -262,11 +262,11 @@
 <p>Assume that we have a list of inputs and we wish to create a new target for
 every input in the list. We can solve this by writing a <em>template function</em> and
 then a for-loop to iterate over our list of inputs:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">gwf</span> <span class="kn">import</span> <span class="n">Workflow</span><span class="p">,</span> <span class="n">AnonymousTarget</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">gwf</span><span class="w"> </span><span class="kn">import</span> <span class="n">Workflow</span><span class="p">,</span> <span class="n">AnonymousTarget</span>
 
 <span class="n">gwf</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">()</span>
 
-<span class="k">def</span> <span class="nf">transform_photo</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">transform_photo</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
     <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">path</span><span class="p">]</span>
     <span class="n">outputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;.new&#39;</span><span class="p">]</span>
     <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
@@ -283,7 +283,7 @@ indentation makes the workflow a bit harder to read.</p>
 <p>In <em>gwf</em> 1.6 we introduced <em>named</em> inputs and outputs. This means that we can
 assign names to the paths that a target/template takes as inputs and outputs.
 Let’s rewrite our template to make use of this:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">transform_photo</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">transform_photo</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
     <span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;path&#39;</span><span class="p">:</span> <span class="n">path</span><span class="p">}</span>
     <span class="n">outputs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;path&#39;</span><span class="p">:</span> <span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;.new&#39;</span><span class="p">}</span>
     <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
@@ -294,11 +294,11 @@ Let’s rewrite our template to make use of this:</p>
 <p>From <em>gwf</em> 1.6 and up you can use the new <a class="reference external" href="https://docs.python.org/3.7/library/functions.html#map" title="(in Python v3.7)"><code class="xref py py-func docutils literal notranslate"><span class="pre">map()</span></code></a> method on your workflow
 to get rid of the explicit iteration in the first example. This is what the
 example would look like with <a class="reference external" href="https://docs.python.org/3.7/library/functions.html#map" title="(in Python v3.7)"><code class="xref py py-func docutils literal notranslate"><span class="pre">map()</span></code></a>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">gwf</span> <span class="kn">import</span> <span class="n">Workflow</span><span class="p">,</span> <span class="n">AnonymousTarget</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">gwf</span><span class="w"> </span><span class="kn">import</span> <span class="n">Workflow</span><span class="p">,</span> <span class="n">AnonymousTarget</span>
 
 <span class="n">gwf</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">()</span>
 
-<span class="k">def</span> <span class="nf">transform_photo</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">transform_photo</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
     <span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;path&#39;</span><span class="p">:</span> <span class="n">path</span><span class="p">}</span>
     <span class="n">outputs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;path&#39;</span><span class="p">:</span> <span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;.new&#39;</span><span class="p">}</span>
     <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
@@ -337,9 +337,9 @@ TransformPhoto_2    shouldrun       0.00% [1/0/0/0]
 </div>
 <p>You can also completely customize how the name is generated by giving
 <a class="reference external" href="https://docs.python.org/3.7/library/functions.html#map" title="(in Python v3.7)"><code class="xref py py-func docutils literal notranslate"><span class="pre">map()</span></code></a> a naming function:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os.path</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span>
 
-<span class="k">def</span> <span class="nf">get_photo_name</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_photo_name</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
     <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]))[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">return</span> <span class="s1">&#39;transform_photo_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 
@@ -358,7 +358,7 @@ transform_photo_cat      shouldrun       0.00% [1/0/0/0]
 <h2>Passing Multiple Arguments to a Template Function<a class="headerlink" href="#passing-multiple-arguments-to-a-template-function" title="Link to this heading">¶</a></h2>
 <p>What if our template took multiple arguments? Let’s modify our template function
 a bit:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">transform_photo</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">width</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">transform_photo</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">width</span><span class="p">):</span>
     <span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;path&#39;</span><span class="p">:</span> <span class="n">path</span><span class="p">}</span>
     <span class="n">outputs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;path&#39;</span><span class="p">:</span> <span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;.new&#39;</span><span class="p">}</span>
     <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
@@ -412,7 +412,7 @@ photo, we can just map over the outputs of the <code class="xref py py-class doc
 <h2>Collecting Files<a class="headerlink" href="#collecting-files" title="Link to this heading">¶</a></h2>
 <p>Now that you’ve transformed and compressed your photos, you may also want to
 zip them into a single file. For this you wrote a template that looks like this:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">zip_files</span><span class="p">(</span><span class="n">paths</span><span class="p">,</span> <span class="n">output_path</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">zip_files</span><span class="p">(</span><span class="n">paths</span><span class="p">,</span> <span class="n">output_path</span><span class="p">):</span>
     <span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;paths&#39;</span><span class="p">:</span> <span class="n">paths</span><span class="p">}</span>
     <span class="n">outputs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;zipped_file&#39;</span><span class="p">:</span> <span class="n">output_path</span><span class="p">}</span>
     <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
@@ -437,7 +437,7 @@ per photo, but a single target that depends on all of the photo files.</p>
 </div>
 <p>How do we get the list of paths? We can use the <code class="xref py py-func docutils literal notranslate"><span class="pre">collect()</span></code> helper
 function!</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">gwf.workflow</span> <span class="kn">import</span> <span class="n">collect</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">gwf.workflow</span><span class="w"> </span><span class="kn">import</span> <span class="n">collect</span>
 
 <span class="n">transformed_photos</span> <span class="o">=</span> <span class="n">gwf</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">transform_photo</span><span class="p">,</span> <span class="n">photos</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">get_photo_name</span><span class="p">)</span>
 <span class="n">compressed_photos</span> <span class="o">=</span> <span class="n">gwf</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">compress_photo</span><span class="p">,</span> <span class="n">transformed_photos</span><span class="o">.</span><span class="n">outputs</span><span class="p">)</span>
@@ -467,7 +467,7 @@ single dictionary containing a list for each key. So when given this:</p>
 </div>
 <p>Note that the name <cite>path</cite> has been pluralized, so it’s now <cite>paths</cite> in the
 dictionary. We can pass this directly to our <code class="docutils literal notranslate"><span class="pre">zip_files</span></code> template:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">gwf.workflow</span> <span class="kn">import</span> <span class="n">collect</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">gwf.workflow</span><span class="w"> </span><span class="kn">import</span> <span class="n">collect</span>
 
 <span class="n">transformed_photos</span> <span class="o">=</span> <span class="n">gwf</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">transform_photo</span><span class="p">,</span> <span class="n">photos</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">get_photo_name</span><span class="p">)</span>
 <span class="n">compressed_photos</span> <span class="o">=</span> <span class="n">gwf</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">compress_photo</span><span class="p">,</span> <span class="n">transformed_photos</span><span class="o">.</span><span class="n">outputs</span><span class="p">)</span>

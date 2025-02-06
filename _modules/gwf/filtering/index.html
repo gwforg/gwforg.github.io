@@ -6,7 +6,7 @@
 
     <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
         <title>gwf.filtering - gwf 2.0.5 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=649a27d8" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=302659d7" />
     
@@ -251,12 +251,12 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for gwf.filtering</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">fnmatch</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">fnmatch</span>
 
 
 <div class="viewcode-block" id="ApplyMixin">
 <a class="viewcode-back" href="../../../reference/api/#gwf.filtering.ApplyMixin">[docs]</a>
-<span class="k">class</span> <span class="nc">ApplyMixin</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ApplyMixin</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A mixin for predicate-based filters providing the `apply` method.</span>
 
 <span class="sd">    Most filters are predicate-based in the sense that they simply filter</span>
@@ -271,7 +271,7 @@
 
 <div class="viewcode-block" id="ApplyMixin.apply">
 <a class="viewcode-back" href="../../../reference/api/#gwf.filtering.ApplyMixin.apply">[docs]</a>
-    <span class="k">def</span> <span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply the filter to all `targets`.</span>
 
 <span class="sd">        This method returns a generator yielding all targets in `targets` for</span>
@@ -282,7 +282,7 @@
 
 <div class="viewcode-block" id="ApplyMixin.predicate">
 <a class="viewcode-back" href="../../../reference/api/#gwf.filtering.ApplyMixin.predicate">[docs]</a>
-    <span class="k">def</span> <span class="nf">predicate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">predicate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return `True` if `target` should be included, `False` otherwise.</span>
 
 <span class="sd">        This method must be overriden by subclasses.</span>
@@ -292,22 +292,22 @@
 
 
 
-<span class="k">class</span> <span class="nc">StatusFilter</span><span class="p">(</span><span class="n">ApplyMixin</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status_provider</span><span class="p">,</span> <span class="n">status</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">StatusFilter</span><span class="p">(</span><span class="n">ApplyMixin</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status_provider</span><span class="p">,</span> <span class="n">status</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">status_provider</span> <span class="o">=</span> <span class="n">status_provider</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="s2">&quot;__iter__&quot;</span><span class="p">):</span>
             <span class="n">status</span> <span class="o">=</span> <span class="p">[</span><span class="n">status</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">status</span>
 
-    <span class="k">def</span> <span class="nf">predicate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">predicate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">status_provider</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span>
 
 
-<span class="k">class</span> <span class="nc">NameFilter</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">patterns</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">NameFilter</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">patterns</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">patterns</span> <span class="o">=</span> <span class="n">patterns</span>
 
-    <span class="k">def</span> <span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
         <span class="n">target_name_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">target</span> <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">}</span>
         <span class="k">return</span> <span class="p">{</span>
             <span class="n">target_name_map</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
@@ -316,20 +316,20 @@
         <span class="p">}</span>
 
 
-<span class="k">class</span> <span class="nc">GroupFilter</span><span class="p">(</span><span class="n">ApplyMixin</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">patterns</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">GroupFilter</span><span class="p">(</span><span class="n">ApplyMixin</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">patterns</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">patterns</span> <span class="o">=</span> <span class="n">patterns</span>
 
-    <span class="k">def</span> <span class="nf">predicate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">predicate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">any</span><span class="p">(</span><span class="n">fnmatch</span><span class="o">.</span><span class="n">filter</span><span class="p">([</span><span class="n">target</span><span class="o">.</span><span class="n">group</span> <span class="ow">or</span> <span class="s2">&quot;none&quot;</span><span class="p">],</span> <span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">patterns</span><span class="p">)</span>
 
 
-<span class="k">class</span> <span class="nc">EndpointFilter</span><span class="p">(</span><span class="n">ApplyMixin</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoints</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;include&quot;</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">EndpointFilter</span><span class="p">(</span><span class="n">ApplyMixin</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoints</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;include&quot;</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">endpoints</span> <span class="o">=</span> <span class="n">endpoints</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span>
 
-    <span class="k">def</span> <span class="nf">predicate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">predicate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;exclude&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">target</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">endpoints</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;include&quot;</span><span class="p">:</span>
@@ -338,11 +338,11 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Argument mode must be either &quot;include&quot; or &quot;exclude&quot;.&#39;</span><span class="p">)</span>
 
 
-<span class="k">class</span> <span class="nc">CompositeFilter</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CompositeFilter</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">filters</span> <span class="o">=</span> <span class="n">filters</span>
 
-    <span class="k">def</span> <span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
         <span class="k">for</span> <span class="nb">filter</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">:</span>
             <span class="n">targets</span> <span class="o">=</span> <span class="nb">filter</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">targets</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">targets</span>
@@ -350,7 +350,7 @@
 
 <div class="viewcode-block" id="filter_generic">
 <a class="viewcode-back" href="../../../reference/api/#gwf.filtering.filter_generic">[docs]</a>
-<span class="k">def</span> <span class="nf">filter_generic</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">filters</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">filter_generic</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">filters</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Filter targets given a list of filters.</span>
 
 <span class="sd">    Return all targets from `targets` passing all `filters`. For example:</span>
@@ -378,7 +378,7 @@
 
 <div class="viewcode-block" id="filter_names">
 <a class="viewcode-back" href="../../../reference/api/#gwf.filtering.filter_names">[docs]</a>
-<span class="k">def</span> <span class="nf">filter_names</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">patterns</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">filter_names</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">patterns</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Filter targets with a list of patterns.</span>
 
 <span class="sd">    Return all targets in `targets` where the target name matches one or more</span>

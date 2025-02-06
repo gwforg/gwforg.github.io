@@ -7,7 +7,7 @@
 
     <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
         <title>Tips and Tricks - gwf 2.0.5 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=649a27d8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=302659d7" />
     
@@ -278,7 +278,7 @@ parameter can take multiple values:</p>
 of these parameters. To do this, we’ll use the Python function
 <a class="reference external" href="https://docs.python.org/3.7/library/itertools.html#itertools.product" title="(in Python v3.7)"><code class="xref py py-func docutils literal notranslate"><span class="pre">itertools.product()</span></code></a> to create an iterator over all combinations
 of the parameters:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">itertools</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
 
 <span class="n">parameter_space</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">zs</span><span class="p">)</span>
 </pre></div>
@@ -308,10 +308,10 @@ way you want. In combination with inclusion of workflows into other
 workflows, this allows for extremely powerful composition.</p>
 <p>To dynamically generate a workflow, we simply create a function which
 builds the workflow and returns it:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os.path.join</span>
-<span class="kn">from</span> <span class="nn">gwf</span> <span class="kn">import</span> <span class="n">Workflow</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os.path.join</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gwf</span><span class="w"> </span><span class="kn">import</span> <span class="n">Workflow</span>
 
-<span class="k">def</span> <span class="nf">my_fancy_workflow</span><span class="p">(</span><span class="n">output_dir</span><span class="o">=</span><span class="s1">&#39;outputs/&#39;</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">my_fancy_workflow</span><span class="p">(</span><span class="n">output_dir</span><span class="o">=</span><span class="s1">&#39;outputs/&#39;</span><span class="p">):</span>
     <span class="c1"># Create an empty workflow object.</span>
     <span class="n">w</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">()</span>
 
@@ -340,7 +340,7 @@ builds the workflow and returns it:</p>
 which you can import the function. In this case, let’s put the file next to
 <code class="docutils literal notranslate"><span class="pre">workflow.py</span></code> in a file called <code class="docutils literal notranslate"><span class="pre">fancy.py</span></code>.</p>
 <p>In <code class="docutils literal notranslate"><span class="pre">workflow.py</span></code> we can then use the workflow as follows:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">fancy</span> <span class="kn">import</span> <span class="n">my_fancy_workflow</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fancy</span><span class="w"> </span><span class="kn">import</span> <span class="n">my_fancy_workflow</span>
 
 <span class="n">gwf</span> <span class="o">=</span> <span class="n">my_fancy_workflow</span><span class="p">()</span>
 </pre></div>
@@ -350,7 +350,7 @@ which you can import the function. In this case, let’s put the file next to
 </pre></div>
 </div>
 <p>However, we can now easily change the output directory:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">fancy</span> <span class="kn">import</span> <span class="n">my_fancy_workflow</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fancy</span><span class="w"> </span><span class="kn">import</span> <span class="n">my_fancy_workflow</span>
 
 <span class="n">gwf</span> <span class="o">=</span> <span class="n">my_fancy_workflow</span><span class="p">(</span><span class="n">output_dir</span><span class="o">=</span><span class="s1">&#39;new_outputs/&#39;</span><span class="p">)</span>
 </pre></div>
@@ -358,10 +358,10 @@ which you can import the function. In this case, let’s put the file next to
 <p>Parameterizing the workflow can also let the user choose to deactivate parts of
 the workflow. For example, imagine that <code class="docutils literal notranslate"><span class="pre">Bar</span></code> generates summary files that may
 now always be needed. In this case, we can let the user choose to leave it out:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os.path.join</span>
-<span class="kn">from</span> <span class="nn">gwf</span> <span class="kn">import</span> <span class="n">Workflow</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os.path.join</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gwf</span><span class="w"> </span><span class="kn">import</span> <span class="n">Workflow</span>
 
-<span class="k">def</span> <span class="nf">my_fancy_workflow</span><span class="p">(</span><span class="n">output_dir</span><span class="o">=</span><span class="s1">&#39;outputs/&#39;</span><span class="p">,</span> <span class="n">summarize</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">my_fancy_workflow</span><span class="p">(</span><span class="n">output_dir</span><span class="o">=</span><span class="s1">&#39;outputs/&#39;</span><span class="p">,</span> <span class="n">summarize</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="c1"># Create an empty workflow object.</span>
     <span class="n">w</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">()</span>
 
@@ -389,7 +389,7 @@ now always be needed. In this case, we can let the user choose to leave it out:<
 </pre></div>
 </div>
 <p>In <code class="docutils literal notranslate"><span class="pre">workflow.py</span></code> we can then use the workflow as follows:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">fancy</span> <span class="kn">import</span> <span class="n">my_fancy_workflow</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fancy</span><span class="w"> </span><span class="kn">import</span> <span class="n">my_fancy_workflow</span>
 
 <span class="n">gwf</span> <span class="o">=</span> <span class="n">my_fancy_workflow</span><span class="p">(</span><span class="n">summarize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
@@ -411,8 +411,8 @@ to look like:</p>
 </div>
 <p>We put this file next to <code class="docutils literal notranslate"><span class="pre">workflow.py</span></code>, e.g. as <code class="docutils literal notranslate"><span class="pre">config.json</span></code>. We can now read
 the configuration using the Python <code class="docutils literal notranslate"><span class="pre">json</span></code> module in <code class="docutils literal notranslate"><span class="pre">workflow.py</span></code>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">from</span> <span class="nn">fancy</span> <span class="kn">import</span> <span class="n">my_fancy_workflow</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fancy</span><span class="w"> </span><span class="kn">import</span> <span class="n">my_fancy_workflow</span>
 
 <span class="n">config</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;config.json&#39;</span><span class="p">))</span>
 
@@ -441,8 +441,8 @@ filesystem for each input and output file in the workflow to check if any
 targets should be re-run.</p>
 <p>One solution to this problem is to dynamically generate individual workflows for
 each input file, as shown here:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
-<span class="kn">from</span> <span class="nn">gwf</span> <span class="kn">import</span> <span class="n">Workflow</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">glob</span><span class="w"> </span><span class="kn">import</span> <span class="n">glob</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gwf</span><span class="w"> </span><span class="kn">import</span> <span class="n">Workflow</span>
 
 <span class="n">data_files</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Sample1&#39;</span><span class="p">,</span> <span class="s1">&#39;Sample2&#39;</span><span class="p">,</span> <span class="s1">&#39;Sample3&#39;</span><span class="p">]</span>
 <span class="k">for</span> <span class="n">input_file</span> <span class="ow">in</span> <span class="n">data_files</span><span class="p">:</span>
