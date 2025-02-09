@@ -447,6 +447,32 @@ for different purposes or priorities.</p>
 </li>
 </ul>
 </section>
+<section id="module-gwf.backends.pbs">
+<span id="portable-batch-system-pbs"></span><h2>Portable Batch System (PBS)<a class="headerlink" href="#module-gwf.backends.pbs" title="Link to this heading">¶</a></h2>
+<p>Backend for Portable Batch System (PBS).</p>
+<p>To use this backend, you must activate the <cite>pbs</cite> backend. This backend requires
+the commands <cite>qsub</cite> and <cite>qstat</cite>.</p>
+<p><strong>Backend options:</strong></p>
+<p>None.</p>
+<p><strong>Target options:</strong></p>
+<ul class="simple">
+<li><dl class="simple">
+<dt><strong>cores (int):</strong></dt><dd><p>Number of cores allocated to this target (default: 1).</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>memory (str):</strong></dt><dd><p>Memory allocated to this target (default: 4GB).</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>queue (str):</strong></dt><dd><p>Queue to submit the target to (default: normal).</p>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
 </section>
 
         </article>
@@ -509,6 +535,7 @@ for different purposes or priorities.</p>
 <li><a class="reference internal" href="#module-gwf.backends.slurm">Slurm</a></li>
 <li><a class="reference internal" href="#module-gwf.backends.sge">Sun Grid Engine (SGE)</a></li>
 <li><a class="reference internal" href="#module-gwf.backends.lsf">IBM Spectrum Load Sharing Facility (LSF)</a></li>
+<li><a class="reference internal" href="#module-gwf.backends.pbs">Portable Batch System (PBS)</a></li>
 </ul>
 </li>
 </ul>
