@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex/" /><link rel="search" title="Search" href="search/" /><link rel="next" title="User’s Guide" href="guide/" />
 
     <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>gwf 2.0.5 documentation</title>
+        <title>gwf 2.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
@@ -166,7 +166,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="#"><div class="brand">gwf 2.0.5 documentation</div></a>
+      <a href="#"><div class="brand">gwf 2.1.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -190,7 +190,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="#">
   
   
-  <span class="sidebar-brand-text">gwf 2.0.5 documentation</span>
+  <span class="sidebar-brand-text">gwf 2.1.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search/" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -206,14 +206,12 @@
 <li class="toctree-l2"><a class="reference internal" href="guide/patterns/">Tips and Tricks</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="backends/">Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="executors/">Executors</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="plugins/">Plugins</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="reference/">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="reference/backends/">Backends</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reference/api/">API</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="reference/">API Reference</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog/">Change Log</a></li>
@@ -260,7 +258,7 @@
           <section id="welcome-to-gwf">
 <h1>Welcome to gwf<a class="headerlink" href="#welcome-to-gwf" title="Link to this heading">¶</a></h1>
 <p><em>gwf</em> is a flexible, pragmatic workflow tool for building and running large,
-scientific workflows. It runs on Python 3.7+ and is developed at GenomeDK,
+scientific workflows. It runs on Python 3.8+ and is developed at GenomeDK,
 Aarhus University.</p>
 <dl class="simple">
 <dt>Examples</dt><dd><p>To get a feeling for what a <em>gwf</em> workflow looks like, have a look at a few
@@ -347,6 +345,24 @@ to ask questions.</p>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="backends/">Backends</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="backends/#module-gwf.backends.local">Local</a></li>
+<li class="toctree-l2"><a class="reference internal" href="backends/#module-gwf.backends.slurm">Slurm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="backends/#module-gwf.backends.sge">Sun Grid Engine (SGE)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="backends/#module-gwf.backends.lsf">IBM Spectrum Load Sharing Facility (LSF)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="executors/">Executors</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="executors/#module-gwf.executors">Available executors</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="executors/#gwf.executors.Bash"><code class="docutils literal notranslate"><span class="pre">Bash</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="executors/#gwf.executors.Conda"><code class="docutils literal notranslate"><span class="pre">Conda</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="executors/#gwf.executors.Pixi"><code class="docutils literal notranslate"><span class="pre">Pixi</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="executors/#gwf.executors.Singularity"><code class="docutils literal notranslate"><span class="pre">Singularity</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="executors/#gwf.executors.Apptainer"><code class="docutils literal notranslate"><span class="pre">Apptainer</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 </section>
@@ -361,19 +377,34 @@ to ask questions.</p>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="reference/">API Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="reference/backends/">Backends</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="reference/backends/#module-gwf.backends.local">Local</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/backends/#module-gwf.backends.slurm">Slurm</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/backends/#module-gwf.backends.sge">Sun Grid Engine (SGE)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/backends/#module-gwf.backends.lsf">IBM Spectrum Load Sharing Facility (LSF)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/#module-gwf">Workflow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/#gwf.AnonymousTarget"><code class="docutils literal notranslate"><span class="pre">AnonymousTarget</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/#gwf.Target"><code class="docutils literal notranslate"><span class="pre">Target</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/#gwf.TargetList"><code class="docutils literal notranslate"><span class="pre">TargetList</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/#gwf.Workflow"><code class="docutils literal notranslate"><span class="pre">Workflow</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="reference/api/">API</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="reference/api/#module-gwf">Workflow</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/api/#module-gwf.core">Core</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/api/#module-gwf.scheduling">Scheduling</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/api/#module-gwf.backends">Backends</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/api/#module-gwf.filtering">Filtering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/#module-gwf.core">Core</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/#gwf.core.Graph"><code class="docutils literal notranslate"><span class="pre">Graph</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/#module-gwf.scheduling">Scheduling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/#gwf.scheduling.get_status_map"><code class="docutils literal notranslate"><span class="pre">get_status_map()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/#gwf.scheduling.submit_workflow"><code class="docutils literal notranslate"><span class="pre">submit_workflow()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/#module-gwf.backends">Backends</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/#gwf.backends.BackendStatus"><code class="docutils literal notranslate"><span class="pre">BackendStatus</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/#gwf.backends.create_backend"><code class="docutils literal notranslate"><span class="pre">create_backend()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/#gwf.backends.discover_backends"><code class="docutils literal notranslate"><span class="pre">discover_backends()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/#gwf.backends.guess_backend"><code class="docutils literal notranslate"><span class="pre">guess_backend()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/#gwf.backends.list_backends"><code class="docutils literal notranslate"><span class="pre">list_backends()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/#module-gwf.filtering">Filtering</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/#gwf.filtering.filter_generic"><code class="docutils literal notranslate"><span class="pre">filter_generic()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/#gwf.filtering.filter_names"><code class="docutils literal notranslate"><span class="pre">filter_names()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/#gwf.filtering.ApplyMixin"><code class="docutils literal notranslate"><span class="pre">ApplyMixin</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -386,6 +417,7 @@ to ask questions.</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog/">Change Log</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog/#version-2-1-0">Version 2.1.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changelog/#version-2-0-5">Version 2.0.5</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changelog/#version-2-0-4">Version 2.0.4</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changelog/#version-2-0-3">Version 2.0.3</a></li>
@@ -487,7 +519,7 @@ to ask questions.</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=8d761652"></script>
+</div><script src="_static/documentation_options.js?v=4bea4eba"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=5fa4622c"></script>

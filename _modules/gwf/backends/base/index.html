@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex/" /><link rel="search" title="Search" href="../../../../search/" />
 
     <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>gwf.backends.base - gwf 2.0.5 documentation</title>
+        <title>gwf.backends.base - gwf 2.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=302659d7" />
@@ -165,7 +165,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../"><div class="brand">gwf 2.0.5 documentation</div></a>
+      <a href="../../../../"><div class="brand">gwf 2.1.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -189,7 +189,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../">
   
   
-  <span class="sidebar-brand-text">gwf 2.0.5 documentation</span>
+  <span class="sidebar-brand-text">gwf 2.1.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search/" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -205,14 +205,12 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../guide/patterns/">Tips and Tricks</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../backends/">Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../executors/">Executors</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../plugins/">Plugins</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../reference/">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../../reference/backends/">Backends</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../../reference/api/">API</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../reference/">API Reference</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../changelog/">Change Log</a></li>
@@ -265,7 +263,7 @@
 
 
 <div class="viewcode-block" id="BackendStatus">
-<a class="viewcode-back" href="../../../../reference/api/#gwf.backends.BackendStatus">[docs]</a>
+<a class="viewcode-back" href="../../../../reference/#gwf.backends.BackendStatus">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BackendStatus</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;BackendStatus of a target.</span>
 
@@ -288,7 +286,7 @@
 
 
 <div class="viewcode-block" id="guess_backend">
-<a class="viewcode-back" href="../../../../reference/api/#gwf.backends.guess_backend">[docs]</a>
+<a class="viewcode-back" href="../../../../reference/#gwf.backends.guess_backend">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">guess_backend</span><span class="p">():</span>
     <span class="n">max_score</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1000</span>
     <span class="n">chosen_backend</span> <span class="o">=</span> <span class="kc">None</span>
@@ -301,14 +299,14 @@
 
 
 <div class="viewcode-block" id="discover_backends">
-<a class="viewcode-back" href="../../../../reference/api/#gwf.backends.discover_backends">[docs]</a>
+<a class="viewcode-back" href="../../../../reference/#gwf.backends.discover_backends">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">discover_backends</span><span class="p">():</span>
     <span class="k">return</span> <span class="p">{</span><span class="n">ep</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">ep</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">&quot;gwf.backends&quot;</span><span class="p">)}</span></div>
 
 
 
 <div class="viewcode-block" id="list_backends">
-<a class="viewcode-back" href="../../../../reference/api/#gwf.backends.list_backends">[docs]</a>
+<a class="viewcode-back" href="../../../../reference/#gwf.backends.list_backends">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">list_backends</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the names of all registered backends.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">discover_backends</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
@@ -316,7 +314,7 @@
 
 
 <div class="viewcode-block" id="create_backend">
-<a class="viewcode-back" href="../../../../reference/api/#gwf.backends.create_backend">[docs]</a>
+<a class="viewcode-back" href="../../../../reference/#gwf.backends.create_backend">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">create_backend</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">working_dir</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return backend class for the backend given by `name`.</span>
 
@@ -425,7 +423,7 @@
       
     </aside>
   </div>
-</div><script src="../../../../_static/documentation_options.js?v=8d761652"></script>
+</div><script src="../../../../_static/documentation_options.js?v=4bea4eba"></script>
     <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/scripts/furo.js?v=5fa4622c"></script>
