@@ -306,6 +306,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_check_path</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">fspath</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">InvalidPathError</span><span class="p">(</span><span class="s2">&quot;Path is empty&quot;</span><span class="p">)</span>
 
@@ -412,6 +413,7 @@
     <span class="n">COMPLETED</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1">#: The target has completed and should not run.</span>
     <span class="n">FAILED</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c1">#: The target failed and should run again.</span>
     <span class="n">CANCELLED</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1">#: The target or one of its dependencies was cancelled.</span>
+    <span class="n">SKIPPED</span> <span class="o">=</span> <span class="mi">6</span>  <span class="c1">#: The target has been skipped due to missing input files.</span>
 
 
 <div class="viewcode-block" id="AnonymousTarget">
@@ -700,17 +702,6 @@
         <span class="k">for</span> <span class="n">target</span><span class="p">,</span> <span class="n">deps</span> <span class="ow">in</span> <span class="n">dependencies</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="n">deps</span><span class="p">:</span>
                 <span class="n">dependents</span><span class="p">[</span><span class="n">dep</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
-
-        <span class="c1"># Check whether all input files actually exist or are being provided</span>
-        <span class="c1"># by another target. If not, it&#39;s an error.</span>
-        <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">target</span><span class="o">.</span><span class="n">flattened_inputs</span><span class="p">():</span>
-                <span class="k">if</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">unresolved</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">fs</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
-                    <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
-                        <span class="s1">&#39;File &quot;</span><span class="si">{}</span><span class="s1">&quot; is required by &quot;</span><span class="si">{}</span><span class="s1">&quot;, but does not exist and is not &#39;</span>
-                        <span class="s2">&quot;provided by any target in the workflow.&quot;</span>
-                    <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
-                    <span class="k">raise</span> <span class="n">UnresolvedInputError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
         <span class="n">targets</span> <span class="o">=</span> <span class="p">{</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">target</span> <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">}</span>
         <span class="n">check_for_circular_dependencies</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">)</span>

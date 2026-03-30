@@ -883,6 +883,61 @@ no other target depends on):</p>
 </div>
 <p>Now, when running <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">clean</span></code>, the file <code class="docutils literal notranslate"><span class="pre">d</span></code> will not be deleted.</p>
 </section>
+<section id="automatically-load-software-environments">
+<h2>Automatically Load Software Environments<a class="headerlink" href="#automatically-load-software-environments" title="Link to this heading">¶</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Executors are currently only available for the Slurm backend. Setting an
+executor for other backends will not have any effect. Other backends will
+be supported in the near future.</p>
+</div>
+<p>Executors are used to enable runtime behavior for targets. This means that you
+can  use executors to run your target inside Conda, Pixi, Apptainer, and
+Singularity environments:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">gwf</span><span class="w"> </span><span class="kn">import</span> <span class="n">Workflow</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gwf.executors</span><span class="w"> </span><span class="kn">import</span> <span class="n">Conda</span>
+
+<span class="n">gwf</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">()</span>
+
+<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s2">&quot;Test&quot;</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">executor</span><span class="o">=</span><span class="n">Conda</span><span class="p">(</span><span class="s2">&quot;myenv&quot;</span><span class="p">))</span> <span class="o">&lt;&lt;&lt;</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">echo this will run inside the `myenv` Conda environment.</span>
+<span class="s2">&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+<p>A default executor can also be specified for the workflow:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">gwf</span><span class="w"> </span><span class="kn">import</span> <span class="n">Workflow</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gwf.executors</span><span class="w"> </span><span class="kn">import</span> <span class="n">Conda</span>
+
+<span class="n">gwf</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">(</span><span class="n">executor</span><span class="o">=</span><span class="n">Conda</span><span class="p">(</span><span class="s2">&quot;myenv&quot;</span><span class="p">))</span>
+
+<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s2">&quot;Test&quot;</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[])</span> <span class="o">&lt;&lt;&lt;</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">echo this will run inside the `myenv` Conda environment.</span>
+<span class="s2">&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+<p>You can read more about the available executors and how they can be configured
+<a class="reference internal" href="../../executors/#executors"><span class="std std-ref">here</span></a>.</p>
+</section>
+<section id="partial-workflow-execution">
+<h2>Partial Workflow Execution<a class="headerlink" href="#partial-workflow-execution" title="Link to this heading">¶</a></h2>
+<p>Since version 2.2, gwf allows missing input files that are not provided
+by another target, and will simply skip targets with such input files (older
+versions would error in such a situation).</p>
+<p>In practice this means that you can have workflows that are partially executed,
+depending on what input files are available. For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s2">&quot;AnalyzeBlood&quot;</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;blood.txt&quot;</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;levels.txt&quot;</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;...&quot;</span>
+<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s2">&quot;SummarizeLevels&quot;</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;levels.txt&quot;</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;summary.txt&quot;</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;...&quot;</span>
+<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s2">&quot;AnalyzeGenome&quot;</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;genome.fa&quot;</span><span class="p">,</span> <span class="s2">&quot;reference.fa&quot;</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mutations.txt&quot;</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;...&quot;</span>
+<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s2">&quot;BuildReport&quot;</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mutations.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;levels.txt&quot;</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;report.pdf&quot;</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;...&quot;</span>
+</pre></div>
+</div>
+<p>If <code class="docutils literal notranslate"><span class="pre">blood.txt</span></code> exists, but <code class="docutils literal notranslate"><span class="pre">genome.fa</span></code> is not available yet, only
+<code class="docutils literal notranslate"><span class="pre">AnalyzeBlood</span></code> and its dependents (<code class="docutils literal notranslate"><span class="pre">SummarizeLevels</span></code>) will be scheduled. The
+rest of the workflow will be skipped (the targets will have <code class="docutils literal notranslate"><span class="pre">skipped</span></code> status
+in the <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">status</span></code> output). If at some point <code class="docutils literal notranslate"><span class="pre">genome.fa</span></code> becomes available
+and the workflow is run, <code class="docutils literal notranslate"><span class="pre">AnalyzeGenome</span></code> and <code class="docutils literal notranslate"><span class="pre">BuiltReport</span></code> will also be
+executed.</p>
+</section>
 <section id="a-note-about-reproducibility">
 <h2>A Note About Reproducibility<a class="headerlink" href="#a-note-about-reproducibility" title="Link to this heading">¶</a></h2>
 <p>Reproducibility is an important part of research and since <em>gwf</em> workflows describe every
@@ -968,6 +1023,8 @@ reproduce the environment used locally.</p>
 <li><a class="reference internal" href="#viewing-logs">Viewing Logs</a></li>
 <li><a class="reference internal" href="#cleaning-up">Cleaning Up</a></li>
 <li><a class="reference internal" href="#protecting-files-from-being-cleaned-up">Protecting Files From Being Cleaned Up</a></li>
+<li><a class="reference internal" href="#automatically-load-software-environments">Automatically Load Software Environments</a></li>
+<li><a class="reference internal" href="#partial-workflow-execution">Partial Workflow Execution</a></li>
 <li><a class="reference internal" href="#a-note-about-reproducibility">A Note About Reproducibility</a></li>
 </ul>
 </li>

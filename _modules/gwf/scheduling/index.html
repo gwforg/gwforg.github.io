@@ -253,7 +253,8 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.backends.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BackendStatus</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">Status</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">Status</span><span class="p">,</span> <span class="n">UnresolvedInputError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.log_storage</span><span class="w"> </span><span class="kn">import</span> <span class="n">prepare_log_storage_for_target</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -315,17 +316,27 @@
 <span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_schedule</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
         <span class="n">submitted_deps</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">skipped_deps</span> <span class="o">=</span> <span class="kc">False</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">no_deps</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">dependencies</span><span class="p">[</span><span class="n">target</span><span class="p">],</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="p">):</span>
                 <span class="n">status</span> <span class="o">=</span> <span class="n">_cached_schedule</span><span class="p">(</span><span class="n">dep</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">status</span> <span class="ow">in</span> <span class="n">SUBMITTED_STATES</span><span class="p">:</span>
                     <span class="n">submitted_deps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dep</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="n">Status</span><span class="o">.</span><span class="n">SKIPPED</span><span class="p">:</span>
+                    <span class="n">skipped_deps</span> <span class="o">=</span> <span class="kc">True</span>
 
         <span class="k">if</span> <span class="n">force</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Target </span><span class="si">%s</span><span class="s2"> is being forcibly submitted&quot;</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
             <span class="n">submit_func</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">dependencies</span><span class="o">=</span><span class="n">submitted_deps</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">Status</span><span class="o">.</span><span class="n">SHOULDRUN</span>
+
+        <span class="k">if</span> <span class="n">skipped_deps</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Status</span><span class="o">.</span><span class="n">SKIPPED</span>
+
+        <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">target</span><span class="o">.</span><span class="n">flattened_inputs</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">fs</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="ow">and</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">unresolved</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">Status</span><span class="o">.</span><span class="n">SKIPPED</span>
 
         <span class="k">if</span> <span class="n">status_func</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> <span class="o">==</span> <span class="n">BackendStatus</span><span class="o">.</span><span class="n">SUBMITTED</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Target </span><span class="si">%s</span><span class="s2"> is already submitted&quot;</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
@@ -391,8 +402,6 @@
 <span class="sd">    injection of option defaults.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1"># logger.info(&quot;Submitting target %s&quot;, target)</span>
-
     <span class="n">new_options</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="s2">&quot;target_defaults&quot;</span><span class="p">):</span>
         <span class="n">new_options</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">target_defaults</span><span class="p">)</span>
@@ -410,6 +419,7 @@
             <span class="k">del</span> <span class="n">new_options</span><span class="p">[</span><span class="n">option_name</span><span class="p">]</span>
     <span class="n">target</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">new_options</span>
 
+    <span class="n">prepare_log_storage_for_target</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
     <span class="n">backend</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">)</span>
     <span class="n">spec_hashes</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
 
