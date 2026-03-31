@@ -243,7 +243,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.backends.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BackendStatus</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">Status</span><span class="p">,</span> <span class="n">UnresolvedInputError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">Status</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.log_storage</span><span class="w"> </span><span class="kn">import</span> <span class="n">prepare_log_storage_for_target</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -380,6 +380,8 @@
     <span class="k">pass</span>
 
 
+<div class="viewcode-block" id="submit_backend">
+<a class="viewcode-back" href="../../../reference/#gwf.scheduling.submit_backend">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">submit_backend</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">,</span> <span class="n">backend</span><span class="p">,</span> <span class="n">spec_hashes</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepare and submit `target` with `dependencies` to `backend`.</span>
 
@@ -420,7 +422,8 @@
             <span class="n">backend</span><span class="o">.</span><span class="n">get_tracked_id</span><span class="p">(</span><span class="n">target</span><span class="p">),</span>
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Submitted target </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Submitted target </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="submit_workflow">

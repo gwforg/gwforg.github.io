@@ -654,6 +654,18 @@ may raise a number of exceptions:</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="gwf.scheduling.submit_backend">
+<span class="sig-prename descclassname"><span class="pre">gwf.scheduling.</span></span><span class="sig-name descname"><span class="pre">submit_backend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dependencies</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec_hashes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/gwf/scheduling/#submit_backend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.scheduling.submit_backend" title="Link to this definition">¶</a></dt>
+<dd><p>Prepare and submit <cite>target</cite> with <cite>dependencies</cite> to <cite>backend</cite>.</p>
+<p>Will prepare the target for submission by injecting option defaults from the
+backend, check for unsupported options, and removing options with a <cite>None</cite>
+value.</p>
+<p>This is the primary way to submit a target. Do not call <code class="xref py py-func docutils literal notranslate"><span class="pre">submit()</span></code>
+directly on the backend, unless you want to manually deal with with
+injection of option defaults.</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="gwf.scheduling.submit_workflow">
 <span class="sig-prename descclassname"><span class="pre">gwf.scheduling.</span></span><span class="sig-name descname"><span class="pre">submit_workflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoints</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec_hashes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dry_run</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">no_deps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/gwf/scheduling/#submit_workflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.scheduling.submit_workflow" title="Link to this definition">¶</a></dt>
 <dd><p>Submit a workflow to a backend.</p>
@@ -738,6 +750,34 @@ workflow object in that file.</p>
 </section>
 <section id="module-gwf.filtering">
 <span id="filtering"></span><h2>Filtering<a class="headerlink" href="#module-gwf.filtering" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="gwf.filtering.ApplyMixin">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">gwf.filtering.</span></span><span class="sig-name descname"><span class="pre">ApplyMixin</span></span><a class="reference internal" href="../_modules/gwf/filtering/#ApplyMixin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.filtering.ApplyMixin" title="Link to this definition">¶</a></dt>
+<dd><p>A mixin for predicate-based filters providing the <cite>apply</cite> method.</p>
+<p>Most filters are predicate-based in the sense that they simply filter
+targets one by one based on a predicate function that decides whether to
+include the target or not. Such filters can inherit this mixin and then
+only need to declare a <a class="reference internal" href="#gwf.filtering.ApplyMixin.predicate" title="gwf.filtering.ApplyMixin.predicate"><code class="xref py py-func docutils literal notranslate"><span class="pre">predicate()</span></code></a> method which returns <cite>True</cite> if the
+target should be included and <cite>False</cite> otherwise.</p>
+<p>For examples of using this mixin, see the <code class="xref py py-class docutils literal notranslate"><span class="pre">StatusFilter</span></code> and
+<code class="xref py py-class docutils literal notranslate"><span class="pre">EndpointFilter</span></code> filters.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="gwf.filtering.ApplyMixin.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">targets</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/gwf/filtering/#ApplyMixin.apply"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.filtering.ApplyMixin.apply" title="Link to this definition">¶</a></dt>
+<dd><p>Apply the filter to all <cite>targets</cite>.</p>
+<p>This method returns a generator yielding all targets in <cite>targets</cite> for
+each <a class="reference internal" href="#gwf.filtering.ApplyMixin.predicate" title="gwf.filtering.ApplyMixin.predicate"><code class="xref py py-func docutils literal notranslate"><span class="pre">predicate()</span></code></a> returns <cite>True</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gwf.filtering.ApplyMixin.predicate">
+<span class="sig-name descname"><span class="pre">predicate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/gwf/filtering/#ApplyMixin.predicate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.filtering.ApplyMixin.predicate" title="Link to this definition">¶</a></dt>
+<dd><p>Return <cite>True</cite> if <cite>target</cite> should be included, <cite>False</cite> otherwise.</p>
+<p>This method must be overriden by subclasses.</p>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="gwf.filtering.filter_generic">
 <span class="sig-prename descclassname"><span class="pre">gwf.filtering.</span></span><span class="sig-name descname"><span class="pre">filter_generic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">targets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/gwf/filtering/#filter_generic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.filtering.filter_generic" title="Link to this definition">¶</a></dt>
@@ -780,35 +820,6 @@ of the patterns in <cite>pattern</cite>. For example:</p>
 </div>
 <p>returns all targets with a name matching either <code class="docutils literal notranslate"><span class="pre">Foo*</span></code> or <code class="docutils literal notranslate"><span class="pre">Bar*</span></code>.</p>
 <p>This function is a simple wrapper around <code class="xref py py-class docutils literal notranslate"><span class="pre">NameFilter</span></code>.</p>
-</dd></dl>
-
-<p>Helpers for filtering:</p>
-<dl class="py class" id="module-0">
-<dt class="sig sig-object py" id="gwf.filtering.ApplyMixin">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">gwf.filtering.</span></span><span class="sig-name descname"><span class="pre">ApplyMixin</span></span><a class="reference internal" href="../_modules/gwf/filtering/#ApplyMixin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.filtering.ApplyMixin" title="Link to this definition">¶</a></dt>
-<dd><p>A mixin for predicate-based filters providing the <cite>apply</cite> method.</p>
-<p>Most filters are predicate-based in the sense that they simply filter
-targets one by one based on a predicate function that decides whether to
-include the target or not. Such filters can inherit this mixin and then
-only need to declare a <a class="reference internal" href="#gwf.filtering.ApplyMixin.predicate" title="gwf.filtering.ApplyMixin.predicate"><code class="xref py py-func docutils literal notranslate"><span class="pre">predicate()</span></code></a> method which returns <cite>True</cite> if the
-target should be included and <cite>False</cite> otherwise.</p>
-<p>For examples of using this mixin, see the <code class="xref py py-class docutils literal notranslate"><span class="pre">StatusFilter</span></code> and
-<code class="xref py py-class docutils literal notranslate"><span class="pre">EndpointFilter</span></code> filters.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="gwf.filtering.ApplyMixin.apply">
-<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">targets</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/gwf/filtering/#ApplyMixin.apply"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.filtering.ApplyMixin.apply" title="Link to this definition">¶</a></dt>
-<dd><p>Apply the filter to all <cite>targets</cite>.</p>
-<p>This method returns a generator yielding all targets in <cite>targets</cite> for
-each <a class="reference internal" href="#gwf.filtering.ApplyMixin.predicate" title="gwf.filtering.ApplyMixin.predicate"><code class="xref py py-func docutils literal notranslate"><span class="pre">predicate()</span></code></a> returns <cite>True</cite>.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="gwf.filtering.ApplyMixin.predicate">
-<span class="sig-name descname"><span class="pre">predicate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/gwf/filtering/#ApplyMixin.predicate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.filtering.ApplyMixin.predicate" title="Link to this definition">¶</a></dt>
-<dd><p>Return <cite>True</cite> if <cite>target</cite> should be included, <cite>False</cite> otherwise.</p>
-<p>This method must be overriden by subclasses.</p>
-</dd></dl>
-
 </dd></dl>
 
 </section>
@@ -902,6 +913,7 @@ each <a class="reference internal" href="#gwf.filtering.ApplyMixin.predicate" ti
 </li>
 <li><a class="reference internal" href="#module-gwf.scheduling">Scheduling</a><ul>
 <li><a class="reference internal" href="#gwf.scheduling.get_status_map"><code class="docutils literal notranslate"><span class="pre">get_status_map()</span></code></a></li>
+<li><a class="reference internal" href="#gwf.scheduling.submit_backend"><code class="docutils literal notranslate"><span class="pre">submit_backend()</span></code></a></li>
 <li><a class="reference internal" href="#gwf.scheduling.submit_workflow"><code class="docutils literal notranslate"><span class="pre">submit_workflow()</span></code></a></li>
 </ul>
 </li>
@@ -922,13 +934,13 @@ each <a class="reference internal" href="#gwf.filtering.ApplyMixin.predicate" ti
 </ul>
 </li>
 <li><a class="reference internal" href="#module-gwf.filtering">Filtering</a><ul>
-<li><a class="reference internal" href="#gwf.filtering.filter_generic"><code class="docutils literal notranslate"><span class="pre">filter_generic()</span></code></a></li>
-<li><a class="reference internal" href="#gwf.filtering.filter_names"><code class="docutils literal notranslate"><span class="pre">filter_names()</span></code></a></li>
 <li><a class="reference internal" href="#gwf.filtering.ApplyMixin"><code class="docutils literal notranslate"><span class="pre">ApplyMixin</span></code></a><ul>
 <li><a class="reference internal" href="#gwf.filtering.ApplyMixin.apply"><code class="docutils literal notranslate"><span class="pre">ApplyMixin.apply()</span></code></a></li>
 <li><a class="reference internal" href="#gwf.filtering.ApplyMixin.predicate"><code class="docutils literal notranslate"><span class="pre">ApplyMixin.predicate()</span></code></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#gwf.filtering.filter_generic"><code class="docutils literal notranslate"><span class="pre">filter_generic()</span></code></a></li>
+<li><a class="reference internal" href="#gwf.filtering.filter_names"><code class="docutils literal notranslate"><span class="pre">filter_names()</span></code></a></li>
 </ul>
 </li>
 </ul>
