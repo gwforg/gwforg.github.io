@@ -847,7 +847,7 @@ save disk space. In <em>gwf</em> we can use the <code class="docutils literal no
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf<span class="w"> </span>clean
 </pre></div>
 </div>
-<p>This command only removes files produced by an endpoint target (a target which
+<p>By default, this removes files <em>not</em> produced by an endpoint target (a target which
 no other target depends on):</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf<span class="w"> </span>clean
 <span class="go">Will delete 1.3MiB of files!</span>
@@ -861,7 +861,8 @@ no other target depends on):</p>
 <span class="go">Deleting file &quot;/Users/das/Code/gwf/examples/readmapping/ponAbe2.fa&quot; from target &quot;UnzipGenome&quot;</span>
 </pre></div>
 </div>
-<p>We can tell <em>gwf</em> to remove all files by running <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">clean</span> <span class="pre">--all</span></code>.</p>
+<p>We can tell <em>gwf</em> to remove all files by running <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">clean</span> <span class="pre">--all</span></code>, in which case
+it will also delete files produced by an endpoint target.</p>
 </section>
 <section id="protecting-files-from-being-cleaned-up">
 <h2>Protecting Files From Being Cleaned Up<a class="headerlink" href="#protecting-files-from-being-cleaned-up" title="Link to this heading">¶</a></h2>
