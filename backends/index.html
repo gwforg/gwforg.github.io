@@ -457,7 +457,19 @@ the commands <cite>qsub</cite> and <cite>qstat</cite>.</p>
 </dl>
 </li>
 <li><dl class="simple">
+<dt><strong>walltime (str):</strong></dt><dd><p>Wall-clock time limit, <code class="docutils literal notranslate"><span class="pre">HH:MM:SS</span></code> (default: <code class="docutils literal notranslate"><span class="pre">01:00:00</span></code>). Emitted as
+<code class="docutils literal notranslate"><span class="pre">#PBS</span> <span class="pre">-l</span> <span class="pre">walltime=...</span></code>.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
 <dt><strong>queue (str):</strong></dt><dd><p>Queue to submit the target to (default: normal).</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>account (str):</strong></dt><dd><p>Accounting/group string for the job (default: unset). When set, emitted
+as <code class="docutils literal notranslate"><span class="pre">#PBS</span> <span class="pre">-A</span> <span class="pre">&lt;account&gt;</span></code>; when empty the directive is omitted entirely.</p>
 </dd>
 </dl>
 </li>
