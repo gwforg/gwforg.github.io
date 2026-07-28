@@ -368,6 +368,12 @@ request access to GPUs.</p>
 </dd>
 </dl>
 </li>
+<li><dl class="simple">
+<dt><strong>slurm_args (list[str]):</strong></dt><dd><p>Extra arguments passed directly to <cite>sbatch</cite>. Use this for Slurm options
+that are not otherwise supported by <em>gwf</em>.</p>
+</dd>
+</dl>
+</li>
 </ul>
 </section>
 <section id="module-gwf.backends.sge">
@@ -408,6 +414,12 @@ project.</p>
 </dd>
 </dl>
 </li>
+<li><dl class="simple">
+<dt><strong>sge_args (list[str]):</strong></dt><dd><p>Extra arguments passed directly to <cite>qsub</cite>. Use this for SGE options that
+are not otherwise supported by <em>gwf</em>.</p>
+</dd>
+</dl>
+</li>
 </ul>
 </section>
 <section id="module-gwf.backends.lsf">
@@ -432,6 +444,12 @@ the commands <cite>bsub</cite> and <cite>bjobs</cite>.</p>
 <li><dl class="simple">
 <dt><strong>queue (str):</strong></dt><dd><p>Queue to submit the target to (default: normal).
 for different purposes or priorities.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>lsf_args (list[str]):</strong></dt><dd><p>Extra arguments passed directly to <cite>bsub</cite>. Use this for LSF options that
+are not otherwise supported by <em>gwf</em>.</p>
 </dd>
 </dl>
 </li>
@@ -470,6 +488,12 @@ the commands <cite>qsub</cite> and <cite>qstat</cite>.</p>
 <li><dl class="simple">
 <dt><strong>account (str):</strong></dt><dd><p>Accounting/group string for the job (default: unset). When set, emitted
 as <code class="docutils literal notranslate"><span class="pre">#PBS</span> <span class="pre">-A</span> <span class="pre">&lt;account&gt;</span></code>; when empty the directive is omitted entirely.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>pbs_args (list[str]):</strong></dt><dd><p>Extra arguments passed directly to <cite>qsub</cite>. Use this for PBS options that
+are not otherwise supported by <em>gwf</em>.</p>
 </dd>
 </dl>
 </li>

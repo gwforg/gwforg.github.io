@@ -389,7 +389,8 @@
 
 <span class="sd">    The *defaults* argument is a dictionary of option defaults for targets and</span>
 <span class="sd">    overrides defaults provided by the backend. Targets can override the</span>
-<span class="sd">    defaults individually. For example::</span>
+<span class="sd">    defaults individually, including backend-specific options such as</span>
+<span class="sd">    ``slurm_args``. For example::</span>
 
 <span class="sd">        gwf = Workflow(defaults={</span>
 <span class="sd">            &#39;cores&#39;: 12,</span>
@@ -401,6 +402,13 @@
 
 <span class="sd">    In this case `Foo` and `Bar` inherit the `cores` and `memory` options set</span>
 <span class="sd">    in `defaults`, but `Bar` overrides the `cores` option.</span>
+
+<span class="sd">    For example, a Slurm-specific submission argument can be set for every</span>
+<span class="sd">    target and overridden for one target::</span>
+
+<span class="sd">        gwf = Workflow(defaults={&#39;slurm_args&#39;: [&#39;--exclusive&#39;]})</span>
+<span class="sd">        gwf.target(&#39;Foo&#39;, inputs=[], outputs=[])</span>
+<span class="sd">        gwf.target(&#39;Bar&#39;, inputs=[], outputs=[], slurm_args=[&#39;--gpus=1&#39;])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">working_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>

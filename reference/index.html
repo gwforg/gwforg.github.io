@@ -389,7 +389,8 @@ manually. Targets added to the workflow will inherit the workflow working
 directory.</p>
 <p>The <em>defaults</em> argument is a dictionary of option defaults for targets and
 overrides defaults provided by the backend. Targets can override the
-defaults individually. For example:</p>
+defaults individually, including backend-specific options such as
+<code class="docutils literal notranslate"><span class="pre">slurm_args</span></code>. For example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gwf</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">(</span><span class="n">defaults</span><span class="o">=</span><span class="p">{</span>
     <span class="s1">&#39;cores&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
     <span class="s1">&#39;memory&#39;</span><span class="p">:</span> <span class="s1">&#39;16g&#39;</span><span class="p">,</span>
@@ -401,6 +402,13 @@ defaults individually. For example:</p>
 </div>
 <p>In this case <cite>Foo</cite> and <cite>Bar</cite> inherit the <cite>cores</cite> and <cite>memory</cite> options set
 in <cite>defaults</cite>, but <cite>Bar</cite> overrides the <cite>cores</cite> option.</p>
+<p>For example, a Slurm-specific submission argument can be set for every
+target and overridden for one target:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gwf</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">(</span><span class="n">defaults</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;slurm_args&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;--exclusive&#39;</span><span class="p">]})</span>
+<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">&#39;Foo&#39;</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[])</span>
+<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s1">&#39;Bar&#39;</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">slurm_args</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;--gpus=1&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="gwf.Workflow.from_context">
 <span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">from_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/gwf/workflow/#Workflow.from_context"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.Workflow.from_context" title="Link to this definition">¶</a></dt>
