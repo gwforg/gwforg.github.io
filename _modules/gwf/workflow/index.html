@@ -190,8 +190,11 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../guide/">User’s Guide</a><input aria-label="Toggle navigation of User’s Guide" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../guide/tutorial/">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/">Tutorial</a></li>
+</ul>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../guide/">Guides</a><input aria-label="Toggle navigation of Guides" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../guide/isolation/">Isolating Target Execution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../guide/mapping/">Mapping over Inputs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../guide/configuration/">Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../guide/patterns/">Tips and Tricks</a></li>
@@ -247,6 +250,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Literal</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">glob</span><span class="w"> </span><span class="kn">import</span> <span class="n">glob</span> <span class="k">as</span> <span class="n">_glob</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">glob</span><span class="w"> </span><span class="kn">import</span> <span class="n">iglob</span> <span class="k">as</span> <span class="n">_iglob</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
@@ -256,6 +260,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.executors</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bash</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">Target</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.exec</span><span class="w"> </span><span class="kn">import</span> <span class="n">IsolationConfig</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">WorkflowError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">chain</span><span class="p">,</span> <span class="n">find_workflow</span><span class="p">,</span> <span class="n">load_workflow</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">gwf</span><span class="w"> </span><span class="kn">import</span> <span class="n">executors</span>
@@ -380,7 +385,8 @@
 <span class="sd">        All file paths used in targets added to this workflow are relative to</span>
 <span class="sd">        the working directory.</span>
 <span class="sd">    :ivar dict defaults:</span>
-<span class="sd">        A dictionary with defaults for target options.</span>
+<span class="sd">        A dictionary with defaults for target options and runtime</span>
+<span class="sd">        configuration such as isolation.</span>
 
 <span class="sd">    By default, *working_dir* is set to the directory of the workflow file</span>
 <span class="sd">    which initialized the workflow. However, advanced users may wish to set it</span>
@@ -463,7 +469,15 @@
 <div class="viewcode-block" id="Workflow.target">
 <a class="viewcode-back" href="../../../reference/#gwf.Workflow.target">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">target</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">protect</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">executor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">,</span>
+        <span class="n">inputs</span><span class="p">,</span>
+        <span class="n">outputs</span><span class="p">,</span>
+        <span class="n">protect</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">group</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">executor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">isolation</span><span class="p">:</span> <span class="n">IsolationConfig</span> <span class="o">|</span> <span class="n">Literal</span><span class="p">[</span><span class="kc">True</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">options</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a target and add it to the :class:`gwf.Workflow`.</span>
 
@@ -484,9 +498,16 @@
 <span class="sd">        :param str name: Name of the target.</span>
 <span class="sd">        :param iterable inputs: List of files that this target depends on.</span>
 <span class="sd">        :param iterable outputs: List of files that this target produces.</span>
+<span class="sd">        :param isolation: Optional target isolation configuration. Passing ``True``</span>
+<span class="sd">            uses the default :class:`~gwf.IsolationConfig`.</span>
 
-<span class="sd">        Any further keyword arguments are passed to the backend.</span>
+<span class="sd">        Further keyword arguments are passed to the backend, except</span>
+<span class="sd">        ``isolation``, which configures the target runtime.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">target_options</span> <span class="o">=</span> <span class="n">chain</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">defaults</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+        <span class="n">default_isolation</span> <span class="o">=</span> <span class="n">target_options</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;isolation&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">isolation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">isolation</span> <span class="o">=</span> <span class="n">default_isolation</span>
         <span class="n">new_target</span> <span class="o">=</span> <span class="n">Target</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
             <span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span>
@@ -494,8 +515,9 @@
             <span class="n">protect</span><span class="o">=</span><span class="n">protect</span> <span class="k">if</span> <span class="n">protect</span> <span class="k">else</span> <span class="nb">set</span><span class="p">(),</span>
             <span class="n">group</span><span class="o">=</span><span class="n">group</span><span class="p">,</span>
             <span class="n">executor</span><span class="o">=</span><span class="n">executor</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">executor</span><span class="p">,</span>
-            <span class="n">options</span><span class="o">=</span><span class="n">chain</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">defaults</span><span class="p">,</span> <span class="n">options</span><span class="p">),</span>
+            <span class="n">options</span><span class="o">=</span><span class="n">target_options</span><span class="p">,</span>
             <span class="n">working_dir</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">working_dir</span><span class="p">,</span>
+            <span class="n">isolation</span><span class="o">=</span><span class="n">isolation</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_target</span><span class="p">(</span><span class="n">new_target</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">new_target</span></div>
@@ -503,7 +525,13 @@
 
 <div class="viewcode-block" id="Workflow.target_from_template">
 <a class="viewcode-back" href="../../../reference/#gwf.Workflow.target_from_template">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">target_from_template</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">template</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">target_from_template</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">,</span>
+        <span class="n">template</span><span class="p">,</span>
+        <span class="n">isolation</span><span class="p">:</span> <span class="n">IsolationConfig</span> <span class="o">|</span> <span class="n">Literal</span><span class="p">[</span><span class="kc">True</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">options</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a target from a template and add it to the :class:`gwf.Workflow`.</span>
 
 <span class="sd">        This is syntactic sugar for creating a new :class:`~gwf.Target` and</span>
@@ -523,10 +551,21 @@
 <span class="sd">            Name of the target.</span>
 <span class="sd">        :param AnonymousTarget template:</span>
 <span class="sd">            The anonymous target which describes the template.</span>
+<span class="sd">        :param isolation:</span>
+<span class="sd">            Optional target isolation configuration. Passing ``True`` uses the</span>
+<span class="sd">            default :class:`~gwf.IsolationConfig`.</span>
 
-<span class="sd">        Any further keyword arguments are passed to the backend and will</span>
-<span class="sd">        override any options provided by the template.</span>
+<span class="sd">        Further keyword arguments are passed to the backend and override any</span>
+<span class="sd">        options provided by the template. The ``isolation`` keyword instead</span>
+<span class="sd">        configures the target runtime.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">target_options</span> <span class="o">=</span> <span class="n">chain</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">defaults</span><span class="p">,</span> <span class="n">template</span><span class="o">.</span><span class="n">options</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+        <span class="n">default_isolation</span> <span class="o">=</span> <span class="n">target_options</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;isolation&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">template</span><span class="o">.</span><span class="n">isolation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">default_isolation</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">isolation</span>
+        <span class="k">if</span> <span class="n">isolation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">isolation</span> <span class="o">=</span> <span class="n">default_isolation</span>
+
         <span class="n">new_target</span> <span class="o">=</span> <span class="n">Target</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
             <span class="n">inputs</span><span class="o">=</span><span class="n">template</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span>
@@ -534,9 +573,10 @@
             <span class="n">protect</span><span class="o">=</span><span class="n">template</span><span class="o">.</span><span class="n">protect</span><span class="p">,</span>
             <span class="n">group</span><span class="o">=</span><span class="n">template</span><span class="o">.</span><span class="n">group</span><span class="p">,</span>
             <span class="n">executor</span><span class="o">=</span><span class="n">template</span><span class="o">.</span><span class="n">executor</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">executor</span><span class="p">,</span>
-            <span class="n">options</span><span class="o">=</span><span class="n">chain</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">defaults</span><span class="p">,</span> <span class="n">template</span><span class="o">.</span><span class="n">options</span><span class="p">,</span> <span class="n">options</span><span class="p">),</span>
+            <span class="n">options</span><span class="o">=</span><span class="n">target_options</span><span class="p">,</span>
             <span class="n">working_dir</span><span class="o">=</span><span class="n">template</span><span class="o">.</span><span class="n">working_dir</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">working_dir</span><span class="p">,</span>
             <span class="n">spec</span><span class="o">=</span><span class="n">template</span><span class="o">.</span><span class="n">spec</span><span class="p">,</span>
+            <span class="n">isolation</span><span class="o">=</span><span class="n">isolation</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_target</span><span class="p">(</span><span class="n">new_target</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">new_target</span></div>

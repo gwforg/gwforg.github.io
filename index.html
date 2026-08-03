@@ -3,7 +3,7 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex/"><link rel="search" title="Search" href="search/"><link rel="next" title="User’s Guide" href="guide/">
+<link rel="index" title="Index" href="genindex/"><link rel="search" title="Search" href="search/"><link rel="next" title="Tutorial" href="tutorial/">
 
     <!-- Generated with Sphinx 9.1.0 and Furo 2025.12.19 -->
         <title>gwf 2.1.1 documentation</title>
@@ -191,8 +191,11 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="guide/">User’s Guide</a><input aria-label="Toggle navigation of User’s Guide" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="guide/tutorial/">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/">Tutorial</a></li>
+</ul>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="guide/">Guides</a><input aria-label="Toggle navigation of Guides" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="guide/isolation/">Isolating Target Execution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="guide/mapping/">Mapping over Inputs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="guide/configuration/">Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="guide/patterns/">Tips and Tricks</a></li>
@@ -255,7 +258,7 @@ Aarhus University.</p>
 <a class="reference external" href="https://github.com/gwforg/gwf/tree/master/examples">examples</a>.</p>
 </dd>
 <dt>Getting started</dt><dd><p>To quickly get started writing workflows in <em>gwf</em> you can read the
-<a class="reference internal" href="guide/tutorial/#tutorial"><span class="std std-ref">Tutorial</span></a>.</p>
+<a class="reference internal" href="tutorial/#tutorial"><span class="std std-ref">Tutorial</span></a>.</p>
 </dd>
 </dl>
 <section id="features">
@@ -292,28 +295,44 @@ encouraged to report any issues through the
 <a class="reference external" href="https://github.com/gwforg/gwf/issues">issue tracker</a>, which is also a good place
 to ask questions.</p>
 </section>
-<section id="user-s-guide">
-<h2>User’s Guide<a class="headerlink" href="#user-s-guide" title="Link to this heading">¶</a></h2>
+<section id="tutorial">
+<h2>Tutorial<a class="headerlink" href="#tutorial" title="Link to this heading">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="guide/">User’s Guide</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="guide/tutorial/">Tutorial</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="guide/tutorial/#a-minimal-workflow">A Minimal Workflow</a></li>
-<li class="toctree-l3"><a class="reference internal" href="guide/tutorial/#running-your-first-workflow">Running Your First Workflow</a></li>
-<li class="toctree-l3"><a class="reference internal" href="guide/tutorial/#setting-the-default-verbosity">Setting the Default Verbosity</a></li>
-<li class="toctree-l3"><a class="reference internal" href="guide/tutorial/#debugging-a-workflow">Debugging a Workflow</a></li>
-<li class="toctree-l3"><a class="reference internal" href="guide/tutorial/#defining-targets-with-dependencies">Defining Targets with Dependencies</a></li>
-<li class="toctree-l3"><a class="reference internal" href="guide/tutorial/#named-inputs-and-outputs">Named Inputs and Outputs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="guide/tutorial/#specifying-target-resources">Specifying Target Resources</a></li>
-<li class="toctree-l3"><a class="reference internal" href="guide/tutorial/#observing-target-execution">Observing Target Execution</a></li>
-<li class="toctree-l3"><a class="reference internal" href="guide/tutorial/#what-happens-when-a-target-fails">What Happens When a Target Fails?</a></li>
-<li class="toctree-l3"><a class="reference internal" href="guide/tutorial/#reusable-targets-with-templates">Reusable Targets with Templates</a></li>
-<li class="toctree-l3"><a class="reference internal" href="guide/tutorial/#viewing-logs">Viewing Logs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="guide/tutorial/#cleaning-up">Cleaning Up</a></li>
-<li class="toctree-l3"><a class="reference internal" href="guide/tutorial/#protecting-files-from-being-cleaned-up">Protecting Files From Being Cleaned Up</a></li>
-<li class="toctree-l3"><a class="reference internal" href="guide/tutorial/#automatically-load-software-environments">Automatically Load Software Environments</a></li>
-<li class="toctree-l3"><a class="reference internal" href="guide/tutorial/#partial-workflow-execution">Partial Workflow Execution</a></li>
-<li class="toctree-l3"><a class="reference internal" href="guide/tutorial/#a-note-about-reproducibility">A Note About Reproducibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/#a-minimal-workflow">A Minimal Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/#running-your-first-workflow">Running Your First Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/#setting-the-default-verbosity">Setting the Default Verbosity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/#debugging-a-workflow">Debugging a Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/#defining-targets-with-dependencies">Defining Targets with Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/#named-inputs-and-outputs">Named Inputs and Outputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/#specifying-target-resources">Specifying Target Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/#isolating-target-execution">Isolating Target Execution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/#staging-files-on-compute-nodes">Staging Files on Compute Nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/#observing-target-execution">Observing Target Execution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/#what-happens-when-a-target-fails">What Happens When a Target Fails?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/#reusable-targets-with-templates">Reusable Targets with Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/#viewing-logs">Viewing Logs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/#cleaning-up">Cleaning Up</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/#protecting-files-from-being-cleaned-up">Protecting Files From Being Cleaned Up</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/#automatically-load-software-environments">Automatically Load Software Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/#partial-workflow-execution">Partial Workflow Execution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/#a-note-about-reproducibility">A Note About Reproducibility</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="guides-and-references">
+<h2>Guides and References<a class="headerlink" href="#guides-and-references" title="Link to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guide/">Guides</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guide/isolation/">Isolating Target Execution</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="guide/isolation/#configuring-file-transfers">Configuring File Transfers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guide/isolation/#choosing-the-temporary-directory-root">Choosing the Temporary Directory Root</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guide/isolation/#workflow-defaults">Workflow Defaults</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guide/isolation/#network-access">Network Access</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="guide/mapping/">Mapping over Inputs</a><ul>
@@ -352,6 +371,7 @@ to ask questions.</p>
 <li class="toctree-l3"><a class="reference internal" href="executors/#gwf.executors.Pixi"><code class="docutils literal notranslate"><span class="pre">Pixi</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="executors/#gwf.executors.Singularity"><code class="docutils literal notranslate"><span class="pre">Singularity</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="executors/#gwf.executors.Apptainer"><code class="docutils literal notranslate"><span class="pre">Apptainer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="executors/#gwf.executors.render_exec_script"><code class="docutils literal notranslate"><span class="pre">render_exec_script()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -457,12 +477,12 @@ to ask questions.</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="guide/">
+          <a class="next-page" href="tutorial/">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">User’s Guide</div>
+                <div class="title">Tutorial</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -500,7 +520,8 @@ to ask questions.</p>
 <li><a class="reference internal" href="#">Welcome to gwf</a><ul>
 <li><a class="reference internal" href="#features">Features</a></li>
 <li><a class="reference internal" href="#installation">Installation</a></li>
-<li><a class="reference internal" href="#user-s-guide">User’s Guide</a></li>
+<li><a class="reference internal" href="#tutorial">Tutorial</a></li>
+<li><a class="reference internal" href="#guides-and-references">Guides and References</a></li>
 <li><a class="reference internal" href="#extending">Extending</a></li>
 <li><a class="reference internal" href="#release-history">Release history</a></li>
 </ul>

@@ -190,9 +190,12 @@
   <input type="hidden" name="area" value="default">
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
-  <ul class="current">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../guide/">User’s Guide</a><input aria-label="Toggle navigation of User’s Guide" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../guide/tutorial/">Tutorial</a></li>
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/">Tutorial</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../guide/">Guides</a><input aria-label="Toggle navigation of Guides" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guide/isolation/">Isolating Target Execution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../guide/mapping/">Mapping over Inputs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../guide/configuration/">Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../guide/patterns/">Tips and Tricks</a></li>
@@ -247,12 +250,7 @@
         <article role="main" id="furo-main-content">
           <section id="executors">
 <span id="id1"></span><h1>Executors<a class="headerlink" href="#executors" title="Link to this heading">¶</a></h1>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Executors are currently only available for the Slurm backend. Setting an
-executor for other backends will not have any effect. Other backends will
-be supported in the near future.</p>
-</div>
+<p>Executors are supported by all built-in backends.</p>
 <p>Executors are used to enable runtime behavior for targets. This means that you
 can now use executors to run your target inside Conda, Pixi, Apptainer, and
 Singularity environments:</p>
@@ -295,8 +293,7 @@ available on the system.</p>
 <p>This executor will run specs inside the Conda environment specified by
 <cite>env</cite>. The executor does not create or update Conda environments for you,
 so the environment must already exist.</p>
-<p>The <cite>env</cite> can either be the name of a Conda environment (that can be looked
-up with <cite>conda env list</cite>) or a path to a Conda environment directory.</p>
+<p>The <cite>env</cite> is the name of a Conda environment, as shown by <cite>conda env list</cite>.</p>
 <p>If <cite>debug_mode</cite> is set to true, the executor will print detailed debug info
 when activating the environment and running the script.</p>
 <p>Conda must be installed and available on the system path, or the
@@ -314,6 +311,7 @@ assumed that there’s a Pixi project in the workflow root.</p>
 environment must already exist.</p>
 <p>The <cite>env</cite> is the name of the environment to run in and defaults to
 <cite>default</cite>.</p>
+<p>When specified, <cite>project</cite> must be an absolute path.</p>
 <p>If <cite>debug_mode</cite> is set to true, the executor will print detailed debug info
 when activating the environment and running the script.</p>
 <p>Pixi must be installed and available on the system path, or the
@@ -346,6 +344,12 @@ argument.</p>
 <p>If <cite>debug_mode</cite> is set to true, the executor will print detailed debug info
 when activating the environment and running the script.</p>
 <p>Apptainer must be available on the system path.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gwf.executors.render_exec_script">
+<span class="sig-prename descclassname"><span class="pre">gwf.executors.</span></span><span class="sig-name descname"><span class="pre">render_exec_script</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/gwf/executors/#render_exec_script"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.executors.render_exec_script" title="Link to this definition">¶</a></dt>
+<dd><p>Yield a job script that is interpreted by <code class="docutils literal notranslate"><span class="pre">gwf.exec</span></code>.</p>
 </dd></dl>
 
 </section>
@@ -413,6 +417,7 @@ when activating the environment and running the script.</p>
 <li><a class="reference internal" href="#gwf.executors.Pixi"><code class="docutils literal notranslate"><span class="pre">Pixi</span></code></a></li>
 <li><a class="reference internal" href="#gwf.executors.Singularity"><code class="docutils literal notranslate"><span class="pre">Singularity</span></code></a></li>
 <li><a class="reference internal" href="#gwf.executors.Apptainer"><code class="docutils literal notranslate"><span class="pre">Apptainer</span></code></a></li>
+<li><a class="reference internal" href="#gwf.executors.render_exec_script"><code class="docutils literal notranslate"><span class="pre">render_exec_script()</span></code></a></li>
 </ul>
 </li>
 </ul>

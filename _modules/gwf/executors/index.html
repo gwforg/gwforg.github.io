@@ -190,8 +190,11 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../guide/">User’s Guide</a><input aria-label="Toggle navigation of User’s Guide" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../guide/tutorial/">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/">Tutorial</a></li>
+</ul>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../guide/">Guides</a><input aria-label="Toggle navigation of Guides" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../guide/isolation/">Isolating Target Execution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../guide/mapping/">Mapping over Inputs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../guide/configuration/">Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../guide/patterns/">Tips and Tricks</a></li>
@@ -241,12 +244,15 @@
           <h1>Source code for gwf.executors</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">attrs</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">base64</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">io</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">prettyprinter</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">Iterable</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">contextmanager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Protocol</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">GWFError</span>
 
@@ -256,8 +262,20 @@
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_resolve_image_path</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">working_dir</span><span class="p">):</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">fspath</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isabs</span><span class="p">(</span><span class="n">image</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;://&quot;</span> <span class="ow">in</span> <span class="n">image</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">image</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">image</span><span class="p">))</span>
+
+
 <span class="k">class</span><span class="w"> </span><span class="nc">Executor</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">workflow_root</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_isolated_command</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">spec_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">workflow_root</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">source_working_dir</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">return</span> <span class="p">[]</span>
 
 
@@ -273,7 +291,12 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">get_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">workflow_root</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">spec_path</span><span class="p">]</span></div>
+        <span class="k">return</span> <span class="p">[</span><span class="n">spec_path</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_isolated_command</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">spec_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">workflow_root</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">source_working_dir</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_command</span><span class="p">(</span><span class="n">spec_path</span><span class="p">,</span> <span class="n">workflow_root</span><span class="p">)</span></div>
 
 
 
@@ -287,8 +310,7 @@
 <span class="sd">    `env`. The executor does not create or update Conda environments for you,</span>
 <span class="sd">    so the environment must already exist.</span>
 
-<span class="sd">    The `env` can either be the name of a Conda environment (that can be looked</span>
-<span class="sd">    up with `conda env list`) or a path to a Conda environment directory.</span>
+<span class="sd">    The `env` is the name of a Conda environment, as shown by `conda env list`.</span>
 
 <span class="sd">    If `debug_mode` is set to true, the executor will print detailed debug info</span>
 <span class="sd">    when activating the environment and running the script.</span>
@@ -314,7 +336,12 @@
             <span class="s2">&quot;-n&quot;</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">,</span>
             <span class="n">spec_path</span><span class="p">,</span>
-        <span class="p">]</span></div>
+        <span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_isolated_command</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">spec_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">workflow_root</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">source_working_dir</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_command</span><span class="p">(</span><span class="n">spec_path</span><span class="p">,</span> <span class="n">workflow_root</span><span class="p">)</span></div>
 
 
 
@@ -334,6 +361,8 @@
 <span class="sd">    The `env` is the name of the environment to run in and defaults to</span>
 <span class="sd">    `default`.</span>
 
+<span class="sd">    When specified, `project` must be an absolute path.</span>
+
 <span class="sd">    If `debug_mode` is set to true, the executor will print detailed debug info</span>
 <span class="sd">    when activating the environment and running the script.</span>
 
@@ -344,6 +373,11 @@
     <span class="n">project</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
     <span class="n">env</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;default&quot;</span><span class="p">)</span>
     <span class="n">debug_mode</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="nd">@project</span><span class="o">.</span><span class="n">validator</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_validate_project</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isabs</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">GWFError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Pixi project path must be absolute, got </span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">get_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">workflow_root</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="n">pixi_exe</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;PIXI_EXE&quot;</span><span class="p">,</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="s2">&quot;pixi&quot;</span><span class="p">))</span>
@@ -362,7 +396,12 @@
             <span class="s2">&quot;--manifest-path&quot;</span><span class="p">,</span>
             <span class="n">manifest_path</span><span class="p">,</span>
             <span class="n">spec_path</span><span class="p">,</span>
-        <span class="p">]</span></div>
+        <span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_isolated_command</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">spec_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">workflow_root</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">source_working_dir</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_command</span><span class="p">(</span><span class="n">spec_path</span><span class="p">,</span> <span class="n">workflow_root</span><span class="p">)</span></div>
 
 
 
@@ -401,7 +440,13 @@
             <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">flags</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="p">,</span>
             <span class="n">spec_path</span><span class="p">,</span>
-        <span class="p">]</span></div>
+        <span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_isolated_command</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">spec_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">workflow_root</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">source_working_dir</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">_resolve_image_path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="n">source_working_dir</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">attrs</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">)</span><span class="o">.</span><span class="n">get_command</span><span class="p">(</span><span class="n">spec_path</span><span class="p">,</span> <span class="n">workflow_root</span><span class="p">)</span></div>
 
 
 
@@ -433,7 +478,13 @@
         <span class="k">if</span> <span class="n">apptainer_exe</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">GWFError</span><span class="p">(</span><span class="s2">&quot;Could not find apptainer installation&quot;</span><span class="p">)</span>
         <span class="n">debug_flags</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;--debug&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug_mode</span> <span class="k">else</span> <span class="p">[]</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">apptainer_exe</span><span class="p">,</span> <span class="o">*</span><span class="n">debug_flags</span><span class="p">,</span> <span class="s2">&quot;exec&quot;</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">flags</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="n">spec_path</span><span class="p">]</span></div>
+        <span class="k">return</span> <span class="p">[</span><span class="n">apptainer_exe</span><span class="p">,</span> <span class="o">*</span><span class="n">debug_flags</span><span class="p">,</span> <span class="s2">&quot;exec&quot;</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">flags</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="n">spec_path</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_isolated_command</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">spec_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">workflow_root</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">source_working_dir</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">_resolve_image_path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="n">source_working_dir</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">attrs</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">)</span><span class="o">.</span><span class="n">get_command</span><span class="p">(</span><span class="n">spec_path</span><span class="p">,</span> <span class="n">workflow_root</span><span class="p">)</span></div>
 
 
 
@@ -476,6 +527,19 @@
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;#GWF DATA&quot;</span><span class="p">,</span> <span class="n">pickled</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="n">data_width</span><span class="p">],</span> <span class="n">file</span><span class="o">=</span><span class="n">file</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;#GWF END&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">file</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">file</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="render_exec_script">
+<a class="viewcode-back" href="../../../executors/#gwf.executors.render_exec_script">[docs]</a>
+<span class="nd">@contextmanager</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">render_exec_script</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Yield a job script that is interpreted by ``gwf.exec``.&quot;&quot;&quot;</span>
+    <span class="n">buffer</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;#!</span><span class="si">{</span><span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="si">}</span><span class="s2"> -mgwf.exec&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">buffer</span><span class="p">)</span>
+    <span class="k">yield</span> <span class="n">buffer</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">buffer</span><span class="p">)</span>
+    <span class="n">serialize</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span></div>
+
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">deserialize</span><span class="p">(</span><span class="n">script_file</span><span class="p">):</span>

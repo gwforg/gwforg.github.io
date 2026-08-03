@@ -190,9 +190,12 @@
   <input type="hidden" name="area" value="default">
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
-  <ul class="current">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../guide/">User’s Guide</a><input aria-label="Toggle navigation of User’s Guide" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../guide/tutorial/">Tutorial</a></li>
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/">Tutorial</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../guide/">Guides</a><input aria-label="Toggle navigation of Guides" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guide/isolation/">Isolating Target Execution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../guide/mapping/">Mapping over Inputs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../guide/configuration/">Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../guide/patterns/">Tips and Tricks</a></li>
@@ -256,8 +259,8 @@ source of inspiration.</p>
 <span id="local"></span><h2>Local<a class="headerlink" href="#module-gwf.backends.local" title="Link to this heading">¶</a></h2>
 <p>Backend that runs targets on a local cluster.</p>
 <p>To use this backend you must activate the <cite>local</cite> backend and start a local
-cluster (with one or more workers) that the backend can submit targets to. To
-start a cluster with two workers run the command:</p>
+scheduler that the backend can submit targets to. To make two cores available
+to the scheduler, run the command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gwf</span> <span class="o">-</span><span class="n">b</span> <span class="n">local</span> <span class="n">workers</span> <span class="o">-</span><span class="n">n</span> <span class="mi">2</span>
 </pre></div>
 </div>
@@ -271,27 +274,34 @@ locate the workflow:</p>
 <p>If the local backend is your default backend you can of course omit the
 <code class="docutils literal notranslate"><span class="pre">-b</span> <span class="pre">local</span></code> option.</p>
 <p>If the <code class="docutils literal notranslate"><span class="pre">-n</span></code> option is omitted, <em>gwf</em> will detect the number of cores available
-and use all of them.</p>
+and use all of them. The scheduler uses the system’s physical memory by default;
+use <code class="docutils literal notranslate"><span class="pre">--max-memory</span></code> to set another capacity.</p>
 <p>To run your workflow, open another terminal and then type:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gwf</span> <span class="o">-</span><span class="n">b</span> <span class="n">local</span> <span class="n">run</span>
 </pre></div>
 </div>
-<p>To stop the pool of workers press <kbd class="kbd docutils literal notranslate">Control</kbd>-<kbd class="kbd docutils literal notranslate">c</kbd>.</p>
-<p><strong>Backend options:</strong></p>
+<p>To stop the scheduler press <kbd class="kbd docutils literal notranslate">Control</kbd>-<kbd class="kbd docutils literal notranslate">c</kbd>.</p>
+<p>The scheduler communicates over a per-workflow Unix domain socket under
+<code class="docutils literal notranslate"><span class="pre">$XDG_RUNTIME_DIR/gwf</span></code>. If <code class="docutils literal notranslate"><span class="pre">XDG_RUNTIME_DIR</span></code> is unavailable, <em>gwf</em> uses a
+private directory under the system temporary directory.</p>
+<p><strong>Target options:</strong></p>
 <ul class="simple">
 <li><dl class="simple">
-<dt><strong>local.host (str):</strong> Set the host that the workers are running on</dt><dd><p>(default: localhost).</p>
+<dt><strong>cores (int):</strong></dt><dd><p>Number of cores allocated to this target (default: 1).</p>
 </dd>
 </dl>
 </li>
 <li><dl class="simple">
-<dt><strong>local.port (int):</strong> Set the port used to connect to the workers</dt><dd><p>(default: 12345).</p>
+<dt><strong>memory (str):</strong></dt><dd><p>Memory allocated to this target (default: 1g).</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>walltime (str):</strong></dt><dd><p>Wall-clock time limit, <code class="docutils literal notranslate"><span class="pre">HH:MM:SS</span></code> (default: <code class="docutils literal notranslate"><span class="pre">01:00:00</span></code>).</p>
 </dd>
 </dl>
 </li>
 </ul>
-<p><strong>Target options:</strong></p>
-<p>None available.</p>
 </section>
 <section id="module-gwf.backends.slurm">
 <span id="slurm"></span><span id="slurm-backend"></span><h2>Slurm<a class="headerlink" href="#module-gwf.backends.slurm" title="Link to this heading">¶</a></h2>

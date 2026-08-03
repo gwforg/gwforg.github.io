@@ -190,8 +190,11 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../guide/">User’s Guide</a><input aria-label="Toggle navigation of User’s Guide" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../guide/tutorial/">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/">Tutorial</a></li>
+</ul>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../guide/">Guides</a><input aria-label="Toggle navigation of Guides" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../guide/isolation/">Isolating Target Execution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../guide/mapping/">Mapping over Inputs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../guide/configuration/">Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../guide/patterns/">Tips and Tricks</a></li>
@@ -256,10 +259,17 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">click</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">executors</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.exec</span><span class="w"> </span><span class="kn">import</span> <span class="n">IsolationConfig</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">GWFError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_valid_name</span><span class="p">,</span> <span class="n">timer</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_isolation_config</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">IsolationConfig</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">value</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_flatten</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
@@ -432,6 +442,8 @@
 <span class="sd">    :ivar set protect:</span>
 <span class="sd">        An iterable of protected files which will not be removed during</span>
 <span class="sd">        cleaning, even if this target is not an endpoint.</span>
+<span class="sd">    :ivar isolation:</span>
+<span class="sd">        Configuration for running the target in a clean temporary directory.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">inputs</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
@@ -442,6 +454,13 @@
     <span class="n">protect</span><span class="p">:</span> <span class="nb">set</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">factory</span><span class="o">=</span><span class="nb">set</span><span class="p">,</span> <span class="n">converter</span><span class="o">=</span><span class="nb">set</span><span class="p">)</span>
     <span class="n">executor</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">executors</span><span class="o">.</span><span class="n">Executor</span><span class="p">]</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
     <span class="n">spec</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">isolation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">IsolationConfig</span><span class="p">]</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">converter</span><span class="o">=</span><span class="n">_isolation_config</span><span class="p">,</span>
+        <span class="n">validator</span><span class="o">=</span><span class="n">attrs</span><span class="o">.</span><span class="n">validators</span><span class="o">.</span><span class="n">optional</span><span class="p">(</span>
+            <span class="n">attrs</span><span class="o">.</span><span class="n">validators</span><span class="o">.</span><span class="n">instance_of</span><span class="p">(</span><span class="n">IsolationConfig</span><span class="p">)</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__attrs_post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">group</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -505,6 +524,11 @@
 <span class="sd">    To see which options are supported by your backend of choice, see the</span>
 <span class="sd">    documentation for the backend.</span>
 
+<span class="sd">    Isolation is runtime configuration rather than a backend option. When</span>
+<span class="sd">    enabled, the target runs in a clean temporary directory containing its</span>
+<span class="sd">    declared inputs, and declared outputs are copied or moved to the workflow</span>
+<span class="sd">    directory after it succeeds.</span>
+
 <span class="sd">    :ivar str name:</span>
 <span class="sd">        Name of the target.</span>
 
@@ -525,6 +549,13 @@
     <span class="n">protect</span><span class="p">:</span> <span class="nb">set</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">factory</span><span class="o">=</span><span class="nb">set</span><span class="p">,</span> <span class="n">converter</span><span class="o">=</span><span class="nb">set</span><span class="p">)</span>
     <span class="n">executor</span><span class="p">:</span> <span class="n">executors</span><span class="o">.</span><span class="n">Executor</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">factory</span><span class="o">=</span><span class="n">executors</span><span class="o">.</span><span class="n">Bash</span><span class="p">)</span>
     <span class="n">spec</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">isolation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">IsolationConfig</span><span class="p">]</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">converter</span><span class="o">=</span><span class="n">_isolation_config</span><span class="p">,</span>
+        <span class="n">validator</span><span class="o">=</span><span class="n">attrs</span><span class="o">.</span><span class="n">validators</span><span class="o">.</span><span class="n">optional</span><span class="p">(</span>
+            <span class="n">attrs</span><span class="o">.</span><span class="n">validators</span><span class="o">.</span><span class="n">instance_of</span><span class="p">(</span><span class="n">IsolationConfig</span><span class="p">)</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
     <span class="n">order</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="n">_creation_order</span> <span class="o">=</span> <span class="mi">0</span>

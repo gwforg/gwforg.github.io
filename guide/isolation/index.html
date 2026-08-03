@@ -3,10 +3,10 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../../genindex/"><link rel="search" title="Search" href="../../search/"><link rel="next" title="Tips and Tricks" href="../patterns/"><link rel="prev" title="Mapping over Inputs" href="../mapping/">
+<link rel="index" title="Index" href="../../genindex/"><link rel="search" title="Search" href="../../search/"><link rel="next" title="Mapping over Inputs" href="../mapping/"><link rel="prev" title="Guides" href="../">
 
     <!-- Generated with Sphinx 9.1.0 and Furo 2025.12.19 -->
-        <title>Configuration - gwf 2.1.1 documentation</title>
+        <title>Isolating Target Execution - gwf 2.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -195,9 +195,9 @@
 </ul>
 <ul class="current">
 <li class="toctree-l1 current has-children"><a class="reference internal" href="../">Guides</a><input aria-label="Toggle navigation of Guides" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../isolation/">Isolating Target Execution</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Isolating Target Execution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../mapping/">Mapping over Inputs</a></li>
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../configuration/">Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../patterns/">Tips and Tricks</a></li>
 </ul>
 </li>
@@ -230,7 +230,7 @@
         </a>
         <div class="content-icon-container">
           <div class="view-this-page">
-  <a class="muted-link" href="../../_sources/guide/configuration.rst.txt" title="View this page">
+  <a class="muted-link" href="../../_sources/guide/isolation.rst.txt" title="View this page">
     <svg><use href="#svg-eye"></use></svg>
     <span class="visually-hidden">View this page</span>
   </a>
@@ -248,47 +248,150 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="configuration">
-<span id="id1"></span><h1>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">¶</a></h1>
-<p>Configuration of <em>gwf</em> is project-specific and thus all configuration must be
-done in the project directory where the workflow file is located.</p>
-<section id="commands-for-configuration">
-<h2>Commands for Configuration<a class="headerlink" href="#commands-for-configuration" title="Link to this heading">¶</a></h2>
-<p>To see the value of a configuration key, use:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>gwf<span class="w"> </span>config<span class="w"> </span>get<span class="w"> </span>KEY
+          <section id="isolating-target-execution">
+<span id="target-isolation"></span><h1>Isolating Target Execution<a class="headerlink" href="#isolating-target-execution" title="Link to this heading">¶</a></h1>
+<p>Target isolation gives a target a deliberately constrained execution
+environment. Its purpose is to make workflows more reproducible by exposing
+hidden dependencies: a target should depend on its declared inputs, create its
+declared outputs, and only use network access when that access is intentional.</p>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Target isolation is <em>not</em> enabled by default.</p>
+</div>
+<p>For an isolated target, <em>gwf</em> constructs a working directory from the declared
+inputs and blocks network access by default. After a successful run, only
+declared outputs are transferred back to the workflow directory, while other
+files created by the target are discarded.</p>
+<p>Enable isolation for a target by passing an <code class="xref py py-class docutils literal notranslate"><span class="pre">IsolationConfig</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">gwf</span><span class="w"> </span><span class="kn">import</span> <span class="n">IsolationConfig</span>
+
+<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span>
+    <span class="s2">&quot;Analyze&quot;</span><span class="p">,</span>
+    <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;data/input.txt&quot;</span><span class="p">],</span>
+    <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;results/output.txt&quot;</span><span class="p">],</span>
+    <span class="n">isolation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">analyze data/input.txt &gt; results/output.txt</span>
+<span class="s2">&quot;&quot;&quot;</span>
 </pre></div>
 </div>
-<p>To set the value of a key (or update it, if it already exists):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>gwf<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span>KEY<span class="w"> </span>VALUE
-</pre></div>
-</div>
-<p>Keys are often of the form <code class="docutils literal notranslate"><span class="pre">this.is.a.key</span></code>. For example, to use the Slurm
-backend, run:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>gwf<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span>backend<span class="w"> </span>slurm
-</pre></div>
-</div>
-<p>The local backend has no host or port setting. Its scheduler communicates over
-a per-workflow Unix domain socket under <code class="docutils literal notranslate"><span class="pre">$XDG_RUNTIME_DIR/gwf</span></code>. If
-<code class="docutils literal notranslate"><span class="pre">XDG_RUNTIME_DIR</span></code> is unavailable, <em>gwf</em> uses a private directory under the
-system temporary directory.</p>
-<p>Your configuration is stored in the current working directory, which will
-usually be your project directory, in a file called <code class="docutils literal notranslate"><span class="pre">.gwfconf.json</span></code>. This
-means that all configuration is project-specific, which helps with
-reproducibility. You can inspect and change the file directly, but this is not
-recommended unless you really know what you’re doing.</p>
-<p>Core settings are listed in the section below. To see which options are
-available for a specific backend, refer to the <a class="reference internal" href="../../backends/#backends"><span class="std std-ref">Backends</span></a> documentation.</p>
-</section>
-<section id="available-settings">
-<h2>Available Settings<a class="headerlink" href="#available-settings" title="Link to this heading">¶</a></h2>
-<p>This page lists settings that are used by <em>gwf</em>. Backends and plugins may define
-their own settings, but these are documented for each backend/plugin
-individually. See <a class="reference internal" href="#configuration"><span class="std std-ref">Configuration</span></a> if in doubt about how to configure <em>gwf</em>.</p>
+<p>For the default isolation settings, <code class="docutils literal notranslate"><span class="pre">isolation=True</span></code> is equivalent to
+<code class="docutils literal notranslate"><span class="pre">isolation=IsolationConfig()</span></code>, which disables network access and runs the
+target in an isolated, temporary directory with input files symlinked and
+declared outputs moved back to the workflow directory after a successful run.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">isolation</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code> (the default), the target runs in its original
+working directory without isolation.</p>
+<p>The isolated directory exists only for the duration of the target. <em>gwf</em>
+removes it after the command finishes and the declared outputs have been
+handled. Set <code class="docutils literal notranslate"><span class="pre">network=True</span></code> to retain normal network access for a target.</p>
+<p>Inputs and outputs must currently be regular files. Directory inputs and
+outputs are not supported.</p>
+<p>Declared outputs are copied or moved from the temporary directory to their
+configured paths in the workflow directory only after the target command
+completes successfully.</p>
+<p>Input and output paths must be relative paths within the workflow directory.
+Absolute paths and paths containing a <code class="docutils literal notranslate"><span class="pre">..</span></code> component are not supported for
+an isolated target. Commands should use the same relative paths that are
+declared in <code class="docutils literal notranslate"><span class="pre">inputs</span></code> and <code class="docutils literal notranslate"><span class="pre">outputs</span></code>.</p>
+<section id="configuring-file-transfers">
+<h2>Configuring File Transfers<a class="headerlink" href="#configuring-file-transfers" title="Link to this heading">¶</a></h2>
+<p>The transfer method can be configured for each target. The valid options are:</p>
 <ul class="simple">
-<li><p><strong>backend (str):</strong> Set the backend. Corresponds to the <code class="docutils literal notranslate"><span class="pre">--backend</span></code> flag (default: <cite>local</cite>).</p></li>
-<li><p><strong>verbose (str):</strong> Set the verbosity. Corresponds to the <code class="docutils literal notranslate"><span class="pre">--verbose</span></code> flag (default: <cite>info</cite>).</p></li>
-<li><p><strong>no_color (bool):</strong> If <cite>true</cite>, colors will not be used (default: <cite>false</cite>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">inputs=&quot;symlink&quot;</span></code> creates a symlink to each declared input (default).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">inputs=&quot;copy&quot;</span></code> copies each declared input into the temporary directory (
+also known as staging).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">outputs=&quot;move&quot;</span></code> moves each declared output to its path in the workflow
+directory (default).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">outputs=&quot;copy&quot;</span></code> copies each declared output to its path in the workflow
+directory.</p></li>
 </ul>
+<p>For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span>
+    <span class="s2">&quot;Analyze&quot;</span><span class="p">,</span>
+    <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;data/input.txt&quot;</span><span class="p">],</span>
+    <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;results/output.txt&quot;</span><span class="p">],</span>
+    <span class="n">isolation</span><span class="o">=</span><span class="n">IsolationConfig</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="s2">&quot;symlink&quot;</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="s2">&quot;copy&quot;</span><span class="p">),</span>
+<span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">analyze data/input.txt &gt; results/output.txt</span>
+<span class="s2">&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+<p>Copying inputs gives the target independent files. Symlinking is faster and
+uses less temporary disk space, but the links still refer to the original
+files.</p>
+<p>Moving outputs avoids an extra copy and is therefore the default. Thus, the
+default configuration is:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">isolation</span><span class="o">=</span><span class="n">IsolationConfig</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="s2">&quot;symlink&quot;</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="s2">&quot;move&quot;</span><span class="p">,</span> <span class="n">network</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>While copying or symlinking inputs and copying or moving declared outputs,
+<em>gwf</em> logs each operation and its duration to standard error. These messages
+make it possible to identify slow file transfers and see which paths were
+handled.</p>
+</section>
+<section id="choosing-the-temporary-directory-root">
+<h2>Choosing the Temporary Directory Root<a class="headerlink" href="#choosing-the-temporary-directory-root" title="Link to this heading">¶</a></h2>
+<p>By default, isolated directories are created in the system temporary directory.
+Set <code class="docutils literal notranslate"><span class="pre">root</span></code> to place them under another directory, such as node-local scratch
+storage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">isolation</span><span class="o">=</span><span class="n">IsolationConfig</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s2">&quot;/scratch&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Each target gets a unique temporary directory below this root. Setting this to a
+node-local scratch directory and setting <code class="docutils literal notranslate"><span class="pre">inputs=&quot;copy&quot;</span></code> effectively enables
+staging of the input files, which can help avoid a lot of I/O-related issues.</p>
+<p>The configured root must already exist and be writable on the machine where the
+target runs. <em>gwf</em> removes the target-specific directory after execution, but
+does not remove the configured root.</p>
+<p>A relative <code class="docutils literal notranslate"><span class="pre">root</span></code> is resolved relative to the target’s original working
+directory.</p>
+</section>
+<section id="workflow-defaults">
+<h2>Workflow Defaults<a class="headerlink" href="#workflow-defaults" title="Link to this heading">¶</a></h2>
+<p>Isolation can be enabled for every target by setting a workflow default:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">gwf</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">(</span><span class="n">defaults</span><span class="o">=</span><span class="p">{</span>
+    <span class="s2">&quot;isolation&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+<p>Individual targets may replace the default configuration:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span>
+    <span class="s2">&quot;LargeInput&quot;</span><span class="p">,</span>
+    <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;large-input.dat&quot;</span><span class="p">],</span>
+    <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;result.dat&quot;</span><span class="p">],</span>
+    <span class="n">isolation</span><span class="o">=</span><span class="n">IsolationConfig</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="s2">&quot;symlink&quot;</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="s2">&quot;move&quot;</span><span class="p">),</span>
+<span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">process large-input.dat &gt; result.dat</span>
+<span class="s2">&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="network-access">
+<h2>Network Access<a class="headerlink" href="#network-access" title="Link to this heading">¶</a></h2>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Blocking network access requires unprivileged user namespaces to be enabled
+on the execution host. This is commonly available on current Linux systems,
+but may be disabled by system administrators.</p>
+</div>
+<p>Network access is blocked by default for isolated targets. This restriction
+also applies while an executor such as Conda, Pixi, Apptainer, or Singularity
+starts the target. Environments and container images must therefore already be
+available locally.</p>
+<p>To allow normal network access for a target, set <code class="docutils literal notranslate"><span class="pre">network=True</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span>
+    <span class="s2">&quot;Download&quot;</span><span class="p">,</span>
+    <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span>
+    <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;downloaded.dat&quot;</span><span class="p">],</span>
+    <span class="n">isolation</span><span class="o">=</span><span class="n">IsolationConfig</span><span class="p">(</span><span class="n">network</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+<span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">download-data &gt; downloaded.dat</span>
+<span class="s2">&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+<p>Blocking network access by default provides some protection against supply-chain
+attacks and malicious software, but be aware that this isolation is not a
+full-blown security boundary.</p>
 </section>
 </section>
 
@@ -297,23 +400,23 @@ individually. See <a class="reference internal" href="#configuration"><span clas
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="../patterns/">
+          <a class="next-page" href="../mapping/">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Tips and Tricks</div>
+                <div class="title">Mapping over Inputs</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="../mapping/">
+          <a class="prev-page" href="../">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Mapping over Inputs</div>
+                <div class="title">Guides</div>
                 
               </div>
             </a>
@@ -347,9 +450,11 @@ individually. See <a class="reference internal" href="#configuration"><span clas
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Configuration</a><ul>
-<li><a class="reference internal" href="#commands-for-configuration">Commands for Configuration</a></li>
-<li><a class="reference internal" href="#available-settings">Available Settings</a></li>
+<li><a class="reference internal" href="#">Isolating Target Execution</a><ul>
+<li><a class="reference internal" href="#configuring-file-transfers">Configuring File Transfers</a></li>
+<li><a class="reference internal" href="#choosing-the-temporary-directory-root">Choosing the Temporary Directory Root</a></li>
+<li><a class="reference internal" href="#workflow-defaults">Workflow Defaults</a></li>
+<li><a class="reference internal" href="#network-access">Network Access</a></li>
 </ul>
 </li>
 </ul>

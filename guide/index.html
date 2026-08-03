@@ -3,10 +3,10 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex/"><link rel="search" title="Search" href="../search/"><link rel="next" title="Tutorial" href="tutorial/"><link rel="prev" title="Welcome to gwf" href="../">
+<link rel="index" title="Index" href="../genindex/"><link rel="search" title="Search" href="../search/"><link rel="next" title="Isolating Target Execution" href="isolation/"><link rel="prev" title="Tutorial" href="../tutorial/">
 
     <!-- Generated with Sphinx 9.1.0 and Furo 2025.12.19 -->
-        <title>User’s Guide - gwf 2.1.1 documentation</title>
+        <title>Guides - gwf 2.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -190,9 +190,12 @@
   <input type="hidden" name="area" value="default">
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
-  <ul class="current">
-<li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">User’s Guide</a><input aria-label="Toggle navigation of User’s Guide" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/">Tutorial</a></li>
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/">Tutorial</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">Guides</a><input aria-label="Toggle navigation of Guides" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="isolation/">Isolating Target Execution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mapping/">Mapping over Inputs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="configuration/">Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="patterns/">Tips and Tricks</a></li>
@@ -245,27 +248,15 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="user-s-guide">
-<h1>User’s Guide<a class="headerlink" href="#user-s-guide" title="Link to this heading">¶</a></h1>
+          <section id="guides">
+<h1>Guides<a class="headerlink" href="#guides" title="Link to this heading">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="tutorial/">Tutorial</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/#a-minimal-workflow">A Minimal Workflow</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/#running-your-first-workflow">Running Your First Workflow</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/#setting-the-default-verbosity">Setting the Default Verbosity</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/#debugging-a-workflow">Debugging a Workflow</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/#defining-targets-with-dependencies">Defining Targets with Dependencies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/#named-inputs-and-outputs">Named Inputs and Outputs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/#specifying-target-resources">Specifying Target Resources</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/#observing-target-execution">Observing Target Execution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/#what-happens-when-a-target-fails">What Happens When a Target Fails?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/#reusable-targets-with-templates">Reusable Targets with Templates</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/#viewing-logs">Viewing Logs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/#cleaning-up">Cleaning Up</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/#protecting-files-from-being-cleaned-up">Protecting Files From Being Cleaned Up</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/#automatically-load-software-environments">Automatically Load Software Environments</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/#partial-workflow-execution">Partial Workflow Execution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/#a-note-about-reproducibility">A Note About Reproducibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="isolation/">Isolating Target Execution</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="isolation/#configuring-file-transfers">Configuring File Transfers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="isolation/#choosing-the-temporary-directory-root">Choosing the Temporary Directory Root</a></li>
+<li class="toctree-l2"><a class="reference internal" href="isolation/#workflow-defaults">Workflow Defaults</a></li>
+<li class="toctree-l2"><a class="reference internal" href="isolation/#network-access">Network Access</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="mapping/">Mapping over Inputs</a><ul>
@@ -296,23 +287,23 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="tutorial/">
+          <a class="next-page" href="isolation/">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Tutorial</div>
+                <div class="title">Isolating Target Execution</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="../">
+          <a class="prev-page" href="../tutorial/">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Home</div>
+                <div class="title">Tutorial</div>
                 
               </div>
             </a>

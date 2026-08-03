@@ -120,8 +120,8 @@ for small workflows that don't require a lot of resources.
 
         $ gwf config set backend slurm
 
-    Now that you're using the Slurm backend you don't have to start any
-    workers. That is, just skip the step below.
+    Now that you're using the Slurm backend you don't have to start the local
+    scheduler. That is, just skip the step below.
 
 First, open another terminal window and navigate to the ``myproject`` directory.
 Then run the command:
@@ -129,9 +129,11 @@ Then run the command:
 .. code-block:: console
 
     $ gwf workers
-    Started 4 workers, listening on port 12345
 
-This will start a pool of workers that *gwf* can now submit targets to.
+This starts the local scheduler with one core of capacity per detected CPU and
+the system's physical memory. Use ``--max-cores`` and ``--max-memory`` to
+choose other capacities. The scheduler communicates over a per-workflow Unix
+domain socket under ``$XDG_RUNTIME_DIR/gwf``.
 Switch back to the other terminal and then run:
 
 .. code-block:: console
@@ -140,8 +142,8 @@ Switch back to the other terminal and then run:
     Scheduling target MyTarget
     Submitting target MyTarget
 
-*gwf* schedules and then submits ``MyTarget`` to the pool of workers you started in
-the other terminal window.
+*gwf* schedules and then submits ``MyTarget`` to the local scheduler you
+started in the other terminal window.
 
 This says that *gwf* considered the target for execution and then decided to submit
 it to the backend (because the output file, ``greeting.txt``, does not
@@ -163,8 +165,8 @@ since all of the output files (only one in this case) exist.
 .. note::
 
     When you've completed this tutorial, you probably want to close the local
-    workers. To do this simply change to the terminal where you started the
-    workers and press :kbd:`Control-c`.
+    scheduler. To do this simply change to the terminal where you started it
+    and press :kbd:`Control-c`.
 
 Setting the Default Verbosity
 =============================
@@ -327,13 +329,14 @@ It's a good idea to specify the resources required by your target. Backends like
 Slurm will use these resource limits to allocate a suitable node for you,
 prioritize work, and cancel your targets if they exceed the given limits.
 
-The resources you can specify depend on the backend. For example, the `local`
-backend does not support any target options and will ignore them completely.
-The `slurm` backend supports a number of target options which are listed
-:ref:`here <slurm_backend>` under the **Target options** header.
+The resources you can specify depend on the backend. The local backend supports
+``cores``, ``memory``, and ``walltime``. It schedules targets when their
+requested cores and memory are available and stops targets that exceed their
+walltime. The Slurm backend supports these and additional target options, which
+are listed :ref:`here <slurm_backend>` under the **Target options** header.
 
-For example, if you are using the *slurm* backend you can specify that you need
-8 cores and 64 GB of memory like this:
+For example, you can specify that a target needs 8 cores and 64 GB of memory
+and may run for up to two hours like this:
 
 .. code-block:: python
 
@@ -343,10 +346,11 @@ For example, if you are using the *slurm* backend you can specify that you need
         outputs={'C': ['a1b', 'a2b'], 'D': 'd'},
         cores=8,
         memory='64gb',
+        walltime='02:00:00',
     )
 
     print(foo.options)
-    # => {'cores': 8, 'memory': '64gb'}
+    # => {'cores': 8, 'memory': '64gb', 'walltime': '02:00:00'}
 
 Some target options are global to the workflow. To request 8 cores for all
 targets in your workflow, you can give the `defaults` argument when initializing
@@ -364,6 +368,72 @@ your workflow:
 
     print(foo.options)
     # => {'cores': 8}
+
+
+Isolating Target Execution
+==========================
+
+By default, a target runs directly in the workflow directory and can access
+the network. This makes it possible for a target to accidentally depend on an
+undeclared file or download data that was not recorded as an input.
+
+Target isolation gives the target a temporary working directory containing its
+declared inputs. Network access is blocked, and only declared outputs are moved
+back to the workflow directory after the target succeeds. Other files created
+by the target are discarded with the temporary directory.
+
+Enable isolation with ``isolation=True``:
+
+.. code-block:: python
+
+    gwf.target(
+        'Analyze',
+        inputs=['data/reads.fastq'],
+        outputs=['results/report.txt'],
+        isolation=True,
+    ) << """
+    analyze data/reads.fastq > results/report.txt
+    """
+
+Isolation is intended to make targets more reproducible; it is not a security
+boundary for running untrusted software. See the :ref:`target isolation guide
+<target_isolation>` for configuration options and limitations.
+
+
+Staging Files on Compute Nodes
+==============================
+
+On a cluster, the workflow directory is often on a shared filesystem while
+compute nodes provide faster local scratch storage. Isolation can copy a
+target's inputs to this storage before execution and move its outputs back
+afterward. This reduces I/O against the shared filesystem while the target is
+running.
+
+Some clusters configure the system temporary directory to use node-local
+scratch, for example by setting ``TMPDIR`` for each job. On such a cluster,
+staging only requires ``inputs="copy"`` rather than the default symlink mode:
+
+.. code-block:: python
+
+    from gwf import IsolationConfig
+
+    gwf.target(
+        'Analyze',
+        inputs=['data/reads.fastq'],
+        outputs=['results/report.txt'],
+        isolation=IsolationConfig(inputs='copy'),
+    ) << """
+    analyze data/reads.fastq > results/report.txt
+    """
+
+If the system temporary directory is not node-local, set ``root`` explicitly,
+for example ``IsolationConfig(root='/scratch', inputs='copy')``. The configured
+scratch root must already exist and be writable on the compute node.
+
+*gwf* creates a separate temporary directory for each target, logs the file
+transfers to standard error, and removes the directory when the target
+finishes. The same configuration can be placed in ``Workflow(defaults={...})``
+to stage files for every target in a workflow.
 
 
 Observing Target Execution
@@ -530,7 +600,7 @@ encapsulate target creation logic. Let's walk through the example above.
     #. Activate the environment with ``source activate readmapping``.
     #. Open another terminal and navigate to the same directory.
     #. Activate the environment in this terminal too, using the same command as above.
-    #. Start a pool with two workers with ``gwf workers -n 2``.
+    #. Start the local scheduler with two cores using ``gwf workers -n 2``.
     #. Jump back to the first terminal. Configure *gwf* to use the local backend for this
        project using ``gwf config backend local``.
     #. You should now be able to run ``gwf status`` and all of the other *gwf* commands
@@ -539,7 +609,7 @@ encapsulate target creation logic. Let's walk through the example above.
 Our reference genome is stored in ``ponAbe2.fa.gz``, so we'll need to unzip it first.
 Let's write a template that unpacks files.
 
-.. literalinclude:: ../../examples/readmapping/workflow.py
+.. literalinclude:: ../examples/readmapping/workflow.py
    :pyobject: unzip
 
 This is just a normal Python function that returns an :class:`AnonymousTarget`.
@@ -564,7 +634,7 @@ the project directory.
 
 Let's now define another template for indexing a genome.
 
-.. literalinclude:: ../../examples/readmapping/workflow.py
+.. literalinclude:: ../examples/readmapping/workflow.py
    :pyobject: bwa_index
 
 This template looks more complicated, but really it's the same thing as before.
@@ -583,7 +653,7 @@ Let's use this template to create a target for indexing the reference genome::
 Finally, we'll create a template for actually mapping the reads to the
 reference.
 
-.. literalinclude:: ../../examples/readmapping/workflow.py
+.. literalinclude:: ../examples/readmapping/workflow.py
    :pyobject: bwa_map
 
 This is much the same as the previous template. Here's how we're going to use
@@ -688,11 +758,7 @@ Now, when running ``gwf clean``, the file ``d`` will not be deleted.
 Automatically Load Software Environments
 ========================================
 
-.. note::
-
-   Executors are currently only available for the Slurm backend. Setting an 
-   executor for other backends will not have any effect. Other backends will
-   be supported in the near future.
+Executors are supported by all built-in backends.
 
 Executors are used to enable runtime behavior for targets. This means that you
 can  use executors to run your target inside Conda, Pixi, Apptainer, and
@@ -728,8 +794,8 @@ You can read more about the available executors and how they can be configured
 Partial Workflow Execution
 ==========================
 
-Since version 2.2, gwf allows missing input files that are not provided
-by another target, and will simply skip targets with such input files (older 
+Starting with version 3.0.0, gwf allows missing input files that are not provided
+by another target, and will simply skip targets with such input files (older
 versions would error in such a situation).
 
 In practice this means that you can have workflows that are partially executed,
@@ -746,7 +812,7 @@ If ``blood.txt`` exists, but ``genome.fa`` is not available yet, only
 ``AnalyzeBlood`` and its dependents (``SummarizeLevels``) will be scheduled. The
 rest of the workflow will be skipped (the targets will have ``skipped`` status
 in the ``gwf status`` output). If at some point ``genome.fa`` becomes available
-and the workflow is run, ``AnalyzeGenome`` and ``BuiltReport`` will also be
+and the workflow is run, ``AnalyzeGenome`` and ``BuildReport`` will also be
 executed.
 
 A Note About Reproducibility
