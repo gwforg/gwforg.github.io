@@ -404,8 +404,15 @@
         <span class="k">return</span> <span class="n">NoopSpecHashes</span><span class="p">()</span>
 
 
+<div class="viewcode-block" id="Status">
+<a class="viewcode-back" href="../../../reference/#gwf.Status">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Status</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;BackendStatus of a target as computed by the Scheduler.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;BackendStatus of a target as computed by the Scheduler.</span>
+
+<span class="sd">    .. versionchanged:: 3.0.0</span>
+<span class="sd">        The :attr:`SKIPPED` status was added for targets that cannot run due to</span>
+<span class="sd">        missing external inputs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">SHOULDRUN</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1">#: The target should run.</span>
     <span class="n">SUBMITTED</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1">#: The target has been submitted, but is not currently running.</span>
@@ -413,7 +420,8 @@
     <span class="n">COMPLETED</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1">#: The target has completed and should not run.</span>
     <span class="n">FAILED</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c1">#: The target failed and should run again.</span>
     <span class="n">CANCELLED</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1">#: The target or one of its dependencies was cancelled.</span>
-    <span class="n">SKIPPED</span> <span class="o">=</span> <span class="mi">6</span>  <span class="c1">#: The target has been skipped due to missing input files.</span>
+    <span class="n">SKIPPED</span> <span class="o">=</span> <span class="mi">6</span>  <span class="c1">#: The target has been skipped due to missing input files.</span></div>
+
 
 
 <div class="viewcode-block" id="AnonymousTarget">
@@ -444,6 +452,10 @@
 <span class="sd">        cleaning, even if this target is not an endpoint.</span>
 <span class="sd">    :ivar isolation:</span>
 <span class="sd">        Configuration for running the target in a clean temporary directory.</span>
+
+<span class="sd">    .. versionchanged:: 3.0.0</span>
+<span class="sd">        Inputs and outputs may be :class:`pathlib.Path` objects, and</span>
+<span class="sd">        ``isolation`` may configure execution in a clean temporary directory.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">inputs</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>
@@ -495,9 +507,10 @@
 
 <span class="sd">        Target(&#39;Foo&#39;, inputs=[], outputs=[], options={}, working_dir=&#39;/tmp&#39;)</span>
 
-<span class="sd">    The *inputs* and *outputs* arguments can either be a string, a list or</span>
-<span class="sd">    a dictionary. If a dictionary is given, the keys act as names for the</span>
-<span class="sd">    files. The values may be either strings or a list of strings::</span>
+<span class="sd">    The *inputs* and *outputs* arguments can either be a path, a list or</span>
+<span class="sd">    a dictionary. Paths may be strings or :class:`pathlib.Path` objects. If a</span>
+<span class="sd">    dictionary is given, the keys act as names for the files. The values may</span>
+<span class="sd">    be either paths or a list of paths::</span>
 
 <span class="sd">        foo = Target(</span>
 <span class="sd">            name=&#39;foo&#39;,</span>
@@ -538,6 +551,10 @@
 <span class="sd">    .. versionchanged:: 1.6.0</span>
 <span class="sd">        Named inputs and outputs were added. Prior versions require *inputs*</span>
 <span class="sd">        and *outputs* to be lists.</span>
+
+<span class="sd">    .. versionchanged:: 3.0.0</span>
+<span class="sd">        Inputs and outputs may be :class:`pathlib.Path` objects, and targets</span>
+<span class="sd">        may be configured for isolated execution.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">field</span><span class="p">()</span>

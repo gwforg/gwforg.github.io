@@ -339,6 +339,8 @@
     <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">required</span><span class="p">)</span>
 
 
+<div class="viewcode-block" id="schedule">
+<a class="viewcode-back" href="../../../reference/#gwf.scheduling.schedule">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">schedule</span><span class="p">(</span>
     <span class="n">endpoints</span><span class="p">,</span>
     <span class="n">graph</span><span class="p">,</span>
@@ -350,6 +352,14 @@
     <span class="n">no_deps</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">require_all_outputs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Schedule targets and their dependencies for submission.</span>
+
+<span class="sd">    .. versionchanged:: 3.0.0</span>
+<span class="sd">        Targets with missing external inputs are marked</span>
+<span class="sd">        :attr:`~gwf.core.Status.SKIPPED`. When ``require_all_outputs`` is</span>
+<span class="sd">        false, dependencies are checked using only the outputs required by the</span>
+<span class="sd">        selected targets.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">required_outputs</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">require_all_outputs</span><span class="p">:</span>
         <span class="n">required_outputs</span> <span class="o">=</span> <span class="n">get_required_outputs</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">endpoints</span><span class="p">)</span>
@@ -423,7 +433,8 @@
     <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">endpoints</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="p">):</span>
         <span class="n">_cached_schedule</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">cache</span>
+    <span class="k">return</span> <span class="n">cache</span></div>
+
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_submit_dryrun</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">,</span> <span class="n">backend</span><span class="p">,</span> <span class="n">spec_hashes</span><span class="p">):</span>
@@ -493,7 +504,11 @@
     <span class="n">no_deps</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">require_all_outputs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Submit a workflow to a backend.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Submit a workflow to a backend.</span>
+
+<span class="sd">    .. versionchanged:: 3.0.0</span>
+<span class="sd">        ``require_all_outputs`` was added to support selective output checks.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">submit_func</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span>
         <span class="n">_submit_dryrun</span> <span class="k">if</span> <span class="n">dry_run</span> <span class="k">else</span> <span class="n">submit_backend</span><span class="p">,</span>
         <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span>
@@ -523,7 +538,12 @@
     <span class="n">endpoints</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">require_all_outputs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the status of each targets in the graph.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the status of each target in the graph.</span>
+
+<span class="sd">    .. versionchanged:: 3.0.0</span>
+<span class="sd">        The status map can include :attr:`~gwf.core.Status.SKIPPED`, and</span>
+<span class="sd">        ``require_all_outputs`` controls selective output checks.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">submit_func</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">_submit_noop</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span> <span class="n">spec_hashes</span><span class="o">=</span><span class="n">spec_hashes</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">schedule</span><span class="p">(</span>
         <span class="n">endpoints</span> <span class="k">if</span> <span class="n">endpoints</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">graph</span><span class="o">.</span><span class="n">endpoints</span><span class="p">(),</span>

@@ -271,6 +271,10 @@ backend, run:</p>
 a per-workflow Unix domain socket under <code class="docutils literal notranslate"><span class="pre">$XDG_RUNTIME_DIR/gwf</span></code>. If
 <code class="docutils literal notranslate"><span class="pre">XDG_RUNTIME_DIR</span></code> is unavailable, <em>gwf</em> uses a private directory under the
 system temporary directory.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0.0: </span>The local backend now uses a per-workflow Unix domain socket.
+<code class="docutils literal notranslate"><span class="pre">local.host</span></code> and <code class="docutils literal notranslate"><span class="pre">local.port</span></code> have been removed.</p>
+</div>
 <p>Your configuration is stored in the current working directory, which will
 usually be your project directory, in a file called <code class="docutils literal notranslate"><span class="pre">.gwfconf.json</span></code>. This
 means that all configuration is project-specific, which helps with
@@ -284,6 +288,10 @@ available for a specific backend, refer to the <a class="reference internal" hre
 <p>This page lists settings that are used by <em>gwf</em>. Backends and plugins may define
 their own settings, but these are documented for each backend/plugin
 individually. See <a class="reference internal" href="#configuration"><span class="std std-ref">Configuration</span></a> if in doubt about how to configure <em>gwf</em>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0.0: </span>The <code class="docutils literal notranslate"><span class="pre">require_all_outputs</span></code> setting was added for selective output checks
+during targeted runs.</p>
+</div>
 <ul class="simple">
 <li><p><strong>backend (str):</strong> Set the backend. Corresponds to the <code class="docutils literal notranslate"><span class="pre">--backend</span></code> flag (default: <cite>local</cite>).</p></li>
 <li><p><strong>verbose (str):</strong> Set the verbosity. Corresponds to the <code class="docutils literal notranslate"><span class="pre">--verbose</span></code> flag (default: <cite>info</cite>).</p></li>

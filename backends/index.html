@@ -258,6 +258,12 @@ source of inspiration.</p>
 <section id="module-gwf.backends.local">
 <span id="local"></span><h2>Local<a class="headerlink" href="#module-gwf.backends.local" title="Link to this heading">¶</a></h2>
 <p>Backend that runs targets on a local cluster.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0.0: </span>The local backend is now a resource-aware scheduler supporting target
+dependencies, cancellation, failure and timeout reporting, executors, and
+<code class="docutils literal notranslate"><span class="pre">cores</span></code>, <code class="docutils literal notranslate"><span class="pre">memory</span></code>, and <code class="docutils literal notranslate"><span class="pre">walltime</span></code> limits. It now communicates over a
+per-workflow Unix domain socket instead of a configurable TCP host/port.</p>
+</div>
 <p>To use this backend you must activate the <cite>local</cite> backend and start a local
 scheduler that the backend can submit targets to. To make two cores available
 to the scheduler, run the command:</p>
@@ -306,6 +312,10 @@ private directory under the system temporary directory.</p>
 <section id="module-gwf.backends.slurm">
 <span id="slurm"></span><span id="slurm-backend"></span><h2>Slurm<a class="headerlink" href="#module-gwf.backends.slurm" title="Link to this heading">¶</a></h2>
 <p>Backend for the Slurm workload manager.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0.0: </span><code class="docutils literal notranslate"><span class="pre">slurm_args</span></code> was added for passing extra arguments directly to
+<strong class="command">sbatch</strong>.</p>
+</div>
 <p>To use this backend you must activate the <cite>slurm</cite> backend.</p>
 <p><strong>Backend options:</strong></p>
 <ul class="simple">
@@ -389,6 +399,10 @@ that are not otherwise supported by <em>gwf</em>.</p>
 <section id="module-gwf.backends.sge">
 <span id="sun-grid-engine-sge"></span><h2>Sun Grid Engine (SGE)<a class="headerlink" href="#module-gwf.backends.sge" title="Link to this heading">¶</a></h2>
 <p>Backend for Sun Grid Engine (SGE).</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0.0: </span><code class="docutils literal notranslate"><span class="pre">sge_args</span></code> was added for passing extra arguments directly to
+<strong class="command">qsub</strong>, and executors are now supported.</p>
+</div>
 <p>To use this backend you must activate the <cite>sge</cite> backend. The backend
 currently assumes that a SGE parallel environment called “smp” is
 available. You can check which parallel environments are available on your
@@ -435,6 +449,10 @@ are not otherwise supported by <em>gwf</em>.</p>
 <section id="module-gwf.backends.lsf">
 <span id="ibm-spectrum-load-sharing-facility-lsf"></span><h2>IBM Spectrum Load Sharing Facility (LSF)<a class="headerlink" href="#module-gwf.backends.lsf" title="Link to this heading">¶</a></h2>
 <p>Backend for IBM Load Sharing Facility (LSF).</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0.0: </span><code class="docutils literal notranslate"><span class="pre">lsf_args</span></code> was added for passing extra arguments directly to
+<strong class="command">bsub</strong>, and executors are now supported.</p>
+</div>
 <p>To use this backend, you must activate the <cite>lsf</cite> backend. This backend requires
 the commands <cite>bsub</cite> and <cite>bjobs</cite>.</p>
 <p><strong>Backend options:</strong></p>
@@ -468,6 +486,10 @@ are not otherwise supported by <em>gwf</em>.</p>
 <section id="module-gwf.backends.pbs">
 <span id="portable-batch-system-pbs"></span><h2>Portable Batch System (PBS)<a class="headerlink" href="#module-gwf.backends.pbs" title="Link to this heading">¶</a></h2>
 <p>Backend for Portable Batch System (PBS).</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0.0: </span><code class="docutils literal notranslate"><span class="pre">walltime</span></code>, <code class="docutils literal notranslate"><span class="pre">account</span></code>, and <code class="docutils literal notranslate"><span class="pre">pbs_args</span></code> target options were added, and
+executors are now supported.</p>
+</div>
 <p>To use this backend, you must activate the <cite>pbs</cite> backend. This backend requires
 the commands <cite>qsub</cite> and <cite>qstat</cite>.</p>
 <p><strong>Backend options:</strong></p>

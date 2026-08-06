@@ -285,6 +285,29 @@ cleaning, even if this target is not an endpoint.</p></li>
 </ul>
 </dd>
 </dl>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0.0: </span>Inputs and outputs may be <a class="reference external" href="https://docs.python.org/3.7/library/pathlib.html#pathlib.Path" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pathlib.Path</span></code></a> objects, and
+<code class="docutils literal notranslate"><span class="pre">isolation</span></code> may configure execution in a clean temporary directory.</p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="gwf.IsolationConfig">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">gwf.</span></span><span class="sig-name descname"><span class="pre">IsolationConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'symlink'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'move'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.7/library/os.html#os.PathLike" title="(in Python v3.7)"><span class="pre">PathLike</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.7/library/constants.html#None" title="(in Python v3.7)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">network</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/gwf/exec/isolation/#IsolationConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.IsolationConfig" title="Link to this definition">¶</a></dt>
+<dd><p>Runtime configuration for an isolated target.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inputs</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Transfer declared inputs by <code class="docutils literal notranslate"><span class="pre">&quot;copy&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;symlink&quot;</span></code>.</p></li>
+<li><p><strong>outputs</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Publish declared outputs by <code class="docutils literal notranslate"><span class="pre">&quot;copy&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;move&quot;</span></code>.</p></li>
+<li><p><strong>root</strong> – Optional root directory in which to create the temporary directory.</p></li>
+<li><p><strong>network</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – Whether to retain normal network access during target execution.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0.0: </span>Target isolation was added.</p>
+</div>
 </dd></dl>
 
 <dl class="py class">
@@ -302,9 +325,10 @@ the empty list:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Target</span><span class="p">(</span><span class="s1">&#39;Foo&#39;</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">options</span><span class="o">=</span><span class="p">{},</span> <span class="n">working_dir</span><span class="o">=</span><span class="s1">&#39;/tmp&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The <em>inputs</em> and <em>outputs</em> arguments can either be a string, a list or
-a dictionary. If a dictionary is given, the keys act as names for the
-files. The values may be either strings or a list of strings:</p>
+<p>The <em>inputs</em> and <em>outputs</em> arguments can either be a path, a list or
+a dictionary. Paths may be strings or <a class="reference external" href="https://docs.python.org/3.7/library/pathlib.html#pathlib.Path" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pathlib.Path</span></code></a> objects. If a
+dictionary is given, the keys act as names for the files. The values may
+be either paths or a list of paths:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">foo</span> <span class="o">=</span> <span class="n">Target</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span>
     <span class="n">inputs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;a1&#39;</span><span class="p">,</span> <span class="s1">&#39;a2&#39;</span><span class="p">],</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="s1">&#39;b&#39;</span><span class="p">},</span>
@@ -345,6 +369,10 @@ directory after it succeeds.</p>
 <div class="versionchanged">
 <p><span class="versionmodified changed">Changed in version 1.6.0: </span>Named inputs and outputs were added. Prior versions require <em>inputs</em>
 and <em>outputs</em> to be lists.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0.0: </span>Inputs and outputs may be <a class="reference external" href="https://docs.python.org/3.7/library/pathlib.html#pathlib.Path" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pathlib.Path</span></code></a> objects, and targets
+may be configured for isolated execution.</p>
 </div>
 </dd></dl>
 
@@ -533,7 +561,7 @@ string with the output instead.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="gwf.Workflow.target">
-<span class="sig-name descname"><span class="pre">target</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">protect</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">executor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isolation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IsolationConfig</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="k"><span class="pre">True</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.7/library/constants.html#None" title="(in Python v3.7)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/gwf/workflow/#Workflow.target"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.Workflow.target" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">target</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">protect</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">executor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isolation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#gwf.IsolationConfig" title="gwf.exec.isolation.IsolationConfig"><span class="pre">IsolationConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="k"><span class="pre">True</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.7/library/constants.html#None" title="(in Python v3.7)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/gwf/workflow/#Workflow.target"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.Workflow.target" title="Link to this definition">¶</a></dt>
 <dd><p>Create a target and add it to the <a class="reference internal" href="#gwf.Workflow" title="gwf.Workflow"><code class="xref py py-class docutils literal notranslate"><span class="pre">gwf.Workflow</span></code></a>.</p>
 <p>This is syntactic sugar for creating a new <a class="reference internal" href="#gwf.Target" title="gwf.Target"><code class="xref py py-class docutils literal notranslate"><span class="pre">Target</span></code></a> and
 adding it to the workflow. The target is also returned from the method
@@ -555,17 +583,21 @@ and assign a spec to the target.</p>
 <li><p><strong>inputs</strong> (<em>iterable</em>) – List of files that this target depends on.</p></li>
 <li><p><strong>outputs</strong> (<em>iterable</em>) – List of files that this target produces.</p></li>
 <li><p><strong>isolation</strong> – Optional target isolation configuration. Passing <code class="docutils literal notranslate"><span class="pre">True</span></code>
-uses the default <code class="xref py py-class docutils literal notranslate"><span class="pre">IsolationConfig</span></code>.</p></li>
+uses the default <a class="reference internal" href="#gwf.IsolationConfig" title="gwf.IsolationConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">IsolationConfig</span></code></a>.</p></li>
 </ul>
 </dd>
 </dl>
 <p>Further keyword arguments are passed to the backend, except
 <code class="docutils literal notranslate"><span class="pre">isolation</span></code>, which configures the target runtime.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0.0: </span><code class="docutils literal notranslate"><span class="pre">inputs</span></code> and <code class="docutils literal notranslate"><span class="pre">outputs</span></code> accept <a class="reference external" href="https://docs.python.org/3.7/library/pathlib.html#pathlib.Path" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pathlib.Path</span></code></a> objects,
+and <code class="docutils literal notranslate"><span class="pre">isolation</span></code> configures execution in a temporary directory.</p>
+</div>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="gwf.Workflow.target_from_template">
-<span class="sig-name descname"><span class="pre">target_from_template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isolation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">IsolationConfig</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="k"><span class="pre">True</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.7/library/constants.html#None" title="(in Python v3.7)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/gwf/workflow/#Workflow.target_from_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.Workflow.target_from_template" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">target_from_template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isolation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#gwf.IsolationConfig" title="gwf.exec.isolation.IsolationConfig"><span class="pre">IsolationConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="k"><span class="pre">True</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.7/library/constants.html#None" title="(in Python v3.7)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/gwf/workflow/#Workflow.target_from_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.Workflow.target_from_template" title="Link to this definition">¶</a></dt>
 <dd><p>Create a target from a template and add it to the <a class="reference internal" href="#gwf.Workflow" title="gwf.Workflow"><code class="xref py py-class docutils literal notranslate"><span class="pre">gwf.Workflow</span></code></a>.</p>
 <p>This is syntactic sugar for creating a new <a class="reference internal" href="#gwf.Target" title="gwf.Target"><code class="xref py py-class docutils literal notranslate"><span class="pre">Target</span></code></a> and
 adding it to the workflow. The target is also returned from the method
@@ -583,13 +615,17 @@ add it to the workflow.</p>
 <li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of the target.</p></li>
 <li><p><strong>template</strong> (<a class="reference internal" href="#gwf.AnonymousTarget" title="gwf.AnonymousTarget"><em>AnonymousTarget</em></a>) – The anonymous target which describes the template.</p></li>
 <li><p><strong>isolation</strong> – Optional target isolation configuration. Passing <code class="docutils literal notranslate"><span class="pre">True</span></code> uses the
-default <code class="xref py py-class docutils literal notranslate"><span class="pre">IsolationConfig</span></code>.</p></li>
+default <a class="reference internal" href="#gwf.IsolationConfig" title="gwf.IsolationConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">IsolationConfig</span></code></a>.</p></li>
 </ul>
 </dd>
 </dl>
 <p>Further keyword arguments are passed to the backend and override any
 options provided by the template. The <code class="docutils literal notranslate"><span class="pre">isolation</span></code> keyword instead
 configures the target runtime.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0.0: </span>The <code class="docutils literal notranslate"><span class="pre">isolation</span></code> argument was added. Templates without an
+executor now inherit the workflow’s default executor.</p>
+</div>
 </dd></dl>
 
 </dd></dl>
@@ -667,13 +703,81 @@ may raise a number of exceptions:</p>
 
 </dd></dl>
 
+<dl class="py class">
+<dt class="sig sig-object py" id="gwf.core.Status">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">gwf.core.</span></span><span class="sig-name descname"><span class="pre">Status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/gwf/core/#Status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.core.Status" title="Link to this definition">¶</a></dt>
+<dd><p>BackendStatus of a target as computed by the Scheduler.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0.0: </span>The <a class="reference internal" href="#gwf.core.Status.SKIPPED" title="gwf.core.Status.SKIPPED"><code class="xref py py-attr docutils literal notranslate"><span class="pre">SKIPPED</span></code></a> status was added for targets that cannot run due to
+missing external inputs.</p>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gwf.core.Status.CANCELLED">
+<span class="sig-name descname"><span class="pre">CANCELLED</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></span><a class="headerlink" href="#gwf.core.Status.CANCELLED" title="Link to this definition">¶</a></dt>
+<dd><p>The target or one of its dependencies was cancelled.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gwf.core.Status.COMPLETED">
+<span class="sig-name descname"><span class="pre">COMPLETED</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></span><a class="headerlink" href="#gwf.core.Status.COMPLETED" title="Link to this definition">¶</a></dt>
+<dd><p>The target has completed and should not run.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gwf.core.Status.FAILED">
+<span class="sig-name descname"><span class="pre">FAILED</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></span><a class="headerlink" href="#gwf.core.Status.FAILED" title="Link to this definition">¶</a></dt>
+<dd><p>The target failed and should run again.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gwf.core.Status.RUNNING">
+<span class="sig-name descname"><span class="pre">RUNNING</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></span><a class="headerlink" href="#gwf.core.Status.RUNNING" title="Link to this definition">¶</a></dt>
+<dd><p>The target is currently running.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gwf.core.Status.SHOULDRUN">
+<span class="sig-name descname"><span class="pre">SHOULDRUN</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></span><a class="headerlink" href="#gwf.core.Status.SHOULDRUN" title="Link to this definition">¶</a></dt>
+<dd><p>The target should run.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gwf.core.Status.SKIPPED">
+<span class="sig-name descname"><span class="pre">SKIPPED</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">6</span></span><a class="headerlink" href="#gwf.core.Status.SKIPPED" title="Link to this definition">¶</a></dt>
+<dd><p>The target has been skipped due to missing input files.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gwf.core.Status.SUBMITTED">
+<span class="sig-name descname"><span class="pre">SUBMITTED</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></span><a class="headerlink" href="#gwf.core.Status.SUBMITTED" title="Link to this definition">¶</a></dt>
+<dd><p>The target has been submitted, but is not currently running.</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-gwf.scheduling">
 <span id="scheduling"></span><h2>Scheduling<a class="headerlink" href="#module-gwf.scheduling" title="Link to this heading">¶</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="gwf.scheduling.get_status_map">
 <span class="sig-prename descclassname"><span class="pre">gwf.scheduling.</span></span><span class="sig-name descname"><span class="pre">get_status_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec_hashes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endpoints</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">require_all_outputs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/gwf/scheduling/#get_status_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.scheduling.get_status_map" title="Link to this definition">¶</a></dt>
-<dd><p>Get the status of each targets in the graph.</p>
+<dd><p>Get the status of each target in the graph.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0.0: </span>The status map can include <a class="reference internal" href="#gwf.core.Status.SKIPPED" title="gwf.core.Status.SKIPPED"><code class="xref py py-attr docutils literal notranslate"><span class="pre">SKIPPED</span></code></a>, and
+<code class="docutils literal notranslate"><span class="pre">require_all_outputs</span></code> controls selective output checks.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gwf.scheduling.schedule">
+<span class="sig-prename descclassname"><span class="pre">gwf.scheduling.</span></span><span class="sig-name descname"><span class="pre">schedule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoints</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec_hashes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">submit_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">no_deps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">require_all_outputs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/gwf/scheduling/#schedule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.scheduling.schedule" title="Link to this definition">¶</a></dt>
+<dd><p>Schedule targets and their dependencies for submission.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0.0: </span>Targets with missing external inputs are marked
+<a class="reference internal" href="#gwf.core.Status.SKIPPED" title="gwf.core.Status.SKIPPED"><code class="xref py py-attr docutils literal notranslate"><span class="pre">SKIPPED</span></code></a>. When <code class="docutils literal notranslate"><span class="pre">require_all_outputs</span></code> is
+false, dependencies are checked using only the outputs required by the
+selected targets.</p>
+</div>
 </dd></dl>
 
 <dl class="py function">
@@ -692,6 +796,9 @@ injection of option defaults.</p>
 <dt class="sig sig-object py" id="gwf.scheduling.submit_workflow">
 <span class="sig-prename descclassname"><span class="pre">gwf.scheduling.</span></span><span class="sig-name descname"><span class="pre">submit_workflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoints</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec_hashes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dry_run</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">no_deps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">require_all_outputs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/gwf/scheduling/#submit_workflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.scheduling.submit_workflow" title="Link to this definition">¶</a></dt>
 <dd><p>Submit a workflow to a backend.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0.0: </span><code class="docutils literal notranslate"><span class="pre">require_all_outputs</span></code> was added to support selective output checks.</p>
+</div>
 </dd></dl>
 
 </section>
@@ -906,6 +1013,7 @@ of the patterns in <cite>pattern</cite>. For example:</p>
 <li><a class="reference internal" href="#">API Reference</a><ul>
 <li><a class="reference internal" href="#module-gwf">Workflow</a><ul>
 <li><a class="reference internal" href="#gwf.AnonymousTarget"><code class="docutils literal notranslate"><span class="pre">AnonymousTarget</span></code></a></li>
+<li><a class="reference internal" href="#gwf.IsolationConfig"><code class="docutils literal notranslate"><span class="pre">IsolationConfig</span></code></a></li>
 <li><a class="reference internal" href="#gwf.Target"><code class="docutils literal notranslate"><span class="pre">Target</span></code></a></li>
 <li><a class="reference internal" href="#gwf.TargetList"><code class="docutils literal notranslate"><span class="pre">TargetList</span></code></a><ul>
 <li><a class="reference internal" href="#gwf.TargetList.inputs"><code class="docutils literal notranslate"><span class="pre">TargetList.inputs</span></code></a></li>
@@ -932,10 +1040,21 @@ of the patterns in <cite>pattern</cite>. For example:</p>
 <li><a class="reference internal" href="#gwf.core.Graph.from_targets"><code class="docutils literal notranslate"><span class="pre">Graph.from_targets()</span></code></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#gwf.core.Status"><code class="docutils literal notranslate"><span class="pre">Status</span></code></a><ul>
+<li><a class="reference internal" href="#gwf.core.Status.CANCELLED"><code class="docutils literal notranslate"><span class="pre">Status.CANCELLED</span></code></a></li>
+<li><a class="reference internal" href="#gwf.core.Status.COMPLETED"><code class="docutils literal notranslate"><span class="pre">Status.COMPLETED</span></code></a></li>
+<li><a class="reference internal" href="#gwf.core.Status.FAILED"><code class="docutils literal notranslate"><span class="pre">Status.FAILED</span></code></a></li>
+<li><a class="reference internal" href="#gwf.core.Status.RUNNING"><code class="docutils literal notranslate"><span class="pre">Status.RUNNING</span></code></a></li>
+<li><a class="reference internal" href="#gwf.core.Status.SHOULDRUN"><code class="docutils literal notranslate"><span class="pre">Status.SHOULDRUN</span></code></a></li>
+<li><a class="reference internal" href="#gwf.core.Status.SKIPPED"><code class="docutils literal notranslate"><span class="pre">Status.SKIPPED</span></code></a></li>
+<li><a class="reference internal" href="#gwf.core.Status.SUBMITTED"><code class="docutils literal notranslate"><span class="pre">Status.SUBMITTED</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-gwf.scheduling">Scheduling</a><ul>
 <li><a class="reference internal" href="#gwf.scheduling.get_status_map"><code class="docutils literal notranslate"><span class="pre">get_status_map()</span></code></a></li>
+<li><a class="reference internal" href="#gwf.scheduling.schedule"><code class="docutils literal notranslate"><span class="pre">schedule()</span></code></a></li>
 <li><a class="reference internal" href="#gwf.scheduling.submit_backend"><code class="docutils literal notranslate"><span class="pre">submit_backend()</span></code></a></li>
 <li><a class="reference internal" href="#gwf.scheduling.submit_workflow"><code class="docutils literal notranslate"><span class="pre">submit_workflow()</span></code></a></li>
 </ul>

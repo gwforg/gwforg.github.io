@@ -250,6 +250,9 @@
         <article role="main" id="furo-main-content">
           <section id="isolating-target-execution">
 <span id="target-isolation"></span><h1>Isolating Target Execution<a class="headerlink" href="#isolating-target-execution" title="Link to this heading">¶</a></h1>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0.0: </span>Target isolation was added.</p>
+</div>
 <p>Target isolation gives a target a deliberately constrained execution
 environment. Its purpose is to make workflows more reproducible by exposing
 hidden dependencies: a target should depend on its declared inputs, create its
@@ -262,7 +265,7 @@ declared outputs, and only use network access when that access is intentional.</
 inputs and blocks network access by default. After a successful run, only
 declared outputs are transferred back to the workflow directory, while other
 files created by the target are discarded.</p>
-<p>Enable isolation for a target by passing an <code class="xref py py-class docutils literal notranslate"><span class="pre">IsolationConfig</span></code>:</p>
+<p>Enable isolation for a target by passing an <a class="reference internal" href="../../reference/#gwf.IsolationConfig" title="gwf.IsolationConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">IsolationConfig</span></code></a>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">gwf</span><span class="w"> </span><span class="kn">import</span> <span class="n">IsolationConfig</span>
 
 <span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span>

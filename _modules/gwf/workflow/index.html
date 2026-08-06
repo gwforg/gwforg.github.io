@@ -503,6 +503,10 @@
 
 <span class="sd">        Further keyword arguments are passed to the backend, except</span>
 <span class="sd">        ``isolation``, which configures the target runtime.</span>
+
+<span class="sd">        .. versionchanged:: 3.0.0</span>
+<span class="sd">            ``inputs`` and ``outputs`` accept :class:`pathlib.Path` objects,</span>
+<span class="sd">            and ``isolation`` configures execution in a temporary directory.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">target_options</span> <span class="o">=</span> <span class="n">chain</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">defaults</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
         <span class="n">default_isolation</span> <span class="o">=</span> <span class="n">target_options</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;isolation&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -558,6 +562,10 @@
 <span class="sd">        Further keyword arguments are passed to the backend and override any</span>
 <span class="sd">        options provided by the template. The ``isolation`` keyword instead</span>
 <span class="sd">        configures the target runtime.</span>
+
+<span class="sd">        .. versionchanged:: 3.0.0</span>
+<span class="sd">            The ``isolation`` argument was added. Templates without an</span>
+<span class="sd">            executor now inherit the workflow&#39;s default executor.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">target_options</span> <span class="o">=</span> <span class="n">chain</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">defaults</span><span class="p">,</span> <span class="n">template</span><span class="o">.</span><span class="n">options</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
         <span class="n">default_isolation</span> <span class="o">=</span> <span class="n">target_options</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;isolation&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>

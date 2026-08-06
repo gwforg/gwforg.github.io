@@ -363,10 +363,8 @@ Then run the command:</p>
 </pre></div>
 </div>
 <p>This starts the local scheduler with one core of capacity per detected CPU and
-the system’s physical memory. Use <code class="docutils literal notranslate"><span class="pre">--max-cores</span></code> and <code class="docutils literal notranslate"><span class="pre">--max-memory</span></code> to
-choose other capacities. The scheduler communicates over a per-workflow Unix
-domain socket under <code class="docutils literal notranslate"><span class="pre">$XDG_RUNTIME_DIR/gwf</span></code>.
-Switch back to the other terminal and then run:</p>
+the system’s physical memory.</p>
+<p>Switch back to the other terminal and then run:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf<span class="w"> </span>run
 <span class="go">Scheduling target MyTarget</span>
 <span class="go">Submitting target MyTarget</span>
@@ -500,9 +498,13 @@ Let’s try:</p>
 <div class="versionadded">
 <p><span class="versionmodified added">Added in version 1.6.0: </span>Prior versions only allow lists of inputs and outputs.</p>
 </div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0.0: </span>Inputs and outputs may be <a class="reference external" href="https://docs.python.org/3.7/library/pathlib.html#pathlib.Path" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pathlib.Path</span></code></a> objects as well as strings.</p>
+</div>
 <p>The <em>inputs</em> and <em>outputs</em> arguments can either be a string, a list or a
-dictionary. If a dictionary is given, the keys act as names for the files. The
-values may be either strings or a list of strings:</p>
+dictionary. Paths may be represented by strings or <a class="reference external" href="https://docs.python.org/3.7/library/pathlib.html#pathlib.Path" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pathlib.Path</span></code></a>
+objects. If a dictionary is given, the keys act as names for the files. The
+values may be either paths or a list of paths:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">foo</span> <span class="o">=</span> <span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span>
     <span class="n">inputs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;a1&#39;</span><span class="p">,</span> <span class="s1">&#39;a2&#39;</span><span class="p">],</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="s1">&#39;b&#39;</span><span class="p">},</span>
@@ -523,6 +525,11 @@ associated files can be grouped and named.</p>
 </section>
 <section id="specifying-target-resources">
 <h2>Specifying Target Resources<a class="headerlink" href="#specifying-target-resources" title="Link to this heading">¶</a></h2>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0.0: </span>The local backend now honors <code class="docutils literal notranslate"><span class="pre">cores</span></code>, <code class="docutils literal notranslate"><span class="pre">memory</span></code>, and <code class="docutils literal notranslate"><span class="pre">walltime</span></code>.
+Queueing-system backends also accept backend-specific submission argument
+lists such as <code class="docutils literal notranslate"><span class="pre">slurm_args</span></code>.</p>
+</div>
 <p>It’s a good idea to specify the resources required by your target. Backends like
 Slurm will use these resource limits to allocate a suitable node for you,
 prioritize work, and cancel your targets if they exceed the given limits.</p>
@@ -564,6 +571,10 @@ your workflow:</p>
 </section>
 <section id="isolating-target-execution">
 <h2>Isolating Target Execution<a class="headerlink" href="#isolating-target-execution" title="Link to this heading">¶</a></h2>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0.0: </span>Targets can now run in isolated temporary directories using
+<code class="docutils literal notranslate"><span class="pre">isolation=True</span></code> or <a class="reference internal" href="../reference/#gwf.IsolationConfig" title="gwf.IsolationConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">IsolationConfig</span></code></a>.</p>
+</div>
 <p>By default, a target runs directly in the workflow directory and can access
 the network. This makes it possible for a target to accidentally depend on an
 undeclared file or download data that was not recorded as an input.</p>
@@ -691,6 +702,10 @@ status using e.g. <code class="docutils literal notranslate"><span class="pre">g
 i.e. <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">status</span> <span class="pre">--endpoints</span> <span class="pre">--status</span> <span class="pre">running</span> <span class="pre">'Align*'</span></code> to show all
 endpoints that are running and where the name starts with <cite>Align</cite>.</p></li>
 </ul>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0.0: </span><code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">run</span></code> can now use <code class="docutils literal notranslate"><span class="pre">-s/--status</span></code> to submit only targets matching one
+or more statuses, for example <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">run</span> <span class="pre">--status</span> <span class="pre">shouldrun</span></code>.</p>
+</div>
 <p>For more details you can always refer to builtin help with <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">status</span> <span class="pre">--help</span></code>.</p>
 </section>
 <section id="what-happens-when-a-target-fails">
@@ -716,6 +731,17 @@ to run our the target is killed, <em>b.txt</em> will not exist and <em>gwf</em> 
 correctly show that <cite>Example</cite> should run again. If the script succeeds and the
 target is not killed, the temporary file will be renamed to <em>b.txt</em> and <em>gwf</em>
 will show the target as completed.</p>
+</section>
+<section id="touching-output-timestamps">
+<h2>Touching Output Timestamps<a class="headerlink" href="#touching-output-timestamps" title="Link to this heading">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">touch</span></code> command updates the timestamps and spec hashes of a target’s
+outputs without running it. This can be useful after restoring generated files
+from a backup or moving them between filesystems.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0.0: </span><code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">touch</span></code> now updates only existing output files by default. Pass
+<code class="docutils literal notranslate"><span class="pre">--create-missing</span></code> to create missing outputs and their parent
+directories as well.</p>
+</div>
 </section>
 <section id="reusable-targets-with-templates">
 <span id="function-templates"></span><span id="templates"></span><h2>Reusable Targets with Templates<a class="headerlink" href="#reusable-targets-with-templates" title="Link to this heading">¶</a></h2>
@@ -936,6 +962,10 @@ it will also delete files produced by an endpoint target.</p>
 </section>
 <section id="automatically-load-software-environments">
 <h2>Automatically Load Software Environments<a class="headerlink" href="#automatically-load-software-environments" title="Link to this heading">¶</a></h2>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0.0: </span>Executors now work with every built-in backend, including local, Slurm,
+SGE, LSF, and PBS.</p>
+</div>
 <p>Executors are supported by all built-in backends.</p>
 <p>Executors are used to enable runtime behavior for targets. This means that you
 can  use executors to run your target inside Conda, Pixi, Apptainer, and
@@ -966,9 +996,13 @@ Singularity environments:</p>
 </section>
 <section id="partial-workflow-execution">
 <h2>Partial Workflow Execution<a class="headerlink" href="#partial-workflow-execution" title="Link to this heading">¶</a></h2>
-<p>Starting with version 3.0.0, gwf allows missing input files that are not provided
-by another target, and will simply skip targets with such input files (older
-versions would error in such a situation).</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0.0: </span>Missing input files that are not provided by another target no longer
+prevent graph construction. Affected targets and their dependents are
+marked <code class="docutils literal notranslate"><span class="pre">skipped</span></code>.</p>
+</div>
+<p><em>gwf</em> allows missing input files that are not provided by another target, and
+will simply skip targets with such input files.</p>
 <p>In practice this means that you can have workflows that are partially executed,
 depending on what input files are available. For example:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s2">&quot;AnalyzeBlood&quot;</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;blood.txt&quot;</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;levels.txt&quot;</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;...&quot;</span>
@@ -986,6 +1020,11 @@ executed.</p>
 </section>
 <section id="selective-output-checks-for-targeted-runs">
 <span id="selective-output-checks"></span><h2>Selective output checks for targeted runs<a class="headerlink" href="#selective-output-checks-for-targeted-runs" title="Link to this heading">¶</a></h2>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.0.0: </span>Targeted runs can now check only the outputs required by the selected
+targets and their dependencies by setting <code class="docutils literal notranslate"><span class="pre">require_all_outputs</span></code> to
+<code class="docutils literal notranslate"><span class="pre">false</span></code>.</p>
+</div>
 <p>By default, <em>gwf</em> reruns a target if <em>any</em> of its declared outputs is missing.
 This is the conservative choice: a completed target normally means that all of
 its declared results are available.</p>
@@ -1100,6 +1139,7 @@ reproduce the environment used locally.</p>
 <li><a class="reference internal" href="#staging-files-on-compute-nodes">Staging Files on Compute Nodes</a></li>
 <li><a class="reference internal" href="#observing-target-execution">Observing Target Execution</a></li>
 <li><a class="reference internal" href="#what-happens-when-a-target-fails">What Happens When a Target Fails?</a></li>
+<li><a class="reference internal" href="#touching-output-timestamps">Touching Output Timestamps</a></li>
 <li><a class="reference internal" href="#reusable-targets-with-templates">Reusable Targets with Templates</a></li>
 <li><a class="reference internal" href="#viewing-logs">Viewing Logs</a></li>
 <li><a class="reference internal" href="#cleaning-up">Cleaning Up</a></li>
