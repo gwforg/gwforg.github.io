@@ -243,6 +243,7 @@
         <article role="main" id="furo-main-content">
           <h1>Source code for gwf.scheduling</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.backends.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BackendStatus</span>
@@ -261,13 +262,22 @@
 <span class="p">)</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">should_run</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">fs</span><span class="p">,</span> <span class="n">spec_hashes</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">should_run</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">fs</span><span class="p">,</span> <span class="n">spec_hashes</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return whether ``target`` needs to be submitted.</span>
+
+<span class="sd">    ``outputs`` is the subset of ``target``&#39;s output paths needed by the</span>
+<span class="sd">    current scheduling request. Omitting it retains the historical behavior of</span>
+<span class="sd">    checking every declared output.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">outputs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">flattened_outputs</span><span class="p">()</span>
+
     <span class="n">new_hash</span> <span class="o">=</span> <span class="n">spec_hashes</span><span class="o">.</span><span class="n">has_changed</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">new_hash</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Target </span><span class="si">%s</span><span class="s2"> has a changed spec&quot;</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span>
 
-    <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">target</span><span class="o">.</span><span class="n">flattened_outputs</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">outputs</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">fs</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Target </span><span class="si">%s</span><span class="s2"> is missing output file </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">True</span>
@@ -280,12 +290,12 @@
     <span class="c1"># If I have no outputs, but I have inputs, I should probably only run if my input</span>
     <span class="c1"># changed, but I don&#39;t have any output files to compare with, so I&#39;ll just run</span>
     <span class="c1"># every time.</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">target</span><span class="o">.</span><span class="n">outputs</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">outputs</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Target </span><span class="si">%s</span><span class="s2"> has no outputs and will always be scheduled&quot;</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span>
 
     <span class="n">oldest_out_ts</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
-        <span class="p">((</span><span class="n">fs</span><span class="o">.</span><span class="n">changed_at</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="n">path</span><span class="p">)</span> <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">target</span><span class="o">.</span><span class="n">flattened_outputs</span><span class="p">()),</span>
+        <span class="p">((</span><span class="n">fs</span><span class="o">.</span><span class="n">changed_at</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="n">path</span><span class="p">)</span> <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">outputs</span><span class="p">),</span>
         <span class="n">default</span><span class="o">=</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">),</span> <span class="kc">None</span><span class="p">),</span>
     <span class="p">)</span>
 
@@ -297,6 +307,38 @@
     <span class="k">return</span> <span class="kc">False</span>
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">get_required_outputs</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">endpoints</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the output paths required for each target in ``endpoints``.</span>
+
+<span class="sd">    An explicitly requested target needs every one of its declared outputs.</span>
+<span class="sd">    Its dependencies only need the outputs that are declared as inputs by a</span>
+<span class="sd">    target on the requested dependency path. A target can be reached from more</span>
+<span class="sd">    than one endpoint, so its requirements are accumulated.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">required</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">set</span><span class="p">)</span>
+    <span class="n">visited</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_required_outputs</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">paths</span><span class="p">):</span>
+        <span class="n">required</span><span class="p">[</span><span class="n">target</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">visit</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">visited</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">visited</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+
+        <span class="n">inputs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">flattened_inputs</span><span class="p">())</span>
+        <span class="k">for</span> <span class="n">dependency</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">dependencies</span><span class="p">[</span><span class="n">target</span><span class="p">]:</span>
+            <span class="n">dependency_outputs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">dependency</span><span class="o">.</span><span class="n">flattened_outputs</span><span class="p">())</span>
+            <span class="n">add_required_outputs</span><span class="p">(</span><span class="n">dependency</span><span class="p">,</span> <span class="n">dependency_outputs</span> <span class="o">&amp;</span> <span class="n">inputs</span><span class="p">)</span>
+            <span class="n">visit</span><span class="p">(</span><span class="n">dependency</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">endpoint</span> <span class="ow">in</span> <span class="n">endpoints</span><span class="p">:</span>
+        <span class="n">add_required_outputs</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">.</span><span class="n">flattened_outputs</span><span class="p">())</span>
+        <span class="n">visit</span><span class="p">(</span><span class="n">endpoint</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">required</span><span class="p">)</span>
+
+
 <span class="k">def</span><span class="w"> </span><span class="nf">schedule</span><span class="p">(</span>
     <span class="n">endpoints</span><span class="p">,</span>
     <span class="n">graph</span><span class="p">,</span>
@@ -306,7 +348,12 @@
     <span class="n">submit_func</span><span class="p">,</span>
     <span class="n">force</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">no_deps</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">require_all_outputs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">):</span>
+    <span class="n">required_outputs</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">require_all_outputs</span><span class="p">:</span>
+        <span class="n">required_outputs</span> <span class="o">=</span> <span class="n">get_required_outputs</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">endpoints</span><span class="p">)</span>
+
     <span class="k">def</span><span class="w"> </span><span class="nf">_schedule</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
         <span class="n">submitted_deps</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">skipped_deps</span> <span class="o">=</span> <span class="kc">False</span>
@@ -356,7 +403,11 @@
             <span class="n">submit_func</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">dependencies</span><span class="o">=</span><span class="n">submitted_deps</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">Status</span><span class="o">.</span><span class="n">SHOULDRUN</span>
 
-        <span class="k">if</span> <span class="n">should_run</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">fs</span><span class="p">,</span> <span class="n">spec_hashes</span><span class="p">):</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">required_outputs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">outputs</span> <span class="o">=</span> <span class="n">required_outputs</span><span class="p">[</span><span class="n">target</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">should_run</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">fs</span><span class="p">,</span> <span class="n">spec_hashes</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">):</span>
             <span class="n">submit_func</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">dependencies</span><span class="o">=</span><span class="n">submitted_deps</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">Status</span><span class="o">.</span><span class="n">SHOULDRUN</span>
 
@@ -440,6 +491,7 @@
     <span class="n">dry_run</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">force</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">no_deps</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">require_all_outputs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Submit a workflow to a backend.&quot;&quot;&quot;</span>
     <span class="n">submit_func</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span>
@@ -456,13 +508,21 @@
         <span class="n">submit_func</span><span class="o">=</span><span class="n">submit_func</span><span class="p">,</span>
         <span class="n">force</span><span class="o">=</span><span class="n">force</span><span class="p">,</span>
         <span class="n">no_deps</span><span class="o">=</span><span class="n">no_deps</span><span class="p">,</span>
+        <span class="n">require_all_outputs</span><span class="o">=</span><span class="n">require_all_outputs</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="get_status_map">
 <a class="viewcode-back" href="../../../reference/#gwf.scheduling.get_status_map">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">get_status_map</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">fs</span><span class="p">,</span> <span class="n">spec_hashes</span><span class="p">,</span> <span class="n">backend</span><span class="p">,</span> <span class="n">endpoints</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_status_map</span><span class="p">(</span>
+    <span class="n">graph</span><span class="p">,</span>
+    <span class="n">fs</span><span class="p">,</span>
+    <span class="n">spec_hashes</span><span class="p">,</span>
+    <span class="n">backend</span><span class="p">,</span>
+    <span class="n">endpoints</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">require_all_outputs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the status of each targets in the graph.&quot;&quot;&quot;</span>
     <span class="n">submit_func</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">_submit_noop</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span> <span class="n">spec_hashes</span><span class="o">=</span><span class="n">spec_hashes</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">schedule</span><span class="p">(</span>
@@ -472,6 +532,7 @@
         <span class="n">spec_hashes</span><span class="p">,</span>
         <span class="n">status_func</span><span class="o">=</span><span class="n">backend</span><span class="o">.</span><span class="n">status</span><span class="p">,</span>
         <span class="n">submit_func</span><span class="o">=</span><span class="n">submit_func</span><span class="p">,</span>
+        <span class="n">require_all_outputs</span><span class="o">=</span><span class="n">require_all_outputs</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 </pre></div>

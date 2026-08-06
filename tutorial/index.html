@@ -984,6 +984,39 @@ in the <code class="docutils literal notranslate"><span class="pre">gwf</span> <
 and the workflow is run, <code class="docutils literal notranslate"><span class="pre">AnalyzeGenome</span></code> and <code class="docutils literal notranslate"><span class="pre">BuildReport</span></code> will also be
 executed.</p>
 </section>
+<section id="selective-output-checks-for-targeted-runs">
+<span id="selective-output-checks"></span><h2>Selective output checks for targeted runs<a class="headerlink" href="#selective-output-checks-for-targeted-runs" title="Link to this heading">¶</a></h2>
+<p>By default, <em>gwf</em> reruns a target if <em>any</em> of its declared outputs is missing.
+This is the conservative choice: a completed target normally means that all of
+its declared results are available.</p>
+<p>For a workflow with independently consumed outputs, this can be unnecessary
+when you deliberately run only one branch. For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s2">&quot;ProduceInputs&quot;</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;x.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;y.txt&quot;</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;...&quot;</span>
+<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s2">&quot;UseX&quot;</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;x.txt&quot;</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;x-result.txt&quot;</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;...&quot;</span>
+<span class="n">gwf</span><span class="o">.</span><span class="n">target</span><span class="p">(</span><span class="s2">&quot;UseY&quot;</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;y.txt&quot;</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;y-result.txt&quot;</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;...&quot;</span>
+</pre></div>
+</div>
+<p>If <code class="docutils literal notranslate"><span class="pre">x.txt</span></code> is present and current but <code class="docutils literal notranslate"><span class="pre">y.txt</span></code> is absent, running
+<code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">run</span> <span class="pre">UseX</span></code> normally reruns <code class="docutils literal notranslate"><span class="pre">ProduceInputs</span></code> to recreate both outputs.
+The same applies when <code class="docutils literal notranslate"><span class="pre">ProduceInputs</span></code> has inputs and <code class="docutils literal notranslate"><span class="pre">y.txt</span></code> is older than
+one of them. To let <em>gwf</em> check only outputs needed by the named targets and
+their dependencies, set the following project configuration:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>gwf<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span>require_all_outputs<span class="w"> </span><span class="nb">false</span>
+<span class="gp">$ </span>gwf<span class="w"> </span>run<span class="w"> </span>UseX
+</pre></div>
+</div>
+<p>With that setting, <code class="docutils literal notranslate"><span class="pre">ProduceInputs</span></code> is not rerun solely because <code class="docutils literal notranslate"><span class="pre">y.txt</span></code> is
+missing or stale; <code class="docutils literal notranslate"><span class="pre">UseX</span></code> only requires <code class="docutils literal notranslate"><span class="pre">x.txt</span></code>. Running <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">run</span> <span class="pre">UseY</span></code>
+or <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">run</span> <span class="pre">UseX</span> <span class="pre">UseY</span></code> still requires <code class="docutils literal notranslate"><span class="pre">y.txt</span></code> and therefore schedules
+<code class="docutils literal notranslate"><span class="pre">ProduceInputs</span></code> when it is missing or stale.</p>
+<p>Use this setting when outputs are independently useful and you intentionally
+want to run a subset of the workflow after unrelated outputs have been removed
+or are unavailable. It does not change a target’s execution contract: whenever
+<code class="docutils literal notranslate"><span class="pre">ProduceInputs</span></code> is submitted, it must still create both declared outputs.
+Targets requested directly, including endpoint targets, also continue to
+require all of their own outputs before they are considered complete.</p>
+<p>Restore the default behavior with <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">config</span> <span class="pre">set</span> <span class="pre">require_all_outputs</span> <span class="pre">true</span></code>.</p>
+</section>
 <section id="a-note-about-reproducibility">
 <h2>A Note About Reproducibility<a class="headerlink" href="#a-note-about-reproducibility" title="Link to this heading">¶</a></h2>
 <p>Reproducibility is an important part of research and since <em>gwf</em> workflows describe every
@@ -1073,6 +1106,7 @@ reproduce the environment used locally.</p>
 <li><a class="reference internal" href="#protecting-files-from-being-cleaned-up">Protecting Files From Being Cleaned Up</a></li>
 <li><a class="reference internal" href="#automatically-load-software-environments">Automatically Load Software Environments</a></li>
 <li><a class="reference internal" href="#partial-workflow-execution">Partial Workflow Execution</a></li>
+<li><a class="reference internal" href="#selective-output-checks-for-targeted-runs">Selective output checks for targeted runs</a></li>
 <li><a class="reference internal" href="#a-note-about-reproducibility">A Note About Reproducibility</a></li>
 </ul>
 </li>

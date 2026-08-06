@@ -288,6 +288,12 @@ individually. See <a class="reference internal" href="#configuration"><span clas
 <li><p><strong>backend (str):</strong> Set the backend. Corresponds to the <code class="docutils literal notranslate"><span class="pre">--backend</span></code> flag (default: <cite>local</cite>).</p></li>
 <li><p><strong>verbose (str):</strong> Set the verbosity. Corresponds to the <code class="docutils literal notranslate"><span class="pre">--verbose</span></code> flag (default: <cite>info</cite>).</p></li>
 <li><p><strong>no_color (bool):</strong> If <cite>true</cite>, colors will not be used (default: <cite>false</cite>).</p></li>
+<li><p><strong>require_all_outputs (bool):</strong> If <cite>true</cite>, a target is rerun
+when any declared output is missing, including outputs not needed by the
+requested targets (default: <cite>true</cite>). Set it to <cite>false</cite> to consider only the
+outputs needed by the requested targets and their dependencies. For example,
+<code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">run</span> <span class="pre">B</span></code> will not rerun a dependency solely because an output used only
+by another target is missing.</p></li>
 </ul>
 </section>
 </section>
