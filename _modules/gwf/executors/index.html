@@ -248,7 +248,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">prettyprinter</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pprint</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">contextmanager</span>
@@ -256,8 +256,6 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">GWFError</span>
 
-
-<span class="n">prettyprinter</span><span class="o">.</span><span class="n">install_extras</span><span class="p">([</span><span class="s2">&quot;attrs&quot;</span><span class="p">])</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -511,9 +509,32 @@
     <span class="k">return</span> <span class="n">buf</span><span class="p">,</span> <span class="n">lst</span><span class="p">[</span><span class="n">i</span><span class="p">:]</span>
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_describe</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">80</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a readable, multi-line description of an attrs instance.</span>
+
+<span class="sd">    Fields that are hidden from ``repr`` or still have their default value are</span>
+<span class="sd">    left out.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(&quot;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">attrs</span><span class="o">.</span><span class="n">fields</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">field</span><span class="o">.</span><span class="n">repr</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">default</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">default</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="n">attrs</span><span class="o">.</span><span class="n">Factory</span><span class="p">):</span>
+            <span class="n">default</span> <span class="o">=</span> <span class="n">default</span><span class="o">.</span><span class="n">factory</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="k">if</span> <span class="n">default</span><span class="o">.</span><span class="n">takes_self</span> <span class="k">else</span> <span class="n">default</span><span class="o">.</span><span class="n">factory</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="n">default</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;    </span><span class="si">{</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">=&quot;</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">prefix</span><span class="p">),</span> <span class="n">sort_dicts</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="n">text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">prefix</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span><span class="p">)</span>
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;)&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+
+
 <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;#GWF TARGET&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">file</span><span class="p">)</span>
-    <span class="n">repr_str</span> <span class="o">=</span> <span class="n">prettyprinter</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+    <span class="n">repr_str</span> <span class="o">=</span> <span class="n">_describe</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">repr_str</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="n">keepends</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;#GWF COMMENT </span><span class="si">{</span><span class="n">line</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">file</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;#GWF SPEC&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">file</span><span class="p">)</span>
