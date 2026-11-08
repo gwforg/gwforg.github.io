@@ -277,7 +277,9 @@ the return value of a template function.</p>
 <li><p><strong>options</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – Options such as number of cores, memory requirements etc. Options are
 backend-dependent. Backends will ignore unsupported options.</p></li>
 <li><p><strong>group</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The group to which the target is assigned.</p></li>
-<li><p><strong>working_dir</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Working directory of this target.</p></li>
+<li><p><strong>working_dir</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Working directory of this target. When the template is added to a
+workflow, a relative path is resolved against the workflow’s working
+directory. Defaults to the workflow’s working directory.</p></li>
 <li><p><strong>spec</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The specification of the target.</p></li>
 <li><p><strong>protect</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#set" title="(in Python v3.7)"><em>set</em></a>) – An iterable of protected files which will not be removed during
 cleaning, even if this target is not an endpoint.</p></li>
@@ -378,7 +380,7 @@ may be configured for isolated execution.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="gwf.TargetList">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">gwf.</span></span><span class="sig-name descname"><span class="pre">TargetList</span></span><a class="reference internal" href="../_modules/gwf/workflow/#TargetList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.TargetList" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">gwf.</span></span><span class="sig-name descname"><span class="pre">TargetList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/gwf/workflow/#TargetList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gwf.TargetList" title="Link to this definition">¶</a></dt>
 <dd><p>A list of target objects with access to all inputs and outputs.</p>
 <p>This is a thin wrapper around a normal list and thus provides all normal
 <code class="docutils literal notranslate"><span class="pre">list</span></code> methods. However, it provides access to the collective

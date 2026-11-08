@@ -407,6 +407,15 @@ that are not otherwise supported by <em>gwf</em>.</p>
 currently assumes that a SGE parallel environment called “smp” is
 available. You can check which parallel environments are available on your
 system by running <strong class="command">qconf -spl</strong>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Dependencies are expressed with <strong class="command">qsub -hold_jid</strong>, which only
+waits for the dependencies to <em>finish</em>, not to succeed. Unlike the other
+backends, a target may therefore start even though one of its
+dependencies failed, and will then usually fail itself because of missing
+input files. When several targets have failed, look for the failed target
+furthest upstream.</p>
+</div>
 <p><strong>Backend options:</strong></p>
 <p>None.</p>
 <p><strong>Target options:</strong></p>
@@ -417,7 +426,8 @@ system by running <strong class="command">qconf -spl</strong>.</p>
 </dl>
 </li>
 <li><dl class="simple">
-<dt><strong>memory (str):</strong></dt><dd><p>Memory allocated to this target (default: 1).</p>
+<dt><strong>memory (str):</strong></dt><dd><p>Total memory allocated to this target (default: 1g). <em>gwf</em> divides it
+between the target’s cores, since SGE expects memory per core.</p>
 </dd>
 </dl>
 </li>

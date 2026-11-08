@@ -339,7 +339,6 @@
 
 <div class="viewcode-block" id="TargetList">
 <a class="viewcode-back" href="../../../reference/#gwf.TargetList">[docs]</a>
-<span class="nd">@attrs</span><span class="o">.</span><span class="n">define</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">TargetList</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A list of target objects with access to all inputs and outputs.</span>
 
@@ -582,7 +581,11 @@
             <span class="n">group</span><span class="o">=</span><span class="n">template</span><span class="o">.</span><span class="n">group</span><span class="p">,</span>
             <span class="n">executor</span><span class="o">=</span><span class="n">template</span><span class="o">.</span><span class="n">executor</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">executor</span><span class="p">,</span>
             <span class="n">options</span><span class="o">=</span><span class="n">target_options</span><span class="p">,</span>
-            <span class="n">working_dir</span><span class="o">=</span><span class="n">template</span><span class="o">.</span><span class="n">working_dir</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">working_dir</span><span class="p">,</span>
+            <span class="c1"># Template working directories (default &quot;.&quot;) are relative to the</span>
+            <span class="c1"># workflow, not to the directory gwf happens to be invoked from.</span>
+            <span class="n">working_dir</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">fspath</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">working_dir</span> <span class="ow">or</span> <span class="s2">&quot;.&quot;</span><span class="p">))</span>
+            <span class="p">),</span>
             <span class="n">spec</span><span class="o">=</span><span class="n">template</span><span class="o">.</span><span class="n">spec</span><span class="p">,</span>
             <span class="n">isolation</span><span class="o">=</span><span class="n">isolation</span><span class="p">,</span>
         <span class="p">)</span>

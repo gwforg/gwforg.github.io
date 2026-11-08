@@ -428,6 +428,24 @@ your <code class="file docutils literal notranslate"><span class="pre">workflow.
 </div>
 <p>In the end, there’s not a big difference between debugging a <em>gwf</em> workflow
 and normal Python code.</p>
+<p>If a target fails and its logs don’t explain why, set the
+<code class="docutils literal notranslate"><span class="pre">GWF_EXEC_DEBUG_MODE</span></code> environment variable to see what happens when the
+target runs. The target’s script is then run with <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">-x</span></code>, so each command
+is printed before it runs, and <em>gwf</em> logs details such as the exact command
+used to run the script. This output ends up in the target’s standard error log,
+which you can view with <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">logs</span> <span class="pre">-e</span> <span class="pre">TARGET</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nv">GWF_EXEC_DEBUG_MODE</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>gwf<span class="w"> </span>run<span class="w"> </span>TARGET
+</pre></div>
+</div>
+<p>Setting the variable to <em>any</em> value enables debug mode, including <code class="docutils literal notranslate"><span class="pre">0</span></code> and
+<code class="docutils literal notranslate"><span class="pre">false</span></code>. To disable debug mode, the variable must be unset:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">unset</span><span class="w"> </span>GWF_EXEC_DEBUG_MODE
+</pre></div>
+</div>
+<p>The variable must be set in the environment that the target runs in. With the
+local backend, set it when starting <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">workers</span></code>. The cluster backends pass
+your environment on to the job when you run <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">run</span></code>, except PBS, where you
+may need to add <code class="docutils literal notranslate"><span class="pre">-V</span></code> using the <code class="docutils literal notranslate"><span class="pre">pbs_args</span></code> option.</p>
 </section>
 <section id="defining-targets-with-dependencies">
 <h2>Defining Targets with Dependencies<a class="headerlink" href="#defining-targets-with-dependencies" title="Link to this heading">¶</a></h2>

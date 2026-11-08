@@ -384,23 +384,28 @@
         <span class="k">if</span> <span class="n">skipped_deps</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">Status</span><span class="o">.</span><span class="n">SKIPPED</span>
 
+        <span class="c1"># Without dependencies, inputs provided by other targets will not be</span>
+        <span class="c1"># produced, so they must exist just like unresolved inputs.</span>
         <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">target</span><span class="o">.</span><span class="n">flattened_inputs</span><span class="p">():</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">fs</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="ow">and</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">unresolved</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">fs</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">no_deps</span> <span class="ow">or</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">unresolved</span><span class="p">):</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Target </span><span class="si">%s</span><span class="s2"> is missing input file </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">Status</span><span class="o">.</span><span class="n">SKIPPED</span>
 
-        <span class="k">if</span> <span class="n">status_func</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> <span class="o">==</span> <span class="n">BackendStatus</span><span class="o">.</span><span class="n">SUBMITTED</span><span class="p">:</span>
+        <span class="n">backend_status</span> <span class="o">=</span> <span class="n">status_func</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">backend_status</span> <span class="o">==</span> <span class="n">BackendStatus</span><span class="o">.</span><span class="n">SUBMITTED</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Target </span><span class="si">%s</span><span class="s2"> is already submitted&quot;</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">Status</span><span class="o">.</span><span class="n">SUBMITTED</span>
 
-        <span class="k">if</span> <span class="n">status_func</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> <span class="o">==</span> <span class="n">BackendStatus</span><span class="o">.</span><span class="n">RUNNING</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">backend_status</span> <span class="o">==</span> <span class="n">BackendStatus</span><span class="o">.</span><span class="n">RUNNING</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Target </span><span class="si">%s</span><span class="s2"> is already running&quot;</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">Status</span><span class="o">.</span><span class="n">RUNNING</span>
 
-        <span class="k">if</span> <span class="n">status_func</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> <span class="o">==</span> <span class="n">BackendStatus</span><span class="o">.</span><span class="n">FAILED</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">backend_status</span> <span class="o">==</span> <span class="n">BackendStatus</span><span class="o">.</span><span class="n">FAILED</span><span class="p">:</span>
             <span class="n">submit_func</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">dependencies</span><span class="o">=</span><span class="n">submitted_deps</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">Status</span><span class="o">.</span><span class="n">FAILED</span>
 
-        <span class="k">if</span> <span class="n">status_func</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> <span class="o">==</span> <span class="n">BackendStatus</span><span class="o">.</span><span class="n">CANCELLED</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">backend_status</span> <span class="o">==</span> <span class="n">BackendStatus</span><span class="o">.</span><span class="n">CANCELLED</span><span class="p">:</span>
             <span class="n">submit_func</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">dependencies</span><span class="o">=</span><span class="n">submitted_deps</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">Status</span><span class="o">.</span><span class="n">CANCELLED</span>
 
@@ -459,13 +464,11 @@
 <span class="sd">    injection of option defaults.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">new_options</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="s2">&quot;target_defaults&quot;</span><span class="p">):</span>
-        <span class="n">new_options</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">target_defaults</span><span class="p">)</span>
+    <span class="n">new_options</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">target_defaults</span><span class="p">)</span>
     <span class="n">new_options</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">options</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">option_name</span><span class="p">,</span> <span class="n">option_value</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">new_options</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
-        <span class="k">if</span> <span class="n">option_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">backend</span><span class="o">.</span><span class="n">target_defaults</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">option_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">backend</span><span class="o">.</span><span class="n">target_defaults</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
                 <span class="s2">&quot;Option &#39;</span><span class="si">%s</span><span class="s2">&#39; used in &#39;</span><span class="si">%s</span><span class="s2">&#39; is not supported by backend. Ignored.&quot;</span><span class="p">,</span>
                 <span class="n">option_name</span><span class="p">,</span>

@@ -311,6 +311,75 @@ to the new storage method automatically on the first run.</p></li>
 executor.</p></li>
 <li><p>Loading backend entry points no longer relies on a deprecated Python
 interface.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">run</span> <span class="pre">-g/--group</span></code> no longer submits targets outside the selected
+groups.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">run</span></code> no longer deletes the log files of current targets when
+cleaning up unused logs.</p></li>
+<li><p>Targets created from templates now resolve paths relative to the workflow
+directory instead of the directory <code class="docutils literal notranslate"><span class="pre">gwf</span></code> was run from. A relative
+<code class="docutils literal notranslate"><span class="pre">working_dir</span></code> in a template is likewise resolved against the workflow
+directory.</p></li>
+<li><p>Running <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">status</span></code> while <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">run</span></code> is submitting targets no longer
+discards the job ids and spec hashes recorded by <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">run</span></code>, which could
+cause targets to be submitted twice.</p></li>
+<li><p>The local backend no longer reuses task ids after <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">workers</span></code> is
+restarted. Previously, a target could report the status of an unrelated
+task from the new session, and <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">cancel</span></code> could cancel the wrong task.
+Cancelling a task unknown to the scheduler now reports an error instead of
+crashing.</p></li>
+<li><p>The SGE backend now records job ids without a trailing newline, so it can
+find the status of submitted jobs and pass them as dependencies.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">run</span> <span class="pre">--no-deps</span></code> no longer crashes when an input produced by another
+target is missing. Such targets are now skipped.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">info</span></code> no longer crashes when inputs or outputs are
+<code class="docutils literal notranslate"><span class="pre">pathlib.Path</span></code> objects. The pretty format now lists the files of named
+(dictionary), nested and single-path inputs and outputs.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">status</span> <span class="pre">--format</span> <span class="pre">summary</span></code> no longer crashes when no targets match.</p></li>
+<li><p>The status column in <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">status</span></code> output is now aligned when target names
+are longer than the status names.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">config</span> <span class="pre">unset</span></code> no longer crashes for settings that have not been set
+explicitly, such as <code class="docutils literal notranslate"><span class="pre">clean_logs</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TargetList</span></code> behaves like a normal list again: it can be created from an
+iterable, its <code class="docutils literal notranslate"><span class="pre">repr</span></code> shows its contents, and it compares equal only to
+lists with the same contents.</p></li>
+<li><p>Output written by a target shortly before it is terminated, for example
+because it exceeded its walltime, is no longer lost. The local backend now
+also writes logs for timed-out and cancelled targets instead of keeping the
+logs of the previous run.</p></li>
+<li><p>The SGE backend now computes per-core memory correctly. Previously, memory
+that did not divide evenly between cores was rounded down, e.g. to <code class="docutils literal notranslate"><span class="pre">0g</span></code>,
+and decimal values such as <code class="docutils literal notranslate"><span class="pre">1.5g</span></code> were read as <code class="docutils literal notranslate"><span class="pre">15g</span></code>.</p></li>
+<li><p>The PBS backend no longer fails when a tracked job has finished and is no
+longer known to <code class="docutils literal notranslate"><span class="pre">qstat</span></code>.</p></li>
+<li><p>Installing <em>gwf</em> with <code class="docutils literal notranslate"><span class="pre">pip</span></code> installs its dependencies again, and the conda
+package now correctly requires Python 3.10 or newer.</p></li>
+<li><p>Target names ending in a newline are now rejected as invalid.</p></li>
+<li><p>Workflow files are now registered as modules when loaded. This fixes
+dataclasses with <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">annotations</span></code> and pickling of
+targets that use classes defined in the workflow file, such as custom
+executors.</p></li>
+<li><p>The Slurm and LSF backends no longer crash on job states they do not
+recognise; such jobs are reported as unknown. LSF’s <code class="docutils literal notranslate"><span class="pre">PROV</span></code> state is now
+reported as submitted.</p></li>
+<li><p>The local backend now refuses to use a runtime directory for its socket that
+is a symlink or owned by another user, and makes sure that only the current
+user can access it.</p></li>
+<li><p>The error shown when a workload manager command such as <code class="docutils literal notranslate"><span class="pre">qsub</span></code> cannot be
+found no longer claims that Slurm is required.</p></li>
+<li><p>Backend options are no longer picked up from settings of other backends
+whose name starts with the same letters, e.g. <code class="docutils literal notranslate"><span class="pre">backend.slurmfoo.*</span></code> for
+the <code class="docutils literal notranslate"><span class="pre">slurm</span></code> backend.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--no-color</span></code>, the <code class="docutils literal notranslate"><span class="pre">no_color</span></code> setting and the <code class="docutils literal notranslate"><span class="pre">NO_COLOR</span></code> environment
+variable now also disable colors in log messages. Log messages are no longer
+colored when standard error is not a terminal, e.g. when redirected to a
+file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">workers</span></code> now defaults to the number of cores the process may use,
+respecting CPU affinity (e.g. inside a Slurm allocation), instead of all
+cores on the machine.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">logs</span> <span class="pre">--no-pager</span></code> now shows the log instead of a description of the
+log file. <code class="docutils literal notranslate"><span class="pre">gwf</span> <span class="pre">logs</span></code> reports a missing log with a short error message
+instead of a traceback, and no longer fails on output that is not valid
+UTF-8.</p></li>
 </ul>
 </section>
 </section>
